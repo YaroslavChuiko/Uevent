@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import logger from '../logger/logger';
 import router from '../routes';
+import errorMiddleware from '../middleware/error';
 
 const initializeApp = () => {
   const app: Express = express();
@@ -21,6 +22,8 @@ const initializeApp = () => {
   );
 
   app.use(router);
+
+  app.use(errorMiddleware);
 
   app
     .listen(process.env.SERVER_PORT, () => {

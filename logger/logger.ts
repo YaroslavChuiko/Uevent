@@ -5,15 +5,10 @@ const logger = createLogger({
     fmtOptions.errors({
       stack: true,
     }),
-    fmtOptions.metadata(),
     fmtOptions.prettyPrint(),
+    fmtOptions.colorize({ all: true }),
   ),
-  silent: process.env.NODE_ENV === 'production',
-  transports: [
-    new transports.Console({
-      handleExceptions: true,
-    }),
-  ],
+  transports: [new transports.Console()],
 });
 
 export default logger;
