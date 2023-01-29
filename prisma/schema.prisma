@@ -7,10 +7,125 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
+model User {
   id           Int      @id @default(autoincrement())
   login        String   @unique @db.VarChar(255)
   password     String   @db.Char(60)
   email        String   @unique @db.VarChar(255)
   is_confirmed Boolean? @default(false)
+  fullName     String   @map("full_name") @db.VarChar(255)
+  picturePath  String   @map("picture_path") @db.VarChar(255)
+  role         UserRole
+
+  companies     Company[]
+  comments      Comment[]
+  events        UserEvent[]
+  subscriptions SubscriptionToCompany[]
+
+  @@map("user")
+}
+
+model UserEvent {
+  userId    Int     @map("user_id")
+  eventId   Int     @map("event_id")
+  isVisible Boolean @default(true) @map("is_visible")
+
+  user  User  @relation(fields: [userId], references: [id]) //! don't know what to do on delete
+  event Event @relation(fields: [eventId], references: [id]) //! don't know what to do on delete
+
+  @@id([userId, eventId])
+  @@map("user_event")
+}
+
+model SubscriptionToCompany {
+  userId    Int @map("user_id")
+  companyId Int @map("company_id")
+
+  user    User    @relation(fields: [userId], references: [id]) //! don't know what to do on delete
+  company Company @relation(fields: [companyId], references: [id]) //! don't know what to do on delete
+
+  @@id([userId, companyId])
+  @@map("subscription_to_company")
+}
+
+model Company {
+  id          Int    @id @default(autoincrement())
+  name        String @unique @db.VarChar(255)
+  email       String @unique @db.VarChar(255)
+  picturePath String @map("picture_path") @db.VarChar(255)
+  location    String @db.VarChar(255) //? create model Location
+  userId      Int    @map("user_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  events      Event[]
+  subscribers SubscriptionToCompany[]
+
+  @@map("company")
+}
+
+model Comment {
+  id          Int      @id @default(autoincrement())
+  content     String   @db.Text
+  publishDate DateTime @default(now()) @map("publish_date") @db.Timestamp(1)
+  userId      Int      @map("user_id")
+  eventId     Int      @map("event_id")
+
+  user  User  @relation(fields: [userId], references: [id]) //? onDelete?
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@map("comment")
+}
+
+model Event {
+  id                Int         @id @default(autoincrement())
+  name              String      @unique @db.VarChar(255)
+  description       String      @db.Text
+  date              DateTime    @db.Timestamp() //? not sure about type
+  price             Int
+  location          String      @db.VarChar(255) //? maybe create new model Location
+  ticketsLimit      Int         @map("tickets_limit")
+  picturePath       String      @map("picture_path") @db.VarChar(255)
+  isNotificationsOn Boolean     @default(false) @map("is_notifications_on")
+  isPublic          Boolean     @default(true) @map("is_public")
+  publishDate       DateTime    @default(now()) @map("publish_date") @db.Timestamp(1)
+  companyId         Int         @map("company_id")
+  format            EventFormat
+  theme             EventTheme
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  comments   Comment[]
+  promoCodes PromoCode[]
+  users      UserEvent[]
+
+  @@map("event")
+}
+
+model PromoCode {
+  id        Int    @id @default(autoincrement())
+  promoCode String @map("promo_code") @db.VarChar(255)
+  discount  Int
+  eventId   Int    @map("event_id")
+  event     Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@map("promo_code")
+}
+
+enum UserRole {
+  user
+  admin
+}
+
+enum EventFormat {
+  conference
+  lecture
+  workshop
+  fest
+}
+
+enum EventTheme {
+  business
+  politics
+  psychology
 }
