@@ -1,0 +1,10 @@
+extends index 
+block title
+	h1 Your email needs to be confirmed
+block description
+	div
+		p #{login}, please take a moment to confirm your email by clicking the button below:
+	div
+		a(href=`${process.env.CLIENT_URL}/confirm-email?confirmToken=${token}`) Confirm your email
+	div
+		p This link is only available for an hour.

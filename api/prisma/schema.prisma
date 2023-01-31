@@ -12,10 +12,10 @@ model User {
   login        String   @unique @db.VarChar(255)
   password     String   @db.Char(60)
   email        String   @unique @db.VarChar(255)
-  is_confirmed Boolean? @default(false)
+  isConfirmed  Boolean  @default(false) @map("is_confirmed")
   fullName     String   @map("full_name") @db.VarChar(255)
-  picturePath  String   @map("picture_path") @db.VarChar(255)
-  role         UserRole
+  picturePath  String?  @map("picture_path") @db.VarChar(255)
+  role         UserRole @default(user)
 
   companies     Company[]
   comments      Comment[]
@@ -49,12 +49,12 @@ model SubscriptionToCompany {
 }
 
 model Company {
-  id          Int    @id @default(autoincrement())
-  name        String @unique @db.VarChar(255)
-  email       String @unique @db.VarChar(255)
-  picturePath String @map("picture_path") @db.VarChar(255)
-  location    String @db.VarChar(255) //? create model Location
-  userId      Int    @map("user_id")
+  id          Int     @id @default(autoincrement())
+  name        String  @unique @db.VarChar(255)
+  email       String  @unique @db.VarChar(255)
+  picturePath String? @map("picture_path") @db.VarChar(255)
+  location    String  @db.VarChar(255) //? create model Location
+  userId      Int     @map("user_id")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -85,7 +85,7 @@ model Event {
   price             Int
   location          String      @db.VarChar(255) //? maybe create new model Location
   ticketsLimit      Int         @map("tickets_limit")
-  picturePath       String      @map("picture_path") @db.VarChar(255)
+  picturePath       String?     @map("picture_path") @db.VarChar(255)
   isNotificationsOn Boolean     @default(false) @map("is_notifications_on")
   isPublic          Boolean     @default(true) @map("is_public")
   publishDate       DateTime    @default(now()) @map("publish_date") @db.Timestamp(1)
