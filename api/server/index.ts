@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import logger from '../logger/logger';
+import logger from '../lib/logger';
 import router from '../routes';
 import errorMiddleware from '../middleware/error';
 
