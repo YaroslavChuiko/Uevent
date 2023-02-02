@@ -7,3 +7,5 @@ import { createSchema } from '../validation/event';
 const router = express.Router();
 
 router.post('/:id/event', validate(createSchema), boundary(createEvent));
+
+export default router;
