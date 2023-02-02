@@ -4,7 +4,7 @@ import { EVENT_NAME_LENGTH } from '../consts/validation';
 const createSchema = Joi.object().keys({
   name: Joi.string().required().min(EVENT_NAME_LENGTH.min).max(EVENT_NAME_LENGTH.max),
   description: Joi.string().allow(''),
-  price: Joi.number().positive(), // if price == 0 ticket is free
+  price: Joi.number().positive().required(), // if price == 0 ticket is free
   location: Joi.string().required(), //!
   ticketsLimit: Joi.number().positive().required(), // can it be unlimited?
   isNotificationsOn: Joi.boolean().required(),
