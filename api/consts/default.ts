@@ -8,3 +8,5 @@ export const COOKIE_OPTIONS = {
   domain: 'localhost',
 };
 
+export const DIR_UPLOADS_NAME = "uploads";
+

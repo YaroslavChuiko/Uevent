@@ -53,7 +53,8 @@ model Company {
   name        String  @unique @db.VarChar(255)
   email       String  @unique @db.VarChar(255)
   picturePath String? @map("picture_path") @db.VarChar(255)
-  location    String  @db.VarChar(255) //? create model Location
+  latitude    Decimal @db.Decimal(7, 5)
+  longitude   Decimal @db.Decimal(7, 5)
   userId      Int     @map("user_id")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
