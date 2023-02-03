@@ -21,4 +21,16 @@ const resetPasswordSchema = Joi.object().keys({
   password: Joi.string().required().min(PASSWORD_LENGTH.min).max(PASSWORD_LENGTH.max),
 });
 
-export { loginSchema, registerSchema, sendPasswordConfirmationSchema, resetPasswordSchema };
+const updateSchema = Joi.object().keys({
+  login: Joi.string().min(LOGIN_LENGTH.min).max(LOGIN_LENGTH.max),
+  email: Joi.string().email(),
+  fullName: Joi.string().min(FULL_NAME_LENGTH.min).max(FULL_NAME_LENGTH.max),
+});
+
+export {
+  loginSchema,
+  registerSchema,
+  sendPasswordConfirmationSchema,
+  resetPasswordSchema,
+  updateSchema,
+};
