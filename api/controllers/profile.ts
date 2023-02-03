@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
-import fileUpload from '../middleware/fileUpload';
+import fileUpload from '../utils/fileUpload';
 
 const user = prisma.user;
 
