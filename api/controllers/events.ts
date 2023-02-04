@@ -3,41 +3,28 @@ import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
 
-interface UserRequest extends Request {
-  user: User;
-}
-
-//? mb del this type
-type EventData = {
-  name: string;
-  description: string;
-  price: number;
-  location: string;
-  ticketsLimit: number;
-  isNotificationsOn: boolean;
-  isPublic: boolean;
-  date: string;
-  publishDate: string;
-  formatId: number;
-  themeId: number;
-};
-
 const createEvent = async (req: Request, res: Response) => {
-  const data: EventData = req.body as EventData;
+  const data = req.body;
   const companyId = Number(req.params.id);
-  // const { id: userId } = (req as UserRequest).user;
-  const userId = 1;
+  const { id: userId } = req.user as User;
 
   await checkCompany(companyId, userId);
   await checkUniqueEventName(data.name);
   await checkEventFormatExists(data.formatId);
   await checkEventThemeExists(data.themeId);
 
-  const newEvent = await prisma.event.create({ data: { ...data, companyId } });
+  const newEvent = await prisma.event.create({
+    data: {
+      ...data,
+      picturePath: req?.file?.filename,
+      companyId,
+    },
+  });
 
   res.status(201).json(newEvent);
 };
 
+// add event companyId ===  companyId
 const checkCompany = async (companyId: number, ownerId: number) => {
   const company: Company = await findCompanyIfExist(companyId);
   checkCompanyOwner(company, ownerId);
@@ -205,11 +192,10 @@ const buildSortingOption = (queryParams: any): any => {
 };
 
 const updateEvent = async (req: Request, res: Response) => {
-  const data: EventData = req.body as EventData;
+  const data = req.body;
   const companyId = Number(req.params.companyId);
   const eventId = Number(req.params.eventId);
-  // const { id: userId } = (req as UserRequest).user;
-  const userId = 1;
+  const { id: userId } = req.user as User;
 
   await checkCompany(companyId, userId);
   await checkUniqueEventName(data.name);
@@ -221,7 +207,7 @@ const updateEvent = async (req: Request, res: Response) => {
   res.json(updatedEvent);
 };
 
-const updateEventIfExist = async (id: number, data: EventData) => {
+const updateEventIfExist = async (id: number, data: any) => {
   let updatedEvent: Event;
 
   try {
@@ -240,8 +226,7 @@ const updateEventIfExist = async (id: number, data: EventData) => {
 const deleteEvent = async (req: Request, res: Response) => {
   const companyId = Number(req.params.companyId);
   const eventId = Number(req.params.eventId);
-  // const { id: userId } = (req as UserRequest).user;
-  const userId = 1;
+  const { id: userId } = req.user as User;
 
   await checkCompany(companyId, userId);
 
