@@ -114,16 +114,17 @@ const getManyEvents = async (req: Request, res: Response) => {
   const pagination = buildPaginationOption(req.query);
   const sorting = buildSortingOption(req.query);
 
-  const events: Event[] = await prisma.event.findMany({
-    ...where,
-    ...pagination,
-    ...sorting,
-    include: { format: true, theme: true },
-  });
+  const [events, count] = await prisma.$transaction([
+    prisma.event.findMany({
+      ...where,
+      ...pagination,
+      ...sorting,
+      include: { format: true, theme: true },
+    }),
+    prisma.event.count({ ...where }),
+  ]);
 
-  const countEvents: number = await prisma.event.count({ ...where });
-
-  res.setHeader('X-Total-Count', countEvents);
+  res.setHeader('X-Total-Count', count);
   res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
   res.status(200).json(events);
 };
