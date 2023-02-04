@@ -85,7 +85,8 @@ model Event {
   description       String   @db.Text
   date              DateTime @db.Timestamp() //? not sure about type
   price             Int // if price == 0 ticket is free
-  location          String   @db.VarChar(255) //? maybe create new model Location
+  latitude          Decimal  @db.Decimal(7, 5)
+  longitude         Decimal  @db.Decimal(7, 5)
   ticketsLimit      Int      @map("tickets_limit") //? can it be unlimmited
   picturePath       String?  @map("picture_path") @db.VarChar(255)
   isNotificationsOn Boolean  @default(false) @map("is_notifications_on") // notify owner about new visitor

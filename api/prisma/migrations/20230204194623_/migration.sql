@@ -2,16 +2,22 @@
   Warnings:
 
   - You are about to drop the column `format` on the `event` table. All the data in the column will be lost.
+  - You are about to drop the column `location` on the `event` table. All the data in the column will be lost.
   - You are about to drop the column `theme` on the `event` table. All the data in the column will be lost.
   - You are about to alter the column `date` on the `event` table. The data in that column could be lost. The data in that column will be cast from `Timestamp(0)` to `Timestamp`.
   - Added the required column `format_id` to the `event` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `latitude` to the `event` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `longitude` to the `event` table without a default value. This is not possible if the table is not empty.
   - Added the required column `theme_id` to the `event` table without a default value. This is not possible if the table is not empty.
 
 */
 -- AlterTable
 ALTER TABLE `event` DROP COLUMN `format`,
+    DROP COLUMN `location`,
     DROP COLUMN `theme`,
     ADD COLUMN `format_id` INTEGER NOT NULL,
+    ADD COLUMN `latitude` DECIMAL(7, 5) NOT NULL,
+    ADD COLUMN `longitude` DECIMAL(7, 5) NOT NULL,
     ADD COLUMN `theme_id` INTEGER NOT NULL,
     MODIFY `date` TIMESTAMP NOT NULL;
 
