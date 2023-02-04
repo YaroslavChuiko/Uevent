@@ -8,7 +8,7 @@ interface UserRequest extends Request {
 }
 
 //? mb del this type
-type CreateEventData = {
+type EventData = {
   name: string;
   description: string;
   price: number;
@@ -23,8 +23,8 @@ type CreateEventData = {
 };
 
 const createEvent = async (req: Request, res: Response) => {
-  const data: CreateEventData = req.body as CreateEventData;
-  const companyId: number = Number(req.params.id);
+  const data: EventData = req.body as EventData;
+  const companyId = Number(req.params.id);
   // const { id: userId } = (req as UserRequest).user;
   const userId = 1;
 
@@ -205,7 +205,7 @@ const buildSortingOption = (queryParams: any): any => {
 };
 
 const updateEvent = async (req: Request, res: Response) => {
-  const data: CreateEventData = req.body as CreateEventData;
+  const data: EventData = req.body as EventData;
   const companyId = Number(req.params.companyId);
   const eventId = Number(req.params.eventId);
   // const { id: userId } = (req as UserRequest).user;
