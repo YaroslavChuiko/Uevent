@@ -1,6 +1,5 @@
-import { Company, User, Event } from '@prisma/client';
+import { Company, Event, User } from '@prisma/client';
 import { Request, Response } from 'express';
-import { number } from 'joi';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
 
