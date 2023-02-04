@@ -1,5 +1,5 @@
 import express from 'express';
-import { createEvent, deleteEvent, updateEvent } from '../controllers/event';
+import { createEvent, deleteEvent, updateEvent } from '../controllers/events';
 import boundary from '../utils/error-boundary';
 import validate from '../utils/validation';
 import { createSchema, updateSchema } from '../validation/event';

@@ -1,5 +1,5 @@
 import express from 'express';
-import { getManyEvents, getOneEventById } from '../controllers/event';
+import { getManyEvents, getOneEventById } from '../controllers/events';
 import boundary from '../utils/error-boundary';
 
 const router = express.Router();
