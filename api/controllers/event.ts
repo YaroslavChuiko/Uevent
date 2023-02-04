@@ -204,4 +204,24 @@ const buildSortingOption = (queryParams: any): any => {
   };
 };
 
-export { createEvent, getOneEventById, getManyEvents };
+const updateEvent = async (req: Request, res: Response) => {
+  const data: CreateEventData = req.body as CreateEventData;
+  const companyId = Number(req.params.companyId);
+  const eventId = Number(req.params.eventId);
+  // const { id: userId } = (req as UserRequest).user;
+  const userId = 1;
+
+  await checkCompany(companyId, userId);
+  await checkUniqueEventName(data.name);
+  await checkEventFormatExists(data.formatId);
+  await checkEventThemeExists(data.themeId);
+
+  const updatedEvent = await prisma.event.update({
+    where: { id: eventId },
+    data: { ...data },
+  });
+
+  res.json(updatedEvent);
+};
+
+export { createEvent, getOneEventById, getManyEvents, updateEvent };
