@@ -40,7 +40,6 @@ const createEvent = async (req: Request, res: Response) => {
 
 const checkCompany = async (companyId: number, ownerId: number) => {
   const company: Company = await findCompanyIfExist(companyId);
-
   checkCompanyOwner(company, ownerId);
 };
 
@@ -101,7 +100,7 @@ const findEventIfExist = async (id: number) => {
   try {
     event = await prisma.event.findUniqueOrThrow({
       where: { id },
-      include: { format: true, theme: true }, //! not sure about what needs to include
+      include: { format: true, theme: true },
     });
   } catch (_e) {
     throw new ClientError("The event doesn't exist!", 400);
@@ -216,12 +215,53 @@ const updateEvent = async (req: Request, res: Response) => {
   await checkEventFormatExists(data.formatId);
   await checkEventThemeExists(data.themeId);
 
-  const updatedEvent = await prisma.event.update({
-    where: { id: eventId },
-    data: { ...data },
-  });
+  const updatedEvent = await updateEventIfExist(eventId, data);
 
   res.json(updatedEvent);
 };
 
-export { createEvent, getOneEventById, getManyEvents, updateEvent };
+const updateEventIfExist = async (id: number, data: EventData) => {
+  let updatedEvent: Event;
+
+  try {
+    updatedEvent = await prisma.event.update({
+      where: { id },
+      data,
+      include: { format: true, theme: true },
+    });
+  } catch (_e) {
+    throw new ClientError("The event doesn't exist!", 400);
+  }
+
+  return updatedEvent;
+};
+
+const deleteEvent = async (req: Request, res: Response) => {
+  const companyId = Number(req.params.companyId);
+  const eventId = Number(req.params.eventId);
+  // const { id: userId } = (req as UserRequest).user;
+  const userId = 1;
+
+  await checkCompany(companyId, userId);
+
+  const deletedEvent = await deleteEventIfExist(eventId);
+
+  res.json(deletedEvent);
+};
+
+const deleteEventIfExist = async (id: number) => {
+  let deletedEvent: Event;
+
+  try {
+    deletedEvent = await prisma.event.delete({
+      where: { id },
+      include: { format: true, theme: true },
+    });
+  } catch (_e) {
+    throw new ClientError("The event doesn't exist!", 400);
+  }
+
+  return deletedEvent;
+};
+
+export { createEvent, getOneEventById, getManyEvents, updateEvent, deleteEvent };
