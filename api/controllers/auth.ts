@@ -5,15 +5,9 @@ import ClientError from '../types/error';
 import { hashPassword, comparePasswords } from '../utils/password';
 import { Token, ConfirmPayload, Email } from '../services';
 import templates from '../consts/email';
+import UserService from '../services/user';
 
 const user = prisma.user;
-
-const checkFor = async (key: string, value: string) => {
-  const exists = await user.findUnique({ where: { [key]: value } });
-  if (exists) {
-    throw new ClientError(`The user with this ${key} already exists.`, 400);
-  }
-};
 
 const generateUserTokens = ({ id, email, login }: ConfirmPayload) => {
   const accessToken = Token.generate({ id, email, login });
@@ -24,15 +18,7 @@ const generateUserTokens = ({ id, email, login }: ConfirmPayload) => {
 const register = async (req: Request, res: Response) => {
   const data = req.body;
 
-  await checkFor('login', data.login);
-  await checkFor('email', data.email);
-
-  data.password = await hashPassword(data.password);
-
-  const { id } = await user.create({ data });
-  const { email, login } = data;
-  const token = Token.generateConfirmToken({ id });
-  await Email.sendMail(email, templates.EMAIL_CONFIRM, { login, token });
+  const { id } = await UserService.create(data);
 
   res.json({ id });
 };

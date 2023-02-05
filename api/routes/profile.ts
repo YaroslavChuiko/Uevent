@@ -15,7 +15,7 @@ const router = express.Router();
 router.use(authMiddleware);
 
 router.patch('/avatar', boundary(uploadPhoto), boundary(updateUserAvatar));
-router.patch('/', validate(updateSchema), boundary(updateProfile));
+router.put('/', validate(updateSchema), boundary(updateProfile));
 router.delete('/', boundary(deleteProfile));
 
 export default router;

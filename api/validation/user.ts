@@ -22,9 +22,9 @@ const resetPasswordSchema = Joi.object().keys({
 });
 
 const updateSchema = Joi.object().keys({
-  login: Joi.string().min(LOGIN_LENGTH.min).max(LOGIN_LENGTH.max),
-  email: Joi.string().email(),
-  fullName: Joi.string().min(FULL_NAME_LENGTH.min).max(FULL_NAME_LENGTH.max),
+  login: Joi.string().required().min(LOGIN_LENGTH.min).max(LOGIN_LENGTH.max),
+  email: Joi.string().required().email(),
+  fullName: Joi.string().required().min(FULL_NAME_LENGTH.min).max(FULL_NAME_LENGTH.max),
 });
 
 const subscribeSchema = Joi.object().keys({
