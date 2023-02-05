@@ -8,9 +8,9 @@ import {
 } from '../controllers/companies';
 import { createEvent, deleteEvent, updateEvent } from '../controllers/events';
 import auth from '../middleware/auth';
-import { checkUserCompanyRights } from '../middleware/checkRights';
+import { checkUserCompanyRights } from '../middleware/check-rights';
 import boundary from '../utils/error-boundary';
-import fileUpload from '../utils/fileUpload';
+import fileUpload from '../utils/file-upload';
 import validate from '../utils/validation';
 import { createSchema, getCompaniesSchema, updateSchema } from '../validation/companies';
 import {
