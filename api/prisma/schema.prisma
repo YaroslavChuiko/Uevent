@@ -8,14 +8,14 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  login        String   @unique @db.VarChar(255)
-  password     String   @db.Char(60)
-  email        String   @unique @db.VarChar(255)
-  isConfirmed  Boolean  @default(false) @map("is_confirmed")
-  fullName     String   @map("full_name") @db.VarChar(255)
-  picturePath  String?  @map("picture_path") @db.VarChar(255)
-  role         UserRole @default(user)
+  id          Int      @id @default(autoincrement())
+  login       String   @unique @db.VarChar(255)
+  password    String   @db.Char(60)
+  email       String   @unique @db.VarChar(255)
+  isConfirmed Boolean  @default(false) @map("is_confirmed")
+  fullName    String   @map("full_name") @db.VarChar(255)
+  picturePath String?  @map("picture_path") @db.VarChar(255)
+  role        UserRole @default(user)
 
   companies     Company[]
   comments      Comment[]
@@ -79,28 +79,47 @@ model Comment {
 }
 
 model Event {
-  id                Int         @id @default(autoincrement())
-  name              String      @unique @db.VarChar(255)
-  description       String      @db.Text
-  date              DateTime    @db.Timestamp() //? not sure about type
-  price             Int
-  location          String      @db.VarChar(255) //? maybe create new model Location
-  ticketsLimit      Int         @map("tickets_limit")
-  picturePath       String?     @map("picture_path") @db.VarChar(255)
-  isNotificationsOn Boolean     @default(false) @map("is_notifications_on")
-  isPublic          Boolean     @default(true) @map("is_public")
-  publishDate       DateTime    @default(now()) @map("publish_date") @db.Timestamp(1)
-  companyId         Int         @map("company_id")
-  format            EventFormat
-  theme             EventTheme
+  id                Int      @id @default(autoincrement())
+  name              String   @unique @db.VarChar(255)
+  description       String   @db.Text
+  date              DateTime @db.Timestamp() //? not sure about type
+  price             Int // if price == 0 ticket is free
+  latitude          Decimal  @db.Decimal(7, 5)
+  longitude         Decimal  @db.Decimal(7, 5)
+  ticketsLimit      Int      @map("tickets_limit") //? can it be unlimmited
+  picturePath       String?  @map("picture_path") @db.VarChar(255)
+  isNotificationsOn Boolean  @default(false) @map("is_notifications_on") // notify owner about new visitor
+  isPublic          Boolean  @default(true) @map("is_public") // who can see list of visitors everybody or only users who are going to the event
+  publishDate       DateTime @default(now()) @map("publish_date") @db.Timestamp(1)
+  companyId         Int      @map("company_id")
+  formatId          Int      @map("format_id")
+  themeId           Int      @map("theme_id")
 
-  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  format  EventFormat @relation(fields: [formatId], references: [id], onDelete: Cascade) //! don't know what to do on delete
+  theme   EventTheme  @relation(fields: [themeId], references: [id], onDelete: Cascade) //! don't know what to do on delete
 
   comments   Comment[]
   promoCodes PromoCode[]
   users      UserEvent[]
 
   @@map("event")
+}
+
+model EventFormat {
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar(255)
+  events Event[]
+
+  @@map("event_format")
+}
+
+model EventTheme {
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar(255)
+  events Event[]
+
+  @@map("event_theme")
 }
 
 model PromoCode {
@@ -116,17 +135,4 @@ model PromoCode {
 enum UserRole {
   user
   admin
-}
-
-enum EventFormat {
-  conference
-  lecture
-  workshop
-  fest
-}
-
-enum EventTheme {
-  business
-  politics
-  psychology
 }
