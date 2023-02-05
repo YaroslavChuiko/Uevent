@@ -29,7 +29,6 @@ model UserEvent {
   userId    Int     @map("user_id")
   eventId   Int     @map("event_id")
   isVisible Boolean @default(true) @map("is_visible")
-  // add isNotifyOn
 
   user  User  @relation(fields: [userId], references: [id]) //! don't know what to do on delete
   event Event @relation(fields: [eventId], references: [id]) //! don't know what to do on delete
@@ -137,16 +136,3 @@ enum UserRole {
   user
   admin
 }
-
-// denum EventFormat {
-//   conference
-//   lecture
-//   workshop
-//   fest
-// }
-
-// denum EventTheme {
-//   business
-//   politics
-//   psychology
-// }
