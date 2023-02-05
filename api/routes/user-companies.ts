@@ -1,5 +1,9 @@
 import express from 'express';
-import { subscribeToCompany, getUserCompanies, unsubscribeFromCompany } from '../controllers/users';
+import {
+  subscribeToCompany,
+  getUserCompanies,
+  unsubscribeFromCompany,
+} from '../controllers/user-companies';
 import authMiddleware from '../middleware/auth';
 import boundary from '../utils/error-boundary';
 import validate from '../utils/validation';

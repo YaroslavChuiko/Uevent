@@ -1,6 +1,6 @@
 import express from 'express';
 import profile from './profile';
-import userCompanies from './userCompanies';
+import userCompanies from './user-companies';
 
 const router = express.Router();
 
