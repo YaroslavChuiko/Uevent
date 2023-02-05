@@ -41,8 +41,8 @@ model SubscriptionToCompany {
   userId    Int @map("user_id")
   companyId Int @map("company_id")
 
-  user    User    @relation(fields: [userId], references: [id]) //! don't know what to do on delete
-  company Company @relation(fields: [companyId], references: [id]) //! don't know what to do on delete
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@id([userId, companyId])
   @@map("subscription_to_company")
