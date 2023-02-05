@@ -1,3 +1,4 @@
+import { UserRole } from '@prisma/client';
 import logger from '../lib/logger';
 import prisma from '../lib/prisma';
 import { hashPassword } from '../utils/password';
@@ -12,12 +13,16 @@ interface IAdminData {
   login: string;
   email: string;
   fullName: string;
+  isConfirmed: boolean;
+  role: UserRole;
 }
 
 export const ADMIN_DATA: IAdminData = {
   login: ADMIN_LOGIN,
   email: ADMIN_EMAIL,
   fullName: ADMIN_LOGIN,
+  isConfirmed: true,
+  role: UserRole.admin,
 };
 
 const Admin = {
