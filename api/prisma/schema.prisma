@@ -30,8 +30,8 @@ model UserEvent {
   eventId   Int     @map("event_id")
   isVisible Boolean @default(true) @map("is_visible")
 
-  user  User  @relation(fields: [userId], references: [id]) //! don't know what to do on delete
-  event Event @relation(fields: [eventId], references: [id]) //! don't know what to do on delete
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@id([userId, eventId])
   @@map("user_event")
