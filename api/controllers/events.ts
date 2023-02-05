@@ -1,4 +1,4 @@
-import { Company, Event, User } from '@prisma/client';
+import { Event } from '@prisma/client';
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
@@ -6,9 +6,7 @@ import ClientError from '../types/error';
 const createEvent = async (req: Request, res: Response) => {
   const data = req.body;
   const companyId = Number(req.params.id);
-  const { id: userId } = req.user as User;
 
-  await checkCompany(companyId, userId);
   await checkUniqueEventName(data.name);
   await checkEventFormatExists(data.formatId);
   await checkEventThemeExists(data.themeId);
@@ -16,36 +14,12 @@ const createEvent = async (req: Request, res: Response) => {
   const newEvent = await prisma.event.create({
     data: {
       ...data,
-      picturePath: req?.file?.filename,
+      picturePath: req.file?.filename,
       companyId,
     },
   });
 
   res.status(201).json(newEvent);
-};
-
-// add event companyId ===  companyId
-const checkCompany = async (companyId: number, ownerId: number) => {
-  const company: Company = await findCompanyIfExist(companyId);
-  checkCompanyOwner(company, ownerId);
-};
-
-const findCompanyIfExist = async (companyId: number) => {
-  let company: Company;
-
-  try {
-    company = await prisma.company.findUniqueOrThrow({ where: { id: companyId } });
-  } catch (_e) {
-    throw new ClientError("Your company doesn't exist!", 400);
-  }
-
-  return company;
-};
-
-const checkCompanyOwner = (company: Company, ownerId: number): void => {
-  if (company && company.userId !== ownerId) {
-    throw new ClientError("You aren't owner of this company!", 400);
-  }
 };
 
 const checkUniqueEventName = async (name: string) => {
@@ -80,7 +54,6 @@ const getOneEventById = async (req: Request, res: Response) => {
   res.status(200).json(event);
 };
 
-// duplicate
 const findEventIfExist = async (id: number) => {
   let event: Event;
 
@@ -193,27 +166,31 @@ const buildSortingOption = (queryParams: any): any => {
 
 const updateEvent = async (req: Request, res: Response) => {
   const data = req.body;
-  const companyId = Number(req.params.companyId);
   const eventId = Number(req.params.eventId);
-  const { id: userId } = req.user as User;
 
-  await checkCompany(companyId, userId);
   await checkUniqueEventName(data.name);
   await checkEventFormatExists(data.formatId);
   await checkEventThemeExists(data.themeId);
 
-  const updatedEvent = await updateEventIfExist(eventId, data);
+  const updatedEvent = await updateEventIfExist(eventId, data, req.file?.filename);
 
   res.json(updatedEvent);
 };
 
-const updateEventIfExist = async (id: number, data: any) => {
+const updateEventIfExist = async (id: number, data: any, filename?: string) => {
   let updatedEvent: Event;
+
+  let { deleteAvatar, ...eventData } = data;
+
+  deleteAvatar = deleteAvatar ? null : undefined;
 
   try {
     updatedEvent = await prisma.event.update({
       where: { id },
-      data,
+      data: {
+        ...eventData,
+        picturePath: filename || deleteAvatar,
+      },
       include: { format: true, theme: true },
     });
   } catch (_e) {
@@ -224,11 +201,7 @@ const updateEventIfExist = async (id: number, data: any) => {
 };
 
 const deleteEvent = async (req: Request, res: Response) => {
-  const companyId = Number(req.params.companyId);
   const eventId = Number(req.params.eventId);
-  const { id: userId } = req.user as User;
-
-  await checkCompany(companyId, userId);
 
   const deletedEvent = await deleteEventIfExist(eventId);
 
