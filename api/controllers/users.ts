@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
 import UserService from '../services/user';
 import ClientError from '../types/error';
+import { getPageOptions, getSortOptions } from '../utils/query-options';
 
 const user = prisma.user;
 
@@ -20,12 +21,21 @@ const createUser = async (req: Request, res: Response) => {
   res.status(201).json({ id });
 };
 
-const getMany = async (_req: Request, res: Response) => {
-  const found = await user.findMany();
+const getMany = async (req: Request, res: Response) => {
+  const pagination = getPageOptions(req.query);
+  const sort = getSortOptions(req.query, 'login');
+  const [users, count] = await prisma.$transaction([
+    user.findMany({
+      ...pagination,
+      ...sort,
+    }),
+    user.count(),
+  ]);
 
-  const users = found.map(({ password, ...obj }) => obj);
+  const result = users.map(({ password, ...obj }) => obj);
 
-  res.json(users);
+  res.setHeader('X-Total-Count', count);
+  res.json(result);
 };
 
 const getUser = async (req: Request, res: Response) => {
