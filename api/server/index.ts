@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import logger from '../lib/logger';
 import router from '../routes';
 import errorMiddleware from '../middleware/error';
+import { DIR_UPLOADS_NAME } from '../consts/default';
 
 const initializeApp = () => {
   const app: Express = express();
@@ -24,6 +25,8 @@ const initializeApp = () => {
   app.use(router);
 
   app.use(errorMiddleware);
+  
+  app.use(express.static(DIR_UPLOADS_NAME));
 
   app
     .listen(process.env.SERVER_PORT, () => {

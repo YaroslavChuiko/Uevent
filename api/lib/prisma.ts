@@ -9,7 +9,7 @@ const company = prisma.company;
 
 prisma.$use(async (params, next) => {
 	if (params.model == 'Company') {
-		if ((params.action == 'update' && params.args.data.picturePath) 
+		if ((params.action == 'update' && params.args.data.picturePath !== undefined) 
         || params.action == 'delete') {
 			const exists = await company.findFirst({ 
 				where: params.args.where,

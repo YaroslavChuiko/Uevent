@@ -17,9 +17,16 @@ const updateSchema = Joi.object().keys({
 });
 
 const getCompaniesSchema = Joi.object().keys({
-  page: Joi.number().min(1),
-  limit: Joi.number().min(1),
-});
+  _start: Joi.number().min(0),
+  _end: Joi.number().greater(Joi.ref('_start')),
+  _sort: Joi.string(),
+  _order: Joi.any().valid('ASC', 'asc', 'DESC', 'desc'),
+  id: Joi.alternatives().try(Joi.number(), Joi.array().items(Joi.number())),
+  userId: Joi.number(),
+  q: Joi.string(),
+})
+.and('_start', '_end')
+.and('_sort', '_order');
 
 export { createSchema, updateSchema, getCompaniesSchema };
 

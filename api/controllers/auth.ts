@@ -84,6 +84,7 @@ const login = async (req: Request, res: Response) => {
     email: found.email,
     fullName: found.fullName,
     role: found.role,
+    picturePath: found.picturePath
   });
 };
 

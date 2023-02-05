@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
-import { DIR_UPLOADS_NAME } from '../consts/default';
 import prisma from '../lib/prisma';
 import ClientError from "../types/error";
-import { User, Company } from "@prisma/client";
-import path from "path";
-import fs from "fs";
+import { User, Prisma } from "@prisma/client";
 
 const company = prisma.company;
 
@@ -22,47 +19,72 @@ const checkFor = async (key: string, value: string, notId: number = 0) => {
   }
 };
 
-function getPicture(picturePath: string | null): Buffer | null {
-  let picture: Buffer | null = null;
-  if (picturePath) {
-    const filePath = path.resolve(DIR_UPLOADS_NAME, picturePath);
-    try {
-      picture = fs.readFileSync(filePath);
-    }
-    catch(err) {}
-  }
-  return picture;
-}
+type TQueryParams = {
+  _start?: number;
+  _end?: number;
+  _sort?: string;
+  _order?: string;
+  id?: number | number[];
+  userId?: number;
+  q?: string;
+} | undefined;
 
-function getCompanyForRes(com: Company) {
-  return ({
-    id: com.id,
-    name: com.name,
-    email: com.email,
-    latitude: com.latitude,
-    longitude: com.longitude,
-    userId: com.userId,
-    avatar: getPicture(com.picturePath),
-  });
+function getOptions(queryParams: TQueryParams) {
+  const options: Prisma.CompanyFindManyArgs = {};
+  options.where = { AND: [] };
+  if (!queryParams) {
+    return options;
+  }
+  const { _start, _end, _sort, _order, id, userId, q } = queryParams;
+
+  if (_start && _end) {
+    options.skip = Number(_start);
+    options.take = Number(_end) - Number(_start);
+  }
+  if (_sort && _order) {
+    options.orderBy = {
+      [_sort]: _order.toLowerCase()
+    };
+  }
+  if (id) {
+    let idNum = Array.isArray(id) ? id.map((item) => Number(item)) : [Number(id)];
+    Array.isArray(options.where.AND) && options.where.AND.push({
+      id: { in: idNum },
+    });
+  }
+  if (userId) {
+    Array.isArray(options.where.AND) && options.where.AND.push({
+      userId: Number(userId)
+    });
+  }
+  if (q) {
+    Array.isArray(options.where.AND) && options.where.AND.push({
+      OR: [
+        {
+          name: {
+            contains: q,
+          }
+        },
+        {
+          email: {
+            contains: q,
+          }
+        }
+      ]
+    });
+  }
+  return options;
 }
 
 const getCompanies = async (req: Request, res: Response) => {
-  const limit = req.query.limit ? Number(req.query.limit) : 10;
-  const page = req.query.page ? Number(req.query.page) : 1;
-  const offset = (page - 1) * limit;
+  const options = getOptions(req.query);
 
   const [count, companies] = await prisma.$transaction([
     company.count(),
-    company.findMany({
-      skip: offset,
-      take: limit,
-    }),
+    company.findMany(options),
   ]);
 
-  res.json({
-    count,
-    companies: companies.map(getCompanyForRes),
-  });
+  res.header("X-Total-Count", `${count}`).json(companies);
 };
 
 const getCompanyById = async (req: Request, res: Response) => {
@@ -77,7 +99,7 @@ const getCompanyById = async (req: Request, res: Response) => {
     throw new ClientError('The company is not found.', 404);
   }
 
-  res.json(getCompanyForRes(found));
+  res.json(found);
 };
 
 const createCompany = async (req: Request, res: Response) => {
@@ -95,7 +117,7 @@ const createCompany = async (req: Request, res: Response) => {
     },
   });
 
-  res.status(201).json(getCompanyForRes(newCompany));
+  res.status(201).json(newCompany);
 };
 
 const updateCompany = async (req: Request, res: Response) => {
@@ -121,7 +143,7 @@ const updateCompany = async (req: Request, res: Response) => {
     },
   });
 
-  res.status(201).json(getCompanyForRes(updatedCompany));
+  res.status(201).json(updatedCompany);
 };
 
 const deleteCompany = async (req: Request, res: Response) => {
