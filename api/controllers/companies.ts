@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
 import ClientError from "../types/error";
 import { User, Prisma } from "@prisma/client";
+import { getPageOptions, getSortOptions } from '../utils/query-options';
 
 const company = prisma.company;
 
@@ -20,45 +21,31 @@ const checkFor = async (key: string, value: string, notId: number = 0) => {
 };
 
 type TQueryParams = {
-  _start?: number;
-  _end?: number;
-  _sort?: string;
-  _order?: string;
-  id?: number | number[];
-  userId?: number;
+  id?: string | string[];
+  userId?: string;
   q?: string;
 } | undefined;
 
-function getOptions(queryParams: TQueryParams) {
-  const options: Prisma.CompanyFindManyArgs = {};
-  options.where = { AND: [] };
+function getWhereOptions(queryParams: TQueryParams) {
+  const where: Prisma.CompanyWhereInput = { AND: [] };
   if (!queryParams) {
-    return options;
+    return where;
   }
-  const { _start, _end, _sort, _order, id, userId, q } = queryParams;
+  const { id, userId, q } = queryParams;
 
-  if (_start && _end) {
-    options.skip = Number(_start);
-    options.take = Number(_end) - Number(_start);
-  }
-  if (_sort && _order) {
-    options.orderBy = {
-      [_sort]: _order.toLowerCase()
-    };
-  }
   if (id) {
     let idNum = Array.isArray(id) ? id.map((item) => Number(item)) : [Number(id)];
-    Array.isArray(options.where.AND) && options.where.AND.push({
+    Array.isArray(where.AND) && where.AND.push({
       id: { in: idNum },
     });
   }
   if (userId) {
-    Array.isArray(options.where.AND) && options.where.AND.push({
+    Array.isArray(where.AND) && where.AND.push({
       userId: Number(userId)
     });
   }
   if (q) {
-    Array.isArray(options.where.AND) && options.where.AND.push({
+    Array.isArray(where.AND) && where.AND.push({
       OR: [
         {
           name: {
@@ -73,15 +60,19 @@ function getOptions(queryParams: TQueryParams) {
       ]
     });
   }
-  return options;
+  return where;
 }
 
 const getCompanies = async (req: Request, res: Response) => {
-  const options = getOptions(req.query);
+  const where = getWhereOptions(req.query);
 
   const [count, companies] = await prisma.$transaction([
-    company.count(),
-    company.findMany(options),
+    company.count({ where }),
+    company.findMany({
+      where,
+      ...getPageOptions(req.query),
+      ...getSortOptions(req.query, 'id')
+    }),
   ]);
 
   res.header("X-Total-Count", `${count}`).json(companies);

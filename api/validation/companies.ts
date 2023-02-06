@@ -20,7 +20,7 @@ const getCompaniesSchema = Joi.object().keys({
   _start: Joi.number().min(0),
   _end: Joi.number().greater(Joi.ref('_start')),
   _sort: Joi.string(),
-  _order: Joi.any().valid('ASC', 'asc', 'DESC', 'desc'),
+  _order: Joi.any().valid('ASC', 'DESC'),
   id: Joi.alternatives().try(Joi.number(), Joi.array().items(Joi.number())),
   userId: Joi.number(),
   q: Joi.string(),
