@@ -5,6 +5,7 @@ import logger from '../lib/logger';
 import router from '../routes';
 import errorMiddleware from '../middleware/error';
 import { DIR_UPLOADS_NAME } from '../consts/default';
+import Admin from '../services/admin';
 
 const initializeApp = () => {
   const app: Express = express();
@@ -25,8 +26,10 @@ const initializeApp = () => {
   app.use(router);
 
   app.use(errorMiddleware);
-  
+
   app.use(express.static(DIR_UPLOADS_NAME));
+
+  Admin.createIfNotExists().catch((e) => logger.error(e));
 
   app
     .listen(process.env.SERVER_PORT, () => {

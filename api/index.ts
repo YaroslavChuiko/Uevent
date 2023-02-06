@@ -1,9 +1,8 @@
 import dotenv from 'dotenv';
-import logger from './lib/logger';
 import initializeApp from './server';
-import Admin from './services/admin';
+import validateEnv from './validation/env';
 
 dotenv.config();
+validateEnv();
 
-Admin.createIfNotExists().catch((e) => logger.error(e));
 initializeApp();
