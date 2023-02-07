@@ -30,8 +30,15 @@ const createEvent = async (req: Request, res: Response) => {
   res.status(201).json(newEvent);
 };
 
-const checkUniqueEventName = async (name: string) => {
-  const exists = await event.findUnique({ where: { name } });
+const checkUniqueEventName = async (name: string, notId: number = 0) => {
+  const exists = await event.findFirst({
+    where: {
+      name,
+      NOT: {
+        id: notId,
+      },
+    },
+  });
   if (exists) {
     throw new ClientError('The event with this name already exists.', 400);
   }
@@ -97,9 +104,9 @@ const getManyEvents = async (req: Request, res: Response) => {
 
 const updateEvent = async (req: Request, res: Response) => {
   const data = req.body;
-  const eventId = Number(req.params.eventId);
+  const eventId = Number(req.params.id);
 
-  await checkUniqueEventName(data.name);
+  await checkUniqueEventName(data.name, eventId);
   await checkEventFormatExists(data.formatId);
   await checkEventThemeExists(data.themeId);
 
@@ -125,7 +132,7 @@ const updateEventIfExist = async (id: number, data: any) => {
 };
 
 const deleteEvent = async (req: Request, res: Response) => {
-  const eventId = Number(req.params.eventId);
+  const eventId = Number(req.params.id);
 
   const deletedEvent = await deleteEventIfExist(eventId);
 
@@ -147,4 +154,43 @@ const deleteEventIfExist = async (id: number) => {
   return deletedEvent;
 };
 
-export { createEvent, getOneEventById, getManyEvents, updateEvent, deleteEvent };
+const updatePoster = async (req: Request, res: Response) => {
+  const eventId = Number(req.params.id);
+  const picturePath = (req.file as Express.Multer.File).filename;
+
+  const updatedEvent = await event.update({
+    where: {
+      id: eventId,
+    },
+    data: {
+      picturePath,
+    },
+  });
+
+  res.json(updatedEvent);
+};
+
+const deletePoster = async (req: Request, res: Response) => {
+  const eventId = Number(req.params.id);
+
+  const updatedEvent = await event.update({
+    where: {
+      id: eventId,
+    },
+    data: {
+      picturePath: null,
+    },
+  });
+
+  res.json(updatedEvent);
+};
+
+export {
+  createEvent,
+  getOneEventById,
+  getManyEvents,
+  updateEvent,
+  deleteEvent,
+  updatePoster,
+  deletePoster,
+};
