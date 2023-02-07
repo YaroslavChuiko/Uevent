@@ -12,8 +12,7 @@ const updateSchema = Joi.object().keys({
   name: Joi.string().min(COMPANY_NAME_LENGTH.min).max(COMPANY_NAME_LENGTH.max),
   email: Joi.string().email(),
   latitude: Joi.number().min(COORDINATES.min).max(COORDINATES.max),
-  longitude: Joi.number().min(COORDINATES.min).max(COORDINATES.max),
-  deleteAvatar: Joi.boolean()
+  longitude: Joi.number().min(COORDINATES.min).max(COORDINATES.max)
 });
 
 const getCompaniesSchema = Joi.object().keys({
