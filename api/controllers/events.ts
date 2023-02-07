@@ -8,6 +8,10 @@ import {
   getPageOptions,
 } from '../utils/query-options';
 
+const event = prisma.event;
+const eventFormat = prisma.eventFormat;
+const eventTheme = prisma.eventTheme;
+
 const createEvent = async (req: Request, res: Response) => {
   const data = req.body;
   const companyId = Number(req.params.id);
@@ -16,10 +20,9 @@ const createEvent = async (req: Request, res: Response) => {
   await checkEventFormatExists(data.formatId);
   await checkEventThemeExists(data.themeId);
 
-  const newEvent = await prisma.event.create({
+  const newEvent = await event.create({
     data: {
       ...data,
-      picturePath: req.file?.filename,
       companyId,
     },
   });
@@ -28,7 +31,7 @@ const createEvent = async (req: Request, res: Response) => {
 };
 
 const checkUniqueEventName = async (name: string) => {
-  const exists = await prisma.event.findUnique({ where: { name } });
+  const exists = await event.findUnique({ where: { name } });
   if (exists) {
     throw new ClientError('The event with this name already exists.', 400);
   }
@@ -36,7 +39,7 @@ const checkUniqueEventName = async (name: string) => {
 
 const checkEventFormatExists = async (formatId: number) => {
   try {
-    await prisma.eventFormat.findUniqueOrThrow({ where: { id: formatId } });
+    await eventFormat.findUniqueOrThrow({ where: { id: formatId } });
   } catch (_e) {
     throw new ClientError("The event format doesn't exist!", 400);
   }
@@ -44,7 +47,7 @@ const checkEventFormatExists = async (formatId: number) => {
 
 const checkEventThemeExists = async (themeId: number) => {
   try {
-    await prisma.eventTheme.findUniqueOrThrow({ where: { id: themeId } });
+    await eventTheme.findUniqueOrThrow({ where: { id: themeId } });
   } catch (_e) {
     throw new ClientError("The event theme doesn't exist!", 400);
   }
@@ -59,10 +62,10 @@ const getOneEventById = async (req: Request, res: Response) => {
 };
 
 const findEventIfExist = async (id: number) => {
-  let event: Event;
+  let found: Event;
 
   try {
-    event = await prisma.event.findUniqueOrThrow({
+    found = await event.findUniqueOrThrow({
       where: { id },
       include: { format: true, theme: true },
     });
@@ -70,7 +73,7 @@ const findEventIfExist = async (id: number) => {
     throw new ClientError("The event doesn't exist!", 400);
   }
 
-  return event;
+  return found;
 };
 
 const getManyEvents = async (req: Request, res: Response) => {
@@ -79,13 +82,13 @@ const getManyEvents = async (req: Request, res: Response) => {
   const sort = getEventsSortOptions(req.query, 'id');
 
   const [events, count] = await prisma.$transaction([
-    prisma.event.findMany({
+    event.findMany({
       where,
       ...pagination,
       ...sort,
       include: { format: true, theme: true },
     }),
-    prisma.event.count({ where }),
+    event.count({ where }),
   ]);
 
   res.setHeader('X-Total-Count', count);
@@ -100,25 +103,18 @@ const updateEvent = async (req: Request, res: Response) => {
   await checkEventFormatExists(data.formatId);
   await checkEventThemeExists(data.themeId);
 
-  const updatedEvent = await updateEventIfExist(eventId, data, req.file?.filename);
+  const updatedEvent = await updateEventIfExist(eventId, data);
 
   res.json(updatedEvent);
 };
 
-const updateEventIfExist = async (id: number, data: any, filename?: string) => {
+const updateEventIfExist = async (id: number, data: any) => {
   let updatedEvent: Event;
 
-  let { deleteAvatar, ...eventData } = data;
-
-  deleteAvatar = deleteAvatar ? null : undefined;
-
   try {
-    updatedEvent = await prisma.event.update({
+    updatedEvent = await event.update({
       where: { id },
-      data: {
-        ...eventData,
-        picturePath: filename || deleteAvatar,
-      },
+      data,
       include: { format: true, theme: true },
     });
   } catch (_e) {
@@ -140,7 +136,7 @@ const deleteEventIfExist = async (id: number) => {
   let deletedEvent: Event;
 
   try {
-    deletedEvent = await prisma.event.delete({
+    deletedEvent = await event.delete({
       where: { id },
       include: { format: true, theme: true },
     });
