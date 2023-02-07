@@ -2,6 +2,11 @@ import { Event } from '@prisma/client';
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
+import {
+  getEventsSortOptions,
+  getEventsWhereOptions,
+  getPageOptions,
+} from '../utils/query-options';
 
 const createEvent = async (req: Request, res: Response) => {
   const data = req.body;
@@ -29,7 +34,6 @@ const checkUniqueEventName = async (name: string) => {
   }
 };
 
-//! two same functions mb try to optimize them
 const checkEventFormatExists = async (formatId: number) => {
   try {
     await prisma.eventFormat.findUniqueOrThrow({ where: { id: formatId } });
@@ -70,98 +74,22 @@ const findEventIfExist = async (id: number) => {
 };
 
 const getManyEvents = async (req: Request, res: Response) => {
-  const where = buildWhereOption(req.query);
-  const pagination = buildPaginationOption(req.query);
-  const sorting = buildSortingOption(req.query);
+  const where = getEventsWhereOptions(req.query);
+  const pagination = getPageOptions(req.query);
+  const sort = getEventsSortOptions(req.query, 'id');
 
   const [events, count] = await prisma.$transaction([
     prisma.event.findMany({
-      ...where,
+      where,
       ...pagination,
-      ...sorting,
+      ...sort,
       include: { format: true, theme: true },
     }),
-    prisma.event.count({ ...where }),
+    prisma.event.count({ where }),
   ]);
 
   res.setHeader('X-Total-Count', count);
-  res.setHeader('Access-Control-Expose-Headers', 'X-Total-Count');
   res.status(200).json(events);
-};
-
-const buildWhereOption = (queryParams: any) => {
-  const format = convertQueryParamToNumArr(queryParams.format);
-  const theme = convertQueryParamToNumArr(queryParams.theme);
-
-  return buildWhereOptionFromAttributes({ format, theme });
-};
-
-const convertQueryParamToNumArr = (param: string): number[] => {
-  let arr: number[] = [];
-
-  if (param) {
-    arr = param.split(',').map((item) => Number(item));
-  }
-
-  return arr;
-};
-
-type WhereOptionAttributes = {
-  format: number[];
-  theme: number[];
-};
-
-const buildWhereOptionFromAttributes = (attributes: WhereOptionAttributes) => {
-  const option = { where: {} };
-
-  for (const key in attributes) {
-    (option.where as any)[`${key}Id`] = { in: (attributes as any)[key] };
-  }
-
-  return option;
-};
-
-const buildPaginationOption = (queryParams: any) => {
-  const limit = Number(queryParams.limit);
-  const cursor = Number(queryParams.cursor);
-
-  // first request without cursor
-  if (cursor) {
-    return {
-      take: limit,
-      skip: 1,
-      cursor: {
-        id: cursor,
-      },
-    };
-  }
-
-  return {
-    take: limit,
-  };
-};
-
-const buildSortingOption = (queryParams: any): any => {
-  // doesn't work without :any
-  const sort = (queryParams.sort as string) || 'id';
-  const order = (queryParams.order as string) || 'asc';
-
-  // sort by properties of a relation
-  if (sort === 'format' || sort === 'theme') {
-    return {
-      orderBy: {
-        [sort]: {
-          name: order.toLowerCase(),
-        },
-      },
-    };
-  }
-
-  return {
-    orderBy: {
-      [sort]: order.toLowerCase(),
-    },
-  };
 };
 
 const updateEvent = async (req: Request, res: Response) => {
