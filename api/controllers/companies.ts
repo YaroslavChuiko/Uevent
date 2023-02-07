@@ -103,7 +103,6 @@ const createCompany = async (req: Request, res: Response) => {
 	const newCompany = await company.create({
     data: {
       ...data,
-      picturePath: req?.file?.filename,
       userId,
     },
   });
@@ -112,7 +111,7 @@ const createCompany = async (req: Request, res: Response) => {
 };
 
 const updateCompany = async (req: Request, res: Response) => {
-	let {deleteAvatar, ...data} = req.body;
+	const data = req.body;
   const companyId = Number(req.params.id);
 
 	if (data.name) {
@@ -122,15 +121,12 @@ const updateCompany = async (req: Request, res: Response) => {
     await checkFor('email', data.email, companyId);
   }
 
-  deleteAvatar = deleteAvatar ? null : undefined;
-
 	const updatedCompany = await company.update({
     where: {
       id: companyId
     },
     data: {
-      ...data,
-      picturePath: req?.file?.filename || deleteAvatar,
+      ...data
     },
   });
 
@@ -147,5 +143,35 @@ const deleteCompany = async (req: Request, res: Response) => {
   res.status(204).send();
 };
 
-export { getCompanies, getCompanyById, createCompany, updateCompany, deleteCompany };
+const updateAvatar = async (req: Request, res: Response) => {
+  const companyId = Number(req.params.id);
+
+	const updatedCompany = await company.update({
+    where: {
+      id: companyId
+    },
+    data: {
+      picturePath: req?.file?.filename,
+    },
+  });
+
+  res.status(201).json(updatedCompany);
+};
+
+const deleteAvatar = async (req: Request, res: Response) => {
+  const companyId = Number(req.params.id);
+
+	const updatedCompany = await company.update({
+    where: {
+      id: companyId
+    },
+    data: {
+      picturePath: null
+    },
+  });
+
+  res.status(201).json(updatedCompany);
+};
+
+export { getCompanies, getCompanyById, createCompany, updateCompany, deleteCompany, updateAvatar, deleteAvatar };
 

@@ -5,6 +5,8 @@ import {
   getCompanies,
   getCompanyById,
   updateCompany,
+  updateAvatar,
+  deleteAvatar,
 } from '../controllers/companies';
 import { createEvent, deleteEvent, updateEvent } from '../controllers/events';
 import auth from '../middleware/auth';
@@ -24,15 +26,11 @@ router.use(auth);
 
 router.get('/', validate(getCompaniesSchema, 'query'), boundary(getCompanies));
 router.get('/:id', boundary(getCompanyById));
-router.post('/', fileUpload.single('avatar'), validate(createSchema), boundary(createCompany));
-router.put(
-  '/:id',
-  checkUserCompanyRights,
-  fileUpload.single('avatar'),
-  validate(updateSchema),
-  boundary(updateCompany),
-);
+router.post('/', validate(createSchema), boundary(createCompany));
+router.put('/:id', checkUserCompanyRights, validate(updateSchema), boundary(updateCompany));
 router.delete('/:id', checkUserCompanyRights, boundary(deleteCompany));
+router.put('/:id/avatar', checkUserCompanyRights, fileUpload.single('avatar'), boundary(updateAvatar));
+router.delete('/:id/avatar', checkUserCompanyRights, boundary(deleteAvatar));
 
 router.post(
   '/:id/event',
