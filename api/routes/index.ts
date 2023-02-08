@@ -5,6 +5,8 @@ import events from './events';
 import users from './users';
 import comments from './comments';
 import promoCodes from './promo-codes';
+import formats from './formats';
+import themes from './themes';
 
 const router = express.Router();
 
@@ -14,5 +16,7 @@ router.use('/events', events);
 router.use('/users', users);
 router.use('/comments', comments);
 router.use('/promo-codes', promoCodes);
+router.use('/formats', formats);
+router.use('/themes', themes);
 
 export default router;

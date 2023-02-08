@@ -72,7 +72,7 @@ model Comment {
   userId      Int      @map("user_id")
   eventId     Int      @map("event_id")
 
-  user  User  @relation(fields: [userId], references: [id]) //? onDelete?
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@map("comment")
@@ -96,8 +96,8 @@ model Event {
   themeId           Int      @map("theme_id")
 
   company Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  format  EventFormat @relation(fields: [formatId], references: [id], onDelete: Cascade) //! don't know what to do on delete
-  theme   EventTheme  @relation(fields: [themeId], references: [id], onDelete: Cascade) //! don't know what to do on delete
+  format  EventFormat @relation(fields: [formatId], references: [id], onDelete: Restrict)
+  theme   EventTheme  @relation(fields: [themeId], references: [id], onDelete: Restrict)
 
   comments   Comment[]
   promoCodes PromoCode[]
@@ -108,7 +108,7 @@ model Event {
 
 model EventFormat {
   id     Int     @id @default(autoincrement())
-  name   String  @db.VarChar(255)
+  name   String  @unique @db.VarChar(255)
   events Event[]
 
   @@map("event_format")
@@ -116,7 +116,7 @@ model EventFormat {
 
 model EventTheme {
   id     Int     @id @default(autoincrement())
-  name   String  @db.VarChar(255)
+  name   String  @unique @db.VarChar(255)
   events Event[]
 
   @@map("event_theme")
