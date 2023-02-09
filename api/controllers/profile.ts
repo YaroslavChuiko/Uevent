@@ -1,6 +1,7 @@
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
+import Avatar from '../services/avatar';
 import fileUpload from '../utils/file-upload';
 
 const user = prisma.user;
@@ -30,9 +31,23 @@ const updateUserAvatar = async (req: Request, res: Response) => {
   const picturePath = (req.file as FileType).filename;
   const { id } = req.user as User;
 
+  const toUpdate = await user.findUnique({ where: { id } });
+  await Avatar.removeFrom(toUpdate);
+
   await user.update({ data: { picturePath }, where: { id } });
 
   res.sendStatus(204);
 };
 
-export { updateProfile, deleteProfile, uploadPhoto, updateUserAvatar };
+const deleteUserAvatar = async (req: Request, res: Response) => {
+  const { id } = req.user as User;
+
+  const toUpdate = await user.findUnique({ where: { id } });
+  await Avatar.removeFrom(toUpdate);
+
+  await user.update({ data: { picturePath: null }, where: { id } });
+
+  res.sendStatus(204);
+};
+
+export { updateProfile, deleteProfile, uploadPhoto, updateUserAvatar, deleteUserAvatar };

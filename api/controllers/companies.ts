@@ -1,30 +1,33 @@
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
-import ClientError from "../types/error";
-import { User, Prisma } from "@prisma/client";
+import ClientError from '../types/error';
+import { User, Prisma } from '@prisma/client';
 import { getPageOptions, getSortOptions } from '../utils/query-options';
+import Avatar from '../services/avatar';
 
 const company = prisma.company;
 
 const checkFor = async (key: string, value: string, notId: number = 0) => {
-  const exists = await company.findFirst({ 
-    where: { 
+  const exists = await company.findFirst({
+    where: {
       [key]: value,
       NOT: {
-        id: notId
-      } 
-    }
+        id: notId,
+      },
+    },
   });
   if (exists) {
     throw new ClientError(`The company with this ${key} already exists.`, 400);
   }
 };
 
-type TQueryParams = {
-  id?: string | string[];
-  userId?: string;
-  q?: string;
-} | undefined;
+type TQueryParams =
+  | {
+      id?: string | string[];
+      userId?: string;
+      q?: string;
+    }
+  | undefined;
 
 function getWhereOptions(queryParams: TQueryParams) {
   const where: Prisma.CompanyWhereInput = { AND: [] };
@@ -35,30 +38,33 @@ function getWhereOptions(queryParams: TQueryParams) {
 
   if (id) {
     let idNum = Array.isArray(id) ? id.map((item) => Number(item)) : [Number(id)];
-    Array.isArray(where.AND) && where.AND.push({
-      id: { in: idNum },
-    });
+    Array.isArray(where.AND) &&
+      where.AND.push({
+        id: { in: idNum },
+      });
   }
   if (userId) {
-    Array.isArray(where.AND) && where.AND.push({
-      userId: Number(userId)
-    });
+    Array.isArray(where.AND) &&
+      where.AND.push({
+        userId: Number(userId),
+      });
   }
   if (q) {
-    Array.isArray(where.AND) && where.AND.push({
-      OR: [
-        {
-          name: {
-            contains: q,
-          }
-        },
-        {
-          email: {
-            contains: q,
-          }
-        }
-      ]
-    });
+    Array.isArray(where.AND) &&
+      where.AND.push({
+        OR: [
+          {
+            name: {
+              contains: q,
+            },
+          },
+          {
+            email: {
+              contains: q,
+            },
+          },
+        ],
+      });
   }
   return where;
 }
@@ -71,11 +77,11 @@ const getCompanies = async (req: Request, res: Response) => {
     company.findMany({
       where,
       ...getPageOptions(req.query),
-      ...getSortOptions(req.query, 'id')
+      ...getSortOptions(req.query, 'id'),
     }),
   ]);
 
-  res.header("X-Total-Count", `${count}`).json(companies);
+  res.header('X-Total-Count', `${count}`).json(companies);
 };
 
 const getCompanyById = async (req: Request, res: Response) => {
@@ -83,8 +89,8 @@ const getCompanyById = async (req: Request, res: Response) => {
 
   const found = await company.findFirst({
     where: {
-      id: companyId
-    }
+      id: companyId,
+    },
   });
   if (!found) {
     throw new ClientError('The company is not found.', 404);
@@ -94,13 +100,13 @@ const getCompanyById = async (req: Request, res: Response) => {
 };
 
 const createCompany = async (req: Request, res: Response) => {
-	const data = req.body;
-	const { id: userId } = req.user as User;
+  const data = req.body;
+  const { id: userId } = req.user as User;
 
-	await checkFor('name', data.name);
-	await checkFor('email', data.email);
+  await checkFor('name', data.name);
+  await checkFor('email', data.email);
 
-	const newCompany = await company.create({
+  const newCompany = await company.create({
     data: {
       ...data,
       userId,
@@ -111,22 +117,22 @@ const createCompany = async (req: Request, res: Response) => {
 };
 
 const updateCompany = async (req: Request, res: Response) => {
-	const data = req.body;
+  const data = req.body;
   const companyId = Number(req.params.id);
 
-	if (data.name) {
+  if (data.name) {
     await checkFor('name', data.name, companyId);
   }
-	if (data.email) {
+  if (data.email) {
     await checkFor('email', data.email, companyId);
   }
 
-	const updatedCompany = await company.update({
+  const updatedCompany = await company.update({
     where: {
-      id: companyId
+      id: companyId,
     },
     data: {
-      ...data
+      ...data,
     },
   });
 
@@ -146,9 +152,12 @@ const deleteCompany = async (req: Request, res: Response) => {
 const updateAvatar = async (req: Request, res: Response) => {
   const companyId = Number(req.params.id);
 
-	const updatedCompany = await company.update({
+  const toUpdate = await company.findUnique({ where: { id: companyId } });
+  await Avatar.removeFrom(toUpdate);
+
+  const updatedCompany = await company.update({
     where: {
-      id: companyId
+      id: companyId,
     },
     data: {
       picturePath: req?.file?.filename,
@@ -161,17 +170,27 @@ const updateAvatar = async (req: Request, res: Response) => {
 const deleteAvatar = async (req: Request, res: Response) => {
   const companyId = Number(req.params.id);
 
-	const updatedCompany = await company.update({
+  const toUpdate = await company.findUnique({ where: { id: companyId } });
+  await Avatar.removeFrom(toUpdate);
+
+  const updatedCompany = await company.update({
     where: {
-      id: companyId
+      id: companyId,
     },
     data: {
-      picturePath: null
+      picturePath: null,
     },
   });
 
   res.status(201).json(updatedCompany);
 };
 
-export { getCompanies, getCompanyById, createCompany, updateCompany, deleteCompany, updateAvatar, deleteAvatar };
-
+export {
+  getCompanies,
+  getCompanyById,
+  createCompany,
+  updateCompany,
+  deleteCompany,
+  updateAvatar,
+  deleteAvatar,
+};
