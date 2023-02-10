@@ -1,0 +1,8 @@
+extends index 
+block title
+	h1 You have a new visitor at #{eventName}
+block description
+	div
+		p #{visitorName} has subscribed to your event: #{eventName}
+	div
+		a(href=`${process.env.CLIENT_URL}/eventPage`) Open event page
