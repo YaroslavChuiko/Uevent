@@ -1,4 +1,3 @@
-import { Event } from '@prisma/client';
 import { Request, Response } from 'express';
 import { scheduleCompanySubscribersNotification } from '../jobs/company-subscribers-notification';
 import prisma from '../lib/prisma';
@@ -70,22 +69,9 @@ const checkEventThemeExists = async (themeId: number) => {
 const getOneEventById = async (req: Request, res: Response) => {
   const eventId: number = Number(req.params.id);
 
-  const event: Event = await findEventIfExist(eventId);
+  const event = await findEventIfExists(eventId);
 
   res.status(200).json(event);
-};
-
-const findEventIfExist = async (id: number) => {
-  try {
-    const found = await event.findUniqueOrThrow({
-      where: { id },
-      include: { format: true, theme: true },
-    });
-
-    return found;
-  } catch (_e) {
-    throw new ClientError("The event doesn't exist!", 400);
-  }
 };
 
 const getManyEvents = async (req: Request, res: Response) => {
@@ -119,7 +105,11 @@ const updateEvent = async (req: Request, res: Response) => {
     checkEventThemeExists(data.themeId),
   ]);
 
-  const updatedEvent = await updateEventIfExist(eventId, data);
+  const updatedEvent = await event.update({
+    where: { id: eventId },
+    data,
+    include: { format: true, theme: true },
+  });
 
   if (compareDates(new Date(publishDate), oldEvent.publishDate)) {
     scheduleCompanySubscribersNotification(new Date(publishDate), eventId, updatedEvent.companyId);
@@ -130,45 +120,24 @@ const updateEvent = async (req: Request, res: Response) => {
 
 const findEventIfExists = async (eventId: number) => {
   try {
-    return await event.findUniqueOrThrow({ where: { id: eventId } });
-  } catch (_e) {
-    throw new ClientError("The event doesn't exist!", 400);
-  }
-};
-
-const updateEventIfExist = async (id: number, data: any) => {
-  try {
-    const updatedEvent = await event.update({
-      where: { id },
-      data,
+    return await event.findUniqueOrThrow({
+      where: { id: eventId },
       include: { format: true, theme: true },
     });
-
-    return updatedEvent;
   } catch (_e) {
-    throw new ClientError("The event doesn't exist!", 400);
+    throw new ClientError("The event doesn't exist!", 404);
   }
 };
 
 const deleteEvent = async (req: Request, res: Response) => {
   const eventId = Number(req.params.id);
 
-  const deletedEvent = await deleteEventIfExist(eventId);
+  const deletedEvent = await event.delete({
+    where: { id: eventId },
+    include: { format: true, theme: true },
+  });
 
   res.json(deletedEvent);
-};
-
-const deleteEventIfExist = async (id: number) => {
-  try {
-    const deletedEvent = await event.delete({
-      where: { id },
-      include: { format: true, theme: true },
-    });
-
-    return deletedEvent;
-  } catch (_e) {
-    throw new ClientError("The event doesn't exist!", 400);
-  }
 };
 
 const updatePoster = async (req: Request, res: Response) => {
