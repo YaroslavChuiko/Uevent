@@ -1,0 +1,8 @@
+extends index 
+block title
+	h1 #{companyName} has just published a new event #{eventName}
+block description
+	div
+		p #{companyName} has just published a new event #{eventName}
+	div
+		a(href=`${process.env.CLIENT_URL}/eventPage`) Open event page
