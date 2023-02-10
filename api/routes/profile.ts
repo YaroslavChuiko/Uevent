@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   deleteProfile,
+  deleteUserAvatar,
   updateProfile,
   updateUserAvatar,
   uploadPhoto,
@@ -15,6 +16,7 @@ const router = express.Router();
 router.use(authMiddleware);
 
 router.put('/avatar', boundary(uploadPhoto), boundary(updateUserAvatar));
+router.delete('/avatar', boundary(deleteUserAvatar));
 router.put('/', validate(updateSchema), boundary(updateProfile));
 router.delete('/', boundary(deleteProfile));
 
