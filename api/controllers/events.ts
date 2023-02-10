@@ -1,7 +1,9 @@
 import { Event } from '@prisma/client';
 import { Request, Response } from 'express';
+import { scheduleCompanySubscribersNotification } from '../jobs/company-subscribers-notification';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
+import { compareDates } from '../utils/date';
 import {
   getEventsSortOptions,
   getEventsWhereOptions,
@@ -14,11 +16,14 @@ const eventTheme = prisma.eventTheme;
 
 const createEvent = async (req: Request, res: Response) => {
   const data = req.body;
+  const { publishDate } = data;
   const companyId = Number(req.params.id);
 
-  await checkUniqueEventName(data.name);
-  await checkEventFormatExists(data.formatId);
-  await checkEventThemeExists(data.themeId);
+  await Promise.all([
+    checkUniqueEventName(data.name),
+    checkEventFormatExists(data.formatId),
+    checkEventThemeExists(data.themeId),
+  ]);
 
   const newEvent = await event.create({
     data: {
@@ -26,6 +31,8 @@ const createEvent = async (req: Request, res: Response) => {
       companyId,
     },
   });
+
+  scheduleCompanySubscribersNotification(new Date(publishDate), newEvent.id, companyId);
 
   res.status(201).json(newEvent);
 };
@@ -69,18 +76,16 @@ const getOneEventById = async (req: Request, res: Response) => {
 };
 
 const findEventIfExist = async (id: number) => {
-  let found: Event;
-
   try {
-    found = await event.findUniqueOrThrow({
+    const found = await event.findUniqueOrThrow({
       where: { id },
       include: { format: true, theme: true },
     });
+
+    return found;
   } catch (_e) {
     throw new ClientError("The event doesn't exist!", 400);
   }
-
-  return found;
 };
 
 const getManyEvents = async (req: Request, res: Response) => {
@@ -104,31 +109,45 @@ const getManyEvents = async (req: Request, res: Response) => {
 
 const updateEvent = async (req: Request, res: Response) => {
   const data = req.body;
+  const { publishDate } = data;
   const eventId = Number(req.params.id);
 
-  await checkUniqueEventName(data.name, eventId);
-  await checkEventFormatExists(data.formatId);
-  await checkEventThemeExists(data.themeId);
+  const [oldEvent] = await Promise.all([
+    findEventIfExists(eventId),
+    checkUniqueEventName(data.name, eventId),
+    checkEventFormatExists(data.formatId),
+    checkEventThemeExists(data.themeId),
+  ]);
 
   const updatedEvent = await updateEventIfExist(eventId, data);
+
+  if (compareDates(new Date(publishDate), oldEvent.publishDate)) {
+    scheduleCompanySubscribersNotification(new Date(publishDate), eventId, updatedEvent.companyId);
+  }
 
   res.json(updatedEvent);
 };
 
-const updateEventIfExist = async (id: number, data: any) => {
-  let updatedEvent: Event;
-
+const findEventIfExists = async (eventId: number) => {
   try {
-    updatedEvent = await event.update({
+    return await event.findUniqueOrThrow({ where: { id: eventId } });
+  } catch (_e) {
+    throw new ClientError("The event doesn't exist!", 400);
+  }
+};
+
+const updateEventIfExist = async (id: number, data: any) => {
+  try {
+    const updatedEvent = await event.update({
       where: { id },
       data,
       include: { format: true, theme: true },
     });
+
+    return updatedEvent;
   } catch (_e) {
     throw new ClientError("The event doesn't exist!", 400);
   }
-
-  return updatedEvent;
 };
 
 const deleteEvent = async (req: Request, res: Response) => {
@@ -140,18 +159,16 @@ const deleteEvent = async (req: Request, res: Response) => {
 };
 
 const deleteEventIfExist = async (id: number) => {
-  let deletedEvent: Event;
-
   try {
-    deletedEvent = await event.delete({
+    const deletedEvent = await event.delete({
       where: { id },
       include: { format: true, theme: true },
     });
+
+    return deletedEvent;
   } catch (_e) {
     throw new ClientError("The event doesn't exist!", 400);
   }
-
-  return deletedEvent;
 };
 
 const updatePoster = async (req: Request, res: Response) => {
