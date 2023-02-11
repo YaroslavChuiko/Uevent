@@ -4,6 +4,7 @@ import prisma from '../lib/prisma';
 import EventService from '../services/event';
 import { compareDates } from '../utils/date';
 import { getPageOptions } from '../utils/query-options';
+import Avatar from '../services/avatar';
 
 const event = prisma.event;
 
@@ -85,6 +86,9 @@ const updateEvent = async (req: Request, res: Response) => {
 const deleteEvent = async (req: Request, res: Response) => {
   const eventId = Number(req.params.id);
 
+  const toUpdate = await event.findUnique({ where: { id: eventId } });
+  await Avatar.removeFrom(toUpdate);
+
   const deletedEvent = await event.delete({
     where: { id: eventId },
     include: { format: true, theme: true },
@@ -96,6 +100,9 @@ const deleteEvent = async (req: Request, res: Response) => {
 const updatePoster = async (req: Request, res: Response) => {
   const eventId = Number(req.params.id);
   const picturePath = (req.file as Express.Multer.File).filename;
+
+  const toUpdate = await event.findUnique({ where: { id: eventId } });
+  await Avatar.removeFrom(toUpdate);
 
   const updatedEvent = await event.update({
     where: {
@@ -111,6 +118,9 @@ const updatePoster = async (req: Request, res: Response) => {
 
 const deletePoster = async (req: Request, res: Response) => {
   const eventId = Number(req.params.id);
+
+  const toUpdate = await event.findUnique({ where: { id: eventId } });
+  await Avatar.removeFrom(toUpdate);
 
   const updatedEvent = await event.update({
     where: {

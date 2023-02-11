@@ -3,6 +3,7 @@ import prisma from '../lib/prisma';
 import UserService from '../services/user';
 import ClientError from '../types/error';
 import { getPageOptions, getSortOptions } from '../utils/query-options';
+import Avatar from '../services/avatar';
 
 const user = prisma.user;
 
@@ -65,6 +66,8 @@ const deleteUser = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
 
   await checkUserId(id);
+
+  await Avatar.removeFromUserById(id);
 
   await user.delete({ where: { id } });
 

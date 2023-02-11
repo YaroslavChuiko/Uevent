@@ -20,6 +20,8 @@ const updateProfile = async (req: Request, res: Response) => {
 const deleteProfile = async (req: Request, res: Response) => {
   const { id } = req.user as User;
 
+  await Avatar.removeFromUserById(id);
+
   await user.delete({ where: { id } });
 
   res.sendStatus(204);

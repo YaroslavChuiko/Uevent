@@ -142,6 +142,8 @@ const updateCompany = async (req: Request, res: Response) => {
 const deleteCompany = async (req: Request, res: Response) => {
   const companyId = Number(req.params.id);
 
+  await Avatar.removeFromCompanyById(companyId);
+
   await company.delete({
     where: { id: companyId },
   });
