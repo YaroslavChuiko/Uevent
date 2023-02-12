@@ -1,0 +1,176 @@
+paths:
+  /users:
+    get:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      description: Get all the users
+      responses:
+        200:
+          description: All registered users found
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/users'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have admin rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    post:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      description: Create a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                fullName:
+                  type: string
+                login:
+                  type: string
+                email:
+                  type: string
+      responses:
+        201:
+          description: User created
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/user_id'
+        400:
+          description: The format of the user data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have admin rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /users/{id}:
+    parameters:
+      - name: id
+        schema:
+          type: integer
+        required: true
+        description: The id of the record to query
+    get:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      description: Get the user by id
+      responses:
+        200:
+          description: Found the user by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/user'
+        404:
+          description: The user was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have admin rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    put:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      description: Update the user by id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                login:
+                  type: string
+                email:
+                  type: string
+      responses:
+        204:
+          description: Updated the user by id
+        404:
+          description: The user was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have admin rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    delete:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      description: Remove the user by id
+      responses:
+        204:
+          description: Removed the user by id
+        404:
+          description: The user was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have admin rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'

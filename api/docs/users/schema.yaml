@@ -1,0 +1,48 @@
+definitions:
+  users:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        login:
+          type: string
+        email:
+          type: string
+        fullName:
+          type: string
+        isConfirmed:
+          type: boolean
+        picturePath:
+          type: string
+        role:
+          type: string
+          enum:
+            - user
+            - admin
+  user:
+    type: object
+    properties:
+      id:
+        type: integer
+      login:
+        type: string
+      email:
+        type: string
+      fullName:
+        type: string
+      isConfirmed:
+        type: boolean
+      picturePath:
+        type: string
+      role:
+        type: string
+        enum:
+          - user
+          - admin
+  user_id:
+    type: object
+    properties:
+      id:
+        type: integer
