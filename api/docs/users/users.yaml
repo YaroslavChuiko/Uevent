@@ -35,16 +35,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                password:
-                  type: string
-                fullName:
-                  type: string
-                login:
-                  type: string
-                email:
-                  type: string
+              $ref: '#definitions/user_create'
       responses:
         201:
           description: User created
@@ -118,14 +109,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                fullName:
-                  type: string
-                login:
-                  type: string
-                email:
-                  type: string
+              $ref: '#definitions/user_update'
       responses:
         204:
           description: Updated the user by id

@@ -46,3 +46,23 @@ definitions:
     properties:
       id:
         type: integer
+  user_create:
+    type: object
+    properties:
+      password:
+        type: string
+      fullName:
+        type: string
+      login:
+        type: string
+      email:
+        type: string
+  user_update:
+    type: object
+    properties:
+      fullName:
+        type: string
+      login:
+        type: string
+      email:
+        type: string
