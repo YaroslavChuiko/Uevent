@@ -2,6 +2,7 @@ import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
 import Avatar from '../services/avatar';
+import UserService from '../services/user';
 import fileUpload from '../utils/file-upload';
 
 const user = prisma.user;
@@ -12,7 +13,7 @@ const updateProfile = async (req: Request, res: Response) => {
   const { id } = req.user as User;
   const data = req.body;
 
-  await user.update({ where: { id }, data });
+  await UserService.update(id, data);
 
   res.sendStatus(204);
 };
