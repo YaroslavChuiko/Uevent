@@ -1,6 +1,6 @@
 import { fetchUtils, Admin, Resource } from 'react-admin';
 import jsonServerProvider from 'ra-data-json-server';
-import { EventList } from './components/events/list';
+import { EventList } from './components/events/EventList';
 import authProvider from './auth/auth-provider';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
