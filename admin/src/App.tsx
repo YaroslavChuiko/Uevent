@@ -1,30 +1,30 @@
-import { useState } from 'react';
-// import reactLogo from './assets/react.svg'
-import reactLogo from '~/assets/react.svg';
-import './App.css';
+import { fetchUtils, Admin, Resource } from 'react-admin';
+import jsonServerProvider from 'ra-data-json-server';
+import { EventList } from './components/events/list';
+import authProvider from './auth/auth-provider';
 
-function App() {
-  const [count, setCount] = useState(0);
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </div>
-  );
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const httpClient = (url: any, options: any = {}) => {
+  if (!options.headers) {
+    options.headers = new Headers({ Accept: 'application/json' });
+  }
+  const token = localStorage.getItem('accessToken');
+  options.headers.set('Authorization', `Bearer ${token}`);
+  options.credentials = 'include';
+  return fetchUtils.fetchJson(url, options);
+};
+const dataProvider = jsonServerProvider(import.meta.env.VITE_SERVER_URL, httpClient);
+
+const App = () => (
+  <Admin dataProvider={dataProvider} authProvider={authProvider} requireAuth>
+    <Resource
+      name="events"
+      list={EventList}
+      // show={UserShow}
+      // edit={UserEdit}
+      // create={UserCreate}
+    />
+  </Admin>
+);
 
 export default App;
