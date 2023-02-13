@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
 import Avatar from '../services/avatar';
 import UserService from '../services/user';
+import ClientError from '../types/error';
 import fileUpload from '../utils/file-upload';
 
 const user = prisma.user;
@@ -31,7 +32,11 @@ const deleteProfile = async (req: Request, res: Response) => {
 const uploadPhoto = fileUpload.single('avatar');
 
 const updateUserAvatar = async (req: Request, res: Response) => {
-  const picturePath = (req.file as FileType).filename;
+  if (!req.file) {
+    throw new ClientError('Please provide a valid file.', 400);
+  }
+
+  const picturePath = req.file.filename;
   const { id } = req.user as User;
 
   const toUpdate = await user.findUnique({ where: { id } });
