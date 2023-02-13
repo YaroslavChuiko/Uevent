@@ -1,0 +1,42 @@
+definitions:
+  companies:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        picturePath:
+          type: string
+        latitude:
+          type: integer
+        longitude:
+          type: integer
+        userId:
+          type: integer
+  company:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      picturePath:
+        type: string
+      latitude:
+        type: integer
+      longitude:
+        type: integer
+      userId:
+        type: integer
+  company_subscribe:
+    type: object
+    properties:
+      companyId:
+        type: integer

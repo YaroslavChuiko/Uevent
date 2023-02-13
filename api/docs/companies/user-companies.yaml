@@ -1,0 +1,84 @@
+paths:
+  /users/me/companies:
+    get:
+      tags:
+        - CompanySubscriptions
+      security:
+        - bearerAuth: []
+      description: Get all the companies to which the user is subscribed to
+      responses:
+        200:
+          description: All the needed companies were found
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/companies'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    post:
+      tags:
+        - CompanySubscriptions
+      security:
+        - bearerAuth: []
+      description: Subscribe to a company by its id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/company_subscribe'
+      responses:
+        200:
+          description: Successfully subscribed to the company
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        400:
+          description: The company id is invalid / You've already subscribed to the company
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /users/me/companies/{id}:
+    delete:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The id of the record to query
+      tags:
+        - CompanySubscriptions
+      security:
+        - bearerAuth: []
+      description: Unsubscribe from a company with the id
+      responses:
+        200:
+          description: Successfully unsubscribed from the company
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        400:
+          description: You weren't subscribed to the company
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
