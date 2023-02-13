@@ -57,7 +57,7 @@ const updateUser = async (req: Request, res: Response) => {
 
   await checkUserId(id);
 
-  await user.update({ where: { id }, data });
+  await UserService.update(id, data);
 
   res.sendStatus(204);
 };

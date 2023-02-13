@@ -152,6 +152,10 @@ const deleteCompany = async (req: Request, res: Response) => {
 };
 
 const updateAvatar = async (req: Request, res: Response) => {
+  if (!req.file) {
+    throw new ClientError('Please provide a valid file.', 400);
+  }
+
   const companyId = Number(req.params.id);
 
   const toUpdate = await company.findUnique({ where: { id: companyId } });
@@ -162,7 +166,7 @@ const updateAvatar = async (req: Request, res: Response) => {
       id: companyId,
     },
     data: {
-      picturePath: req?.file?.filename,
+      picturePath: req.file.filename,
     },
   });
 

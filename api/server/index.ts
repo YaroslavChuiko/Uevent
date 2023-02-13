@@ -6,6 +6,9 @@ import router from '../routes';
 import errorMiddleware from '../middleware/error';
 import { DIR_UPLOADS_NAME } from '../consts/default';
 import Admin from '../services/admin';
+import swaggerOptions from '../swagger';
+import swagger from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
 
 const initializeApp = () => {
   const app: Express = express();
@@ -29,6 +32,9 @@ const initializeApp = () => {
   app.use(errorMiddleware);
 
   app.use(express.static(DIR_UPLOADS_NAME));
+
+  const apiSpec = swaggerJSDoc(swaggerOptions);
+  app.use('/docs', swagger.serve, swagger.setup(apiSpec));
 
   Admin.createIfNotExists().catch((e) => logger.error(e));
 

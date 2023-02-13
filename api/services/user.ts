@@ -36,6 +36,13 @@ const UserService = {
     await Email.sendMail(email, templates.EMAIL_CONFIRM, { login, token });
     return { id };
   },
+
+  async update(id: number, data: IUser) {
+    await UserService.checkFor('login', data.login);
+    await UserService.checkFor('email', data.email);
+
+    await user.update({ where: { id }, data });
+  },
 };
 
 export default UserService;

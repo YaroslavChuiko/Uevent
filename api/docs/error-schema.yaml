@@ -1,0 +1,6 @@
+definitions:
+  error:
+    type: object
+    properties:
+      message:
+        type: string

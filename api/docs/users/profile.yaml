@@ -1,0 +1,85 @@
+paths:
+  /users/profile:
+    put:
+      tags:
+        - UserProfile
+      security:
+        - bearerAuth: []
+      description: Update the current user's profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/user_update'
+      responses:
+        204:
+          description: Updated the user
+        400:
+          description: The format of the user data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    delete:
+      tags:
+        - UserProfile
+      security:
+        - bearerAuth: []
+      description: Remove the current user's profile
+      responses:
+        204:
+          description: Removed the user by id
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /users/profile/avatar:
+    put:
+      tags:
+        - UserProfile
+      security:
+        - bearerAuth: []
+      description: Update the current user's avatar
+      parameters:
+        - in: formData
+          name: avatar
+          type: file
+          description: The file to upload.
+      responses:
+        204:
+          description: Updated the user's avatar
+        400:
+          description: The format of the file is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    delete:
+      tags:
+        - UserProfile
+      security:
+        - bearerAuth: []
+      description: Remove the current user's avatar
+      responses:
+        204:
+          description: Removed the user's avatar
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
