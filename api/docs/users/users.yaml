@@ -64,6 +64,7 @@ paths:
   /users/{id}:
     parameters:
       - name: id
+        in: path
         schema:
           type: integer
         required: true
