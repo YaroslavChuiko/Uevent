@@ -27,12 +27,12 @@ const confirmEmail = async (req: Request, res: Response) => {
   const { token } = req.params;
   const data = Token.validate(token);
   if (!data || typeof data === 'string' || !data.id) {
-    throw new ClientError('The confirm token is invalid or has expired.', 401);
+    throw new ClientError('The confirm token is invalid or has expired.', 403);
   }
 
   const found = await user.findUnique({ where: { id: data.id } });
   if (!found) {
-    throw new ClientError('The confirm token is invalid or has expired.', 400);
+    throw new ClientError('The confirm token is invalid or has expired.', 403);
   }
 
   await user.update({
@@ -40,7 +40,7 @@ const confirmEmail = async (req: Request, res: Response) => {
     data: { isConfirmed: true },
   });
 
-  res.json({ message: 'Email is confirmed.' });
+  res.status(200).send();
 };
 
 const login = async (req: Request, res: Response) => {
@@ -63,14 +63,10 @@ const login = async (req: Request, res: Response) => {
   const { accessToken, refreshToken } = generateUserTokens(found);
 
   res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
+  const { password: p, ...toSend } = found;
   res.json({
     accessToken,
-    id: found.id,
-    login: found.login,
-    email: found.email,
-    fullName: found.fullName,
-    role: found.role,
-    picturePath: found.picturePath
+    ...toSend
   });
 };
 
@@ -118,12 +114,12 @@ const resetPassword = async (req: Request, res: Response) => {
 
   const data = Token.validate(token);
   if (!data || typeof data === 'string' || !data.id) {
-    throw new ClientError('The confirm token is invalid or has expired.', 401);
+    throw new ClientError('The confirm token is invalid or has expired.', 403);
   }
 
   const found = await user.findUnique({ where: { id: data.id } });
   if (!found) {
-    throw new ClientError('The confirm token is invalid or has expired.', 401);
+    throw new ClientError('The confirm token is invalid or has expired.', 403);
   }
 
   password = await hashPassword(password);

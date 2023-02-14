@@ -51,12 +51,16 @@ definitions:
     properties:
       password:
         type: string
+        required: true
       fullName:
         type: string
+        required: true
       login:
         type: string
+        required: true
       email:
         type: string
+        required: true
   user_update:
     type: object
     properties:

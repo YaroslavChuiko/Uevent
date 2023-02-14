@@ -1,0 +1,41 @@
+definitions:
+  promo-codes:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        promoCode:
+          type: string
+        discount:
+          type: number
+        eventId:
+          type: integer
+  promo-code:
+    type: object
+    properties:
+      id:
+        type: integer
+      promoCode:
+        type: string
+      discount:
+        type: number
+      eventId:
+        type: integer
+  promo-code_create: 
+    type: object
+    properties:
+      promoCode:
+        type: string
+        required: true
+      discount:
+        type: number
+        required: true
+  promo-code_update: 
+    type: object
+    properties:
+      promoCode:
+        type: string
+      discount:
+        type: number

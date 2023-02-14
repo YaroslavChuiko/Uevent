@@ -1,0 +1,179 @@
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      description: Register a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/user_create'
+      responses:
+        201:
+          description: User was created
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/user_id'
+        400:
+          description: The format of the data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      description: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/login'
+      responses:
+        200:
+          description: Login success
+          headers: 
+            Set-Cookie:
+              schema: 
+                $ref: '#definitions/refresh_token'
+              description: Refresh token
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/user_with_token'
+        400:
+          description: The format of the data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: Email is not confirmed
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /auth/refresh:
+    post:
+      tags:
+        - Auth
+      parameters:
+        - name: Cookie
+          in: header
+          description: Refresh token in cookie
+          required: true
+          type: string
+      description: Refresh tokens
+      responses:
+        200:
+          description: Tokens were successfully refreshed
+          headers: 
+            Set-Cookie:
+              schema: 
+                $ref: '#definitions/refresh_token'
+              description: Refresh token
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/token'
+        403:
+          description: The refresh token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        404:
+          description: The user was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      description: Logout
+      responses:
+        204:
+          description: Logout success
+  /auth/confirm-email/{token}:
+    parameters:
+      - name: token
+        in: path
+        schema:
+          type: string
+        required: true
+        description: The token to confirm email
+    post:
+      tags:
+        - Auth
+      description: Confirm email
+      responses:
+        200:
+          description: Email is confirmed
+        403:
+          description: The confirm token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /auth/password-reset:
+    post:
+      tags:
+        - Auth
+      description: Send password confirmation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/send_password_confirmation'
+      responses:
+        200:
+          description: Password confirmation was sent
+        400:
+          description: The format of the data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        404:
+          description: The user was not found by email
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /auth/password-reset/{token}:
+    parameters:
+      - name: token
+        in: path
+        schema:
+          type: string
+        required: true
+        description: The token to reset password
+    post:
+      tags:
+        - Auth
+      description: Reset password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/reset_password'
+      responses:
+        200:
+          description: Password is reset
+        400:
+          description: The format of the data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: The confirm token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'

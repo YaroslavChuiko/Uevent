@@ -1,0 +1,23 @@
+definitions:
+  formats-themes:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+  format-theme:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  format-theme_create_update: 
+    type: object
+    properties:
+      name:
+        type: string
+        required: true

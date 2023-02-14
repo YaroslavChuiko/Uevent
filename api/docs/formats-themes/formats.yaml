@@ -1,0 +1,192 @@
+paths:
+  /formats:
+    get:
+      tags:
+        - Formats
+      security:
+        - bearerAuth: []
+      description: Get all formats
+      parameters:
+        - name: _start
+          in: query
+          schema:
+            type: integer
+          description: The number of the first record for pagination
+        - name: _end
+          in: query
+          schema:
+            type: integer
+          description: The number of the last record for pagination
+        - name: _sort
+          in: query
+          schema:
+            type: string
+          description: The name of the field to sort by
+        - name: _order
+          in: query
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+          description: The sorting order
+        - name: id
+          in: query
+          schema:
+            type: integer
+          description: The ids of the records to query
+        - name: q
+          in: query
+          schema:
+            type: string
+          description: The string for general search by name
+      responses:
+        200:
+          description: All formats found
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total count of the records
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/formats-themes'
+        400:
+          description: The format of the data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    post:
+      tags:
+        - Formats
+      security:
+        - bearerAuth: []
+      description: Create a format
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/format-theme_create_update'
+      responses:
+        201:
+          description: Format was created
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/format-theme'
+        400:
+          description: The format of the data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have admin rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /formats/{id}:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+        description: The id of the record to query
+    get:
+      tags:
+        - Formats
+      security:
+        - bearerAuth: []
+      description: Get the format by id
+      responses:
+        200:
+          description: Found the format by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/format-theme'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        404:
+          description: The format was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    put:
+      tags:
+        - Formats
+      security:
+        - bearerAuth: []
+      description: Update the format by id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/format-theme_create_update'
+      responses:
+        201:
+          description: Format was updated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/format-theme'
+        400:
+          description: The format of the data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have admin rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    delete:
+      tags:
+        - Formats
+      security:
+        - bearerAuth: []
+      description: Remove the format by id
+      responses:
+        204:
+          description: Format was removed
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have admin rights or there are events using this format
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'

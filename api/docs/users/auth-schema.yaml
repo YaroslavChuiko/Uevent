@@ -1,0 +1,52 @@
+definitions:
+  login:
+    type: object
+    properties:
+      login:
+        type: string
+        required: true
+      password:
+        type: string
+        required: true
+  user_with_token:
+    type: object
+    properties:
+      id:
+        type: integer
+      login:
+        type: string
+      email:
+        type: string
+      fullName:
+        type: string
+      isConfirmed:
+        type: boolean
+      picturePath:
+        type: string
+      role:
+        type: string
+        enum:
+          - user
+          - admin
+      accessToken:
+        type: string
+  token:
+    type: object
+    properties:
+      accessToken:
+        type: string
+  send_password_confirmation:
+    type: object
+    properties:
+      email:
+        type: string
+        required: true
+  reset_password:
+    type: object
+    properties:
+      password:
+        type: string
+        required: true
+  refresh_token: 
+    type: string
+    example: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNjc2Mzc4MDMwLCJleHAiOjE2NzY5ODI4MzB9.nObABdmikZsq_kOCnSHka2cwusBfWO0MYWamFK1e0VE; Max-Age=604800; Domain=localhost; Path=/; Expires=Tue, 21 Feb 2023 12:33:50 GMT; HttpOnly; Secure; SameSite=None

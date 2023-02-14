@@ -1,0 +1,35 @@
+definitions:
+  comments:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        publishDate:
+          type: string
+        userId:
+          type: integer
+        eventId:
+          type: integer
+  comment:
+    type: object
+    properties:
+      id:
+        type: integer
+      content:
+        type: string
+      publishDate:
+        type: string
+      userId:
+        type: integer
+      eventId:
+        type: integer
+  comment_create_update: 
+    type: object
+    properties:
+      content:
+        type: string
+        required: true
