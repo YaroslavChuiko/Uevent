@@ -24,6 +24,7 @@ const createEvent = async (req: Request, res: Response) => {
       ...data,
       companyId,
     },
+    include: { format: true, theme: true },
   });
 
   scheduleCompanySubscribersNotification(new Date(publishDate), newEvent.id, companyId);
@@ -111,6 +112,7 @@ const updatePoster = async (req: Request, res: Response) => {
     data: {
       picturePath,
     },
+    include: { format: true, theme: true },
   });
 
   res.json(updatedEvent);
@@ -129,6 +131,7 @@ const deletePoster = async (req: Request, res: Response) => {
     data: {
       picturePath: null,
     },
+    include: { format: true, theme: true },
   });
 
   res.json(updatedEvent);
