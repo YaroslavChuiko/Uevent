@@ -1,0 +1,163 @@
+definitions:
+  events:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        picturePath:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        price:
+          type: number
+        ticketsLimit:
+          type: integer
+        date:
+          type: string
+        publishDate:
+          type: string
+        isPublic:
+          type: boolean
+        isNotificationsOn:
+          type: boolean
+        companyId:
+          type: integer
+        formatId:
+          type: integer
+        themeId:
+          type: integer
+        format:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        theme:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+  event:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      description:
+        type: string
+      picturePath:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      price:
+        type: number
+      ticketsLimit:
+        type: integer
+      date:
+        type: string
+      publishDate:
+        type: string
+      isPublic:
+        type: boolean
+      isNotificationsOn:
+        type: boolean
+      companyId:
+        type: integer
+      formatId:
+        type: integer
+      themeId:
+        type: integer
+      format:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+      theme:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+  event_create:
+    type: object
+    properties:
+      name:
+        type: string
+        required: true
+      description:
+        type: string
+        required: true
+      latitude:
+        type: number
+        required: true
+      longitude:
+        type: number
+        required: true
+      price:
+        type: number
+        required: true
+      ticketsLimit:
+        type: integer
+        required: true
+      date:
+        type: string
+        required: true
+      publishDate:
+        type: string
+        required: true
+      isPublic:
+        type: boolean
+        required: true
+      isNotificationsOn:
+        type: boolean
+        required: true
+      formatId:
+        type: integer
+        required: true
+      themeId:
+        type: integer
+        required: true
+  event_update:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      price:
+        type: number
+      ticketsLimit:
+        type: integer
+      date:
+        type: string
+      publishDate:
+        type: string
+      isPublic:
+        type: boolean
+      isNotificationsOn:
+        type: boolean
+      formatId:
+        type: integer
+      themeId:
+        type: integer

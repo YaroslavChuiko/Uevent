@@ -1,0 +1,283 @@
+paths:
+  /events:
+    get:
+      tags:
+        - Events
+      description: Get all events
+      parameters:
+        - name: _start
+          in: query
+          schema:
+            type: integer
+          description: The number of the first record for pagination
+        - name: _end
+          in: query
+          schema:
+            type: integer
+          description: The number of the last record for pagination
+        - name: _sort
+          in: query
+          schema:
+            type: string
+          description: The name of the field to sort by
+        - name: _order
+          in: query
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+          description: The sorting order
+        - name: id
+          in: query
+          schema:
+            type: integer
+          description: The ids of the records to query
+        - name: companyId
+          in: query
+          schema:
+            type: integer
+          description: The id of the events' owner
+        - name: formatId
+          in: query
+          schema:
+            type: integer
+          description: The id of the events' format
+        - name: themeId
+          in: query
+          schema:
+            type: integer
+          description: The id of the events' theme
+        - name: q
+          in: query
+          schema:
+            type: string
+          description: The string for general search by name
+      responses:
+        200:
+          description: All events found
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total count of the records
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/events'
+        400:
+          description: The format of the data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    post:
+      tags:
+        - Events
+      security:
+        - bearerAuth: []
+      description: Create an event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/event_create'
+      responses:
+        201:
+          description: Event was created
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/event'
+        400:
+          description: The format of the data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /events/{id}:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+        description: The id of the record to query
+    get:
+      tags:
+        - Events
+      description: Get the event by id
+      responses:
+        200:
+          description: Found the event by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/event'
+        404:
+          description: The event was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    put:
+      tags:
+        - Events
+      security:
+        - bearerAuth: []
+      description: Update the event by id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/event_update'
+      responses:
+        201:
+          description: Event was updated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/event'
+        400:
+          description: The format of the data is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have proper rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        404:
+          description: The event was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    delete:
+      tags:
+        - Events
+      security:
+        - bearerAuth: []
+      description: Remove the event by id
+      responses:
+        200:
+          description: Event was removed
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/event'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have proper rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        404:
+          description: The event was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /events/{id}/poster:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+        description: The id of the record to query
+    put:
+      tags:
+        - Events
+      security:
+        - bearerAuth: []
+      description: Update the event's poster by id
+      parameters:
+        - in: formData
+          name: poster
+          type: file
+          required: true
+          description: The file to upload.
+      responses:
+        201:
+          description: The event's poster was updated
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/event'
+        400:
+          description: The format of the file is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have proper rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        404:
+          description: The event was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    delete:
+      tags:
+        - Events
+      security:
+        - bearerAuth: []
+      description: Remove the event's poster by id
+      responses:
+        200:
+          description: The event's poster was removed
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/event'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: You do not have proper rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        404:
+          description: The event was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
