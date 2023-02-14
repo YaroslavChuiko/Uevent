@@ -19,10 +19,11 @@ const initializeApp = () => {
 
   app.use(
     cors({
-      origin: process.env.CLIENT_URL,
+      origin: [process.env.CLIENT_URL, process.env.ADMIN_URL] as string[],
       credentials: true,
       methods: 'GET, POST, PUT, PATCH, DELETE',
       allowedHeaders: 'Content-Type, Authorization, Set-Cookie',
+      exposedHeaders: 'X-Total-Count',
     }),
   );
 

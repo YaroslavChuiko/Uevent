@@ -5,6 +5,7 @@ const envSchema = Joi.object()
   .keys({
     DATABASE_URL: Joi.string().required(),
     CLIENT_URL: Joi.string().required(),
+    ADMIN_URL: Joi.string().required(),
     SERVER_URL: Joi.string().required(),
     SERVER_PORT: Joi.number().required(),
 
