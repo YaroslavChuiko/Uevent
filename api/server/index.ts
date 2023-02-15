@@ -9,9 +9,13 @@ import Admin from '../services/admin';
 import swaggerOptions from '../swagger';
 import swagger from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
+import { stripeWebhook } from '../controllers/payment';
+import boundary from '../utils/error-boundary';
 
 const initializeApp = () => {
   const app: Express = express();
+
+  app.post('/webhook', express.raw({ type: 'application/json' }), boundary(stripeWebhook));
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

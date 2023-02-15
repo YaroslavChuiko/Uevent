@@ -34,6 +34,7 @@
     "nodemailer": "^6.9.1",
     "pug": "^3.0.2",
     "rimraf": "^4.1.2",
+    "stripe": "^11.10.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {

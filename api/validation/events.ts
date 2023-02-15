@@ -31,4 +31,8 @@ const updateSchema = Joi.object().keys({
   themeId: Joi.number().positive().required(),
 });
 
-export { createSchema, updateSchema };
+const ticketSchema = Joi.object().keys({
+  isVisible: Joi.boolean().default(true),
+});
+
+export { createSchema, updateSchema, ticketSchema };
