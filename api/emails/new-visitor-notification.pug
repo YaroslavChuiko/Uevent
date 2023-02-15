@@ -1,8 +1,8 @@
 extends index 
 block title
-	h1 You have a new visitor at #{eventName}
+	h1 You have a new visitor at `#{eventName}`
 block description
 	div
-		p #{visitorName} has subscribed to your event: #{eventName}
+		p #{visitorName} has subscribed to your `#{eventName}` event
 	div
-		a(href=`${process.env.CLIENT_URL}/eventPage`) Open event page
+		a(href=`${process.env.CLIENT_URL}/event-page`) Open event page

@@ -1,0 +1,8 @@
+extends index 
+block title
+	h1 You have successfully subscribed to `#{eventName}`
+block description
+	div
+		p You have successfully payed for and subsribed to `#{eventName}` which will happen on #{eventDate}
+	div
+		a(href=`${process.env.CLIENT_URL}/event-page`) Open event page

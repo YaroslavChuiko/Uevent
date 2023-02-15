@@ -1,6 +1,9 @@
 import { UserEvent } from '@prisma/client';
+import templates from '../consts/email';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
+import Email from './email';
+import UserService from './user';
 
 const events = prisma.event;
 const eventUsers = prisma.userEvent;
@@ -20,6 +23,45 @@ const eventObjectToUserEvent = ({ metadata: m }: IEventMeta): UserEvent => ({
 });
 
 const EventSubscription = {
+  async check(eventId: number, userId: number) {
+    await this.checkIfConnected(eventId, userId);
+  },
+
+  async handleWith(eventMeta: IEventMeta) {
+    const data = eventObjectToUserEvent(eventMeta);
+
+    await this.connectUser(data);
+
+    const [event, visitor] = await Promise.all([
+      this.getEventCreator(data.eventId),
+      UserService.findOrThrow(data.userId),
+    ]);
+    const creator = event.company;
+
+    await Email.sendMail(creator.email, templates.NEW_EVENT_VISITOR, {
+      eventName: event.name,
+      visitorName: visitor.fullName,
+    });
+
+    await Email.sendMail(visitor.email, templates.EVENT_SUBSCRIPTION, {
+      eventName: event.name,
+      eventDate: new Date(event.date).toDateString(),
+    });
+  },
+
+  async getEventCreator(eventId: number) {
+    const event = await events.findUnique({
+      where: { id: eventId },
+      include: {
+        company: true,
+      },
+    });
+    if (!event) {
+      throw new ClientError('The event was not found.', 404);
+    }
+    return event;
+  },
+
   async checkIfConnected(eventId: number, userId: number) {
     const exists = await eventUsers.findUnique({
       where: {
@@ -42,18 +84,6 @@ const EventSubscription = {
         },
       },
     });
-  },
-
-  async check(eventId: number, userId: number) {
-    await this.checkIfConnected(eventId, userId);
-  },
-
-  async handleWith(eventMeta: IEventMeta) {
-    const data = eventObjectToUserEvent(eventMeta);
-
-    await this.connectUser(data);
-
-    // send email
   },
 };
 
