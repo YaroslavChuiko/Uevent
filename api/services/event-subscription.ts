@@ -1,5 +1,6 @@
-import { UserEvent } from '@prisma/client';
+import { UserEvent, Event } from '@prisma/client';
 import templates from '../consts/email';
+import { TICKETS_UNLIMITED } from '../consts/payment';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
 import Email from './email';
@@ -23,8 +24,9 @@ const eventObjectToUserEvent = ({ metadata: m }: IEventMeta): UserEvent => ({
 });
 
 const EventSubscription = {
-  async check(eventId: number, userId: number) {
-    await this.checkIfConnected(eventId, userId);
+  async check(event: Event, userId: number) {
+    await this.checkIfConnected(event.id, userId);
+    this.checkTicketAvailability(event);
   },
 
   async handleWith(eventMeta: IEventMeta) {
@@ -37,6 +39,10 @@ const EventSubscription = {
       UserService.findOrThrow(data.userId),
     ]);
     const creator = event.company;
+
+    if (event.ticketsAvailable !== TICKETS_UNLIMITED) {
+      await this.updateEventTickets(event.id, event.ticketsAvailable - 1);
+    }
 
     await Email.sendMail(creator.email, templates.NEW_EVENT_VISITOR, {
       eventName: event.name,
@@ -71,6 +77,21 @@ const EventSubscription = {
     if (exists) {
       throw new ClientError('You are already subscribed to this event.', 400);
     }
+  },
+
+  checkTicketAvailability(event: Event) {
+    const tickets = event.ticketsAvailable;
+
+    if (tickets <= 0 && tickets !== TICKETS_UNLIMITED) {
+      throw new ClientError('No tickets are available for this event', 403);
+    }
+  },
+
+  async updateEventTickets(eventId: number, tickets: number) {
+    await events.update({
+      where: { id: eventId },
+      data: { ticketsAvailable: tickets },
+    });
   },
 
   async connectUser(data: UserEvent) {

@@ -2,8 +2,9 @@ import { Event } from '@prisma/client';
 import { Request, Response } from 'express';
 import EventService from '../services/event';
 import stripe, { Stripe, STRIPE_WEBHOOK_KEY } from '../lib/stripe';
-import { STRIPE_PAYMENT_OPTIONS } from '../consts/stripe';
+import { STRIPE_PAYMENT_OPTIONS } from '../consts/payment';
 import EventSubscription, { IEventMeta } from '../services/event-subscription';
+import logger from '../lib/logger';
 
 type StripeLineItem = Stripe.Checkout.SessionCreateParams.LineItem;
 
@@ -25,7 +26,7 @@ const createSession = async (req: Request, res: Response) => {
   const isVisible = String(req.body.isVisible || false);
 
   const event = await EventService.findEventIfExists(eventId);
-  await EventSubscription.check(eventId, user.id);
+  await EventSubscription.check(event, user.id);
 
   const params: Stripe.Checkout.SessionCreateParams = {
     ...STRIPE_PAYMENT_OPTIONS,
@@ -55,6 +56,7 @@ const stripeWebhook = async (req: Request, res: Response) => {
   if (event.type === 'payment_intent.succeeded') {
     const meta = event.data.object as IEventMeta;
     await EventSubscription.handleWith(meta);
+    logger.info('Your payment was successful');
   }
 
   res.sendStatus(200);

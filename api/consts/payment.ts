@@ -14,3 +14,5 @@ export const STRIPE_PAYMENT_OPTIONS: Stripe.Checkout.SessionCreateParams = {
   success_url: `${CLIENT_URL}/success`,
   cancel_url: `${CLIENT_URL}/cancel`,
 };
+
+export const TICKETS_UNLIMITED = -1;
