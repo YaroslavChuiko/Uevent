@@ -281,3 +281,50 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
+  /events/{id}/checkout:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+        description: The id of the record to query
+    post:
+      tags:
+        - Events
+      security:
+        - bearerAuth: []
+      description: Initiate a Stripe session for a payment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#definitions/event_checkout'
+      responses:
+        200:
+          description: Created a Stripe session
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: integer
+        400:
+          description: You're already subscribed to the event
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        403:
+          description: No tickets available
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'

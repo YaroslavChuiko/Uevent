@@ -161,3 +161,8 @@ definitions:
         type: integer
       themeId:
         type: integer
+  event_checkout:
+    type: object
+    properties:
+      isVisible:
+        type: boolean
