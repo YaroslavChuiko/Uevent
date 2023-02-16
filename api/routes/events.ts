@@ -24,7 +24,7 @@ const router = express.Router();
 router.get('/', boundary(getManyEvents));
 router.get('/:id', boundary(getOneEventById));
 
-// router.use(auth);
+router.use(auth);
 
 router.put('/:id', checkUserEventRights, validate(updateSchema), boundary(updateEvent));
 router.delete('/:id', checkUserEventRights, boundary(deleteEvent));

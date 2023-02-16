@@ -1,4 +1,4 @@
-import { Event } from '@prisma/client';
+import { Event, User } from '@prisma/client';
 import { Request, Response } from 'express';
 import EventService from '../services/event';
 import stripe, { Stripe, STRIPE_WEBHOOK_KEY } from '../lib/stripe';
@@ -21,9 +21,8 @@ const stripeLineItem = (event: Event): StripeLineItem => ({
 
 const createSession = async (req: Request, res: Response) => {
   const eventId = Number(req.params.id);
-  // const user = req.user as User;
-  const user = { id: 2, email: 'sdlj@gmail.com' };
-  const isVisible = String(req.body.isVisible || false);
+  const user = req.user as User;
+  const isVisible = String(req.body.isVisible);
 
   const event = await EventService.findEventIfExists(eventId);
   await EventSubscription.check(event, user.id);
