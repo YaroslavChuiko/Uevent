@@ -20,6 +20,9 @@ const envSchema = Joi.object()
     ADMIN_EMAIL: Joi.string().email().required(),
     ADMIN_LOGIN: Joi.string().required(),
     ADMIN_PASSWORD: Joi.string().required(),
+
+    STRIPE_API_SECRET_KEY: Joi.string().required(),
+    STRIPE_WEBHOOK_KEY: Joi.string().required(),
   })
   .options({ allowUnknown: true });
 
