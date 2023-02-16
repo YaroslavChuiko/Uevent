@@ -6,6 +6,30 @@ paths:
       security:
         - bearerAuth: []
       description: Get all the users
+      parameters:
+        - name: _start
+          in: query
+          schema:
+            type: integer
+          description: The number of the first record for pagination
+        - name: _end
+          in: query
+          schema:
+            type: integer
+          description: The number of the last record for pagination
+        - name: _sort
+          in: query
+          schema:
+            type: string
+          description: The name of the field to sort by
+        - name: _order
+          in: query
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+          description: The sorting order
       responses:
         200:
           description: All registered users found

@@ -27,15 +27,10 @@ const updateSchema = Joi.object().keys({
   fullName: Joi.string().required().min(FULL_NAME_LENGTH.min).max(FULL_NAME_LENGTH.max),
 });
 
-const subscribeSchema = Joi.object().keys({
-  companyId: Joi.number().required(),
-});
-
 export {
   loginSchema,
   registerSchema,
   sendPasswordConfirmationSchema,
   resetPasswordSchema,
   updateSchema,
-  subscribeSchema,
 };

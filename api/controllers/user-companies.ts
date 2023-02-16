@@ -6,7 +6,7 @@ import ClientError from '../types/error';
 const company = prisma.company;
 const userCompanies = prisma.subscriptionToCompany;
 
-const checkCompanyId = async (id: number) => {
+const findCompanyOrThrow = async (id: number) => {
   const exists = await company.findUnique({ where: { id } });
   if (!exists) {
     throw new ClientError('This company does not exist', 404);
@@ -38,9 +38,9 @@ const getUserCompanies = async (req: Request, res: Response) => {
 
 const subscribeToCompany = async (req: Request, res: Response) => {
   const { id: userId } = req.user as User;
-  const { companyId } = req.body;
+  const companyId = Number(req.params.id);
 
-  await checkCompanyId(companyId);
+  await findCompanyOrThrow(companyId);
 
   if (await isCompanyConnected(companyId, userId)) {
     throw new ClientError('You are already subscribed to this company', 400);
@@ -62,7 +62,7 @@ const unsubscribeFromCompany = async (req: Request, res: Response) => {
   const { id: userId } = req.user as User;
   const companyId = Number(req.params.id);
 
-  await checkCompanyId(companyId);
+  await findCompanyOrThrow(companyId);
 
   if (!(await isCompanyConnected(companyId, userId))) {
     throw new ClientError('You are not subscribed to this company', 400);
