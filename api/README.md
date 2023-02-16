@@ -24,7 +24,7 @@ Then proceed:
 
 You can now access the API, using the host and port, provided in the `.env` file.
 
-## Test Payments locally
+## Test Payments Locally
 
 - Install [stripe-cli](https://stripe.com/docs/stripe-cli)
 - Run `stripe login`
