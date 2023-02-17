@@ -2,6 +2,7 @@ import { fetchUtils, Admin, Resource } from 'react-admin';
 import jsonServerProvider from 'ra-data-json-server';
 import { EventList } from './components/events/EventList';
 import authProvider from './auth/auth-provider';
+import { EventShow } from './components/events/EventShow';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const httpClient = (url: any, options: any = {}) => {
@@ -20,7 +21,7 @@ const App = () => (
     <Resource
       name="events"
       list={EventList}
-      // show={UserShow}
+      show={EventShow}
       // edit={UserEdit}
       // create={UserCreate}
     />
