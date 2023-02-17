@@ -18,9 +18,6 @@ module.exports = {
     },
     // Tells eslint how to resolve imports
     'import/resolver': {
-      // alias: {
-      //   map: [['~', './src']],
-      // },
       node: {
         paths: ['src'],
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -31,6 +28,8 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/accessible-emoji': 'off',
     'react/prop-types': 'off',
+    'react/jsx-key': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     // Add your own rules here to override ones from the extended configs.
   },
