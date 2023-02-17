@@ -35,7 +35,7 @@ router.put(
 router.delete('/:id/avatar', checkUserCompanyRights, boundary(deleteAvatar));
 
 router.post(
-  '/:id/event',
+  '/:id/events',
   checkUserCompanyRights,
   validate(createEventSchema),
   boundary(createEvent),

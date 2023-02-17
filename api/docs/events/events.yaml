@@ -71,6 +71,14 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
+  /companies/{id}/events:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+        description: The id of the event
     post:
       tags:
         - Events
@@ -97,6 +105,12 @@ paths:
                 $ref: '#definitions/error'
         401:
           description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        404:
+          description: The company was not found by id
           content:
             application/json; charset=utf-8:
               schema:
