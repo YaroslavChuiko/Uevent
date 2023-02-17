@@ -7,7 +7,16 @@ import {
   NumberField,
   ReferenceField,
   TextField,
+  TextInput,
 } from 'react-admin';
+
+const filters = [<TextInput source="q" label="Search" alwaysOn />];
+
+export const EventList = () => (
+  <List filters={filters}>
+    <EventListDatagrid />
+  </List>
+);
 
 export const EventListDatagrid = () => (
   <Datagrid rowClick="show">
@@ -28,11 +37,4 @@ export const EventListDatagrid = () => (
     <BooleanField label="Public" source="isPublic" />
     <BooleanField label="Notifications" source="isNotificationsOn" />
   </Datagrid>
-);
-
-// filters={postFilters}
-export const EventList = () => (
-  <List>
-    <EventListDatagrid />
-  </List>
 );

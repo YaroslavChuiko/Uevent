@@ -15,10 +15,12 @@ import {
   TabbedShowLayout,
   TextField,
 } from 'react-admin';
+import { PosterField } from '../customFields/PosterField';
+import EventTitle from './EventTitle';
 
 export const EventShow = () => (
-  <Show>
-    <TabbedShowLayout spacing={2}>
+  <Show title={<EventTitle />}>
+    <TabbedShowLayout>
       <Tab label="Summary">
         <SimpleShowLayout>
           <NumberField source="id" />
@@ -36,11 +38,12 @@ export const EventShow = () => (
           <ReferenceField label="Theme" source="themeId" reference="themes">
             <ChipField source="name" />
           </ReferenceField>
-          <DateField label="Publication date" source="publishDate" locales="uk-UA" showTime />
-          <DateField label="date" source="date" locales="uk-UA" showTime />
+          <DateField label="Publication date" source="publishDate" showTime />
+          <DateField label="Date" source="date" showTime />
           <BooleanField label="Public" source="isPublic" />
           <BooleanField label="Notifications" source="isNotificationsOn" />
           <RichTextField source="description" />
+          <PosterField source="picturePath" label="Poster" />
         </SimpleShowLayout>
       </Tab>
       <Tab label="Comments" path="comments">
