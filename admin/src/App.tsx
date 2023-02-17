@@ -1,6 +1,6 @@
 import { Admin, Resource } from 'react-admin';
-import dataProvider from './dataProvider';
-import authProvider from './auth/auth-provider';
+import dataProvider from './providers/dataProvider';
+import authProvider from './providers/authProvider';
 
 import companies from './components/companies';
 import events from './components/events';
