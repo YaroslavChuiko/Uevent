@@ -4,17 +4,15 @@ import {
   getUserCompanies,
   unsubscribeFromCompany,
 } from '../controllers/user-companies';
-import authMiddleware from '../middleware/auth';
+import auth from '../middleware/auth';
 import boundary from '../utils/error-boundary';
-import validate from '../utils/validation';
-import { subscribeSchema } from '../validation/user';
 
 const router = express.Router();
 
-router.use(authMiddleware);
+router.use(auth);
 
 router.get('/', boundary(getUserCompanies));
-router.post('/', validate(subscribeSchema), boundary(subscribeToCompany));
+router.post('/:id', boundary(subscribeToCompany));
 router.delete('/:id', boundary(unsubscribeFromCompany));
 
 export default router;

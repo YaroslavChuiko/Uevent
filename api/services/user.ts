@@ -22,6 +22,14 @@ const UserService = {
     }
   },
 
+  async findOrThrow(id: number) {
+    const found = await user.findUnique({ where: { id } });
+    if (!found) {
+      throw new ClientError('This user does not exist', 404);
+    }
+    return found;
+  },
+
   async create(data: IUser) {
     await UserService.checkFor('login', data.login);
     await UserService.checkFor('email', data.email);

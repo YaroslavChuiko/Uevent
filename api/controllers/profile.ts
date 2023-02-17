@@ -8,8 +8,6 @@ import fileUpload from '../utils/file-upload';
 
 const user = prisma.user;
 
-type FileType = Express.Multer.File;
-
 const updateProfile = async (req: Request, res: Response) => {
   const { id } = req.user as User;
   const data = req.body;

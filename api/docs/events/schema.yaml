@@ -18,7 +18,7 @@ definitions:
           type: number
         price:
           type: number
-        ticketsLimit:
+        ticketsAvailable:
           type: integer
         date:
           type: string
@@ -65,7 +65,7 @@ definitions:
         type: number
       price:
         type: number
-      ticketsLimit:
+      ticketsAvailable:
         type: integer
       date:
         type: string
@@ -113,7 +113,7 @@ definitions:
       price:
         type: number
         required: true
-      ticketsLimit:
+      ticketsAvailable:
         type: integer
         required: true
       date:
@@ -147,7 +147,7 @@ definitions:
         type: number
       price:
         type: number
-      ticketsLimit:
+      ticketsAvailable:
         type: integer
       date:
         type: string
@@ -161,3 +161,8 @@ definitions:
         type: integer
       themeId:
         type: integer
+  event_checkout:
+    type: object
+    properties:
+      isVisible:
+        type: boolean

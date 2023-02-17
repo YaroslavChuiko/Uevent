@@ -11,6 +11,14 @@ const templates = {
     subject: 'A new event that might be interesting to you',
     file: 'event-published.pug',
   },
+  NEW_EVENT_VISITOR: {
+    subject: 'A new user has subscribed to your event',
+    file: 'new-visitor-notification.pug',
+  },
+  EVENT_SUBSCRIPTION: {
+    subject: 'You have subscribed to an event',
+    file: 'event-subscription.pug',
+  },
 };
 
 export default templates;

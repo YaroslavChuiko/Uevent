@@ -5,13 +5,8 @@ import auth from '../middleware/auth';
 import boundary from '../utils/error-boundary';
 import validate from '../utils/validation';
 import { registerSchema, updateSchema } from '../validation/user';
-import profile from './profile';
-import userCompanies from './user-companies';
 
 const router = express.Router();
-
-router.use('/profile', profile);
-router.use('/me/companies', userCompanies);
 
 router.use(auth, adminAuth);
 

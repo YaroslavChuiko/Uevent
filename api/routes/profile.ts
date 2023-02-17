@@ -6,14 +6,14 @@ import {
   updateUserAvatar,
   uploadPhoto,
 } from '../controllers/profile';
-import authMiddleware from '../middleware/auth';
+import auth from '../middleware/auth';
 import boundary from '../utils/error-boundary';
 import validate from '../utils/validation';
 import { updateSchema } from '../validation/user';
 
 const router = express.Router();
 
-router.use(authMiddleware);
+router.use(auth);
 
 router.put('/avatar', boundary(uploadPhoto), boundary(updateUserAvatar));
 router.delete('/avatar', boundary(deleteUserAvatar));

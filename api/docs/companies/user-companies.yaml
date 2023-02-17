@@ -1,5 +1,5 @@
 paths:
-  /users/me/companies:
+  /me/companies:
     get:
       tags:
         - CompanySubscriptions
@@ -19,17 +19,20 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
+  /me/companies/{id}:
     post:
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The id of the record to query
       tags:
         - CompanySubscriptions
       security:
         - bearerAuth: []
       description: Subscribe to a company by its id
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#definitions/company_subscribe'
       responses:
         200:
           description: Successfully subscribed to the company
@@ -49,7 +52,6 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
-  /users/me/companies/{id}:
     delete:
       parameters:
         - name: id

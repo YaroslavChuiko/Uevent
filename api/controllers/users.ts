@@ -7,13 +7,6 @@ import Avatar from '../services/avatar';
 
 const user = prisma.user;
 
-const checkUserId = async (id: number) => {
-  const exists = await user.findUnique({ where: { id } });
-  if (!exists) {
-    throw new ClientError('This user does not exist', 404);
-  }
-};
-
 const createUser = async (req: Request, res: Response) => {
   const data = req.body;
 
@@ -55,7 +48,7 @@ const updateUser = async (req: Request, res: Response) => {
   const data = req.body;
   const id = Number(req.params.id);
 
-  await checkUserId(id);
+  await UserService.findOrThrow(id);
 
   await UserService.update(id, data);
 
@@ -65,7 +58,7 @@ const updateUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
 
-  await checkUserId(id);
+  await UserService.findOrThrow(id);
 
   await Avatar.removeFromUserById(id);
 
