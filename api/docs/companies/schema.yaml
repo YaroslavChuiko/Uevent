@@ -61,8 +61,6 @@ definitions:
         type: number
       longitude:
         type: number
-      userId:
-        type: integer
   company_subscribe:
     type: object
     properties:
