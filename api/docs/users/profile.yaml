@@ -1,5 +1,5 @@
 paths:
-  /users/profile:
+  /me/profile:
     put:
       tags:
         - UserProfile
@@ -41,7 +41,7 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
-  /users/profile/avatar:
+  /me/profile/avatar:
     put:
       tags:
         - UserProfile

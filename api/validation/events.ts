@@ -33,6 +33,7 @@ const updateSchema = Joi.object().keys({
 
 const ticketSchema = Joi.object().keys({
   isVisible: Joi.boolean().default(true),
+  promoCode: Joi.string(),
 });
 
 export { createSchema, updateSchema, ticketSchema };
