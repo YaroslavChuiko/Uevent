@@ -10,15 +10,15 @@ import {
 } from 'react-admin';
 
 // filters={postFilters}
-export const EventList = (props: any) => (
-  <List {...props}>
+export const EventList = () => (
+  <List>
     <Datagrid rowClick="show">
       <TextField source="id" />
       <TextField source="name" />
-      <NumberField source="price" />
       <ReferenceField label="Company" source="companyId" reference="companies">
         <TextField source="name" />
       </ReferenceField>
+      <NumberField source="price" />
       <ReferenceField label="Format" source="formatId" reference="formats">
         <ChipField source="name" />
       </ReferenceField>
