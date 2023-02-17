@@ -1,20 +1,13 @@
 import { Admin, Resource } from 'react-admin';
-import { EventList } from './components/events/EventList';
 import dataProvider from './dataProvider';
 import authProvider from './auth/auth-provider';
-import { EventShow } from './components/events/EventShow';
 
 import companies from './components/companies';
+import events from './components/events';
 
 const App = () => (
   <Admin dataProvider={dataProvider} authProvider={authProvider} requireAuth>
-    <Resource
-      name="events"
-      list={EventList}
-      show={EventShow}
-      // edit={UserEdit}
-      // create={UserCreate}
-    />
+    <Resource name="events" {...events} />
     <Resource name="companies" {...companies} />
   </Admin>
 );
