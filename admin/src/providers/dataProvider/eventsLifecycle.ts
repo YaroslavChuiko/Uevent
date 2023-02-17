@@ -1,4 +1,4 @@
-import { httpClient } from './index';
+import httpClient from './httpClient';
 
 const eventsLifecycle = {
   resource: 'events',

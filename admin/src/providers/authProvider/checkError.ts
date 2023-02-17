@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkError = async (error: any) => {
   const status = error.status;
 

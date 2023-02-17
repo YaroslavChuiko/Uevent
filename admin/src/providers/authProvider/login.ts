@@ -1,4 +1,4 @@
-import handleResponse from '../utils/handle-response';
+import handleResponse from '../../utils/handle-response';
 
 type LoginCredentials = {
   username: string;
@@ -19,7 +19,6 @@ const login = async ({ username, password }: LoginCredentials) => {
     const { accessToken, ...user } = await handleResponse(response);
     checkAdmin(user.role);
     saveCredentials(accessToken, user);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error(error.message);
   }

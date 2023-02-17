@@ -1,4 +1,4 @@
-import handleResponse from '../utils/handle-response';
+import handleResponse from '../../utils/handle-response';
 
 const logout = async () => {
   const resource = `${import.meta.env.VITE_SERVER_URL}/auth/logout`;

@@ -1,4 +1,4 @@
-import handleResponse from '../utils/handle-response';
+import handleResponse from '../../utils/handle-response';
 
 const checkAuth = async () => {
   const resource = `${import.meta.env.VITE_SERVER_URL}/auth/refresh`;
@@ -12,9 +12,6 @@ const checkAuth = async () => {
     const response = await fetch(request);
     const { accessToken } = await handleResponse(response);
     localStorage.setItem('accessToken', accessToken);
-    return Promise.resolve();
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error(error.message);
   }
