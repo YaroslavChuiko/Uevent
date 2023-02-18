@@ -1,0 +1,8 @@
+extends index 
+block title
+	h1 The event '#{eventName}' will start in #{hoursBeforeEvent} hours
+block description
+	div
+		p The event '#{eventName}' will start at #{eventDate}
+	div
+		a(href=`${process.env.CLIENT_URL}/event-page`) Open event page

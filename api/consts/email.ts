@@ -19,6 +19,10 @@ const templates = {
     subject: 'You have subscribed to an event',
     file: 'event-subscription.pug',
   },
+  EVENT_REMINDER: {
+    subject: 'Your event will start soon',
+    file: 'event-reminder.pug',
+  },
 };
 
 export default templates;
