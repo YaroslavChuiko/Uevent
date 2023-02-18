@@ -2,15 +2,18 @@ import { Request, Response } from 'express';
 import { scheduleCompanySubscribersNotification } from '../jobs/company-subscribers-notification';
 import prisma from '../lib/prisma';
 import EventService from '../services/event';
-import { compareDates } from '../utils/date';
+import { compareDates } from '../utils/compare-dates';
 import { getPageOptions } from '../utils/query-options';
 import Avatar from '../services/avatar';
+import { scheduleEventReminder } from '../jobs/event-reminder';
+import subtractHours from '../utils/subtract-hours';
+import { HOURS_BEFORE_EVENT } from '../consts/default';
 
 const event = prisma.event;
 
 const createEvent = async (req: Request, res: Response) => {
   const data = req.body;
-  const { publishDate } = data;
+  const { publishDate, date } = data;
   const companyId = Number(req.params.id);
 
   await Promise.all([
@@ -27,7 +30,8 @@ const createEvent = async (req: Request, res: Response) => {
     include: { format: true, theme: true },
   });
 
-  scheduleCompanySubscribersNotification(new Date(publishDate), newEvent.id, companyId);
+  scheduleCompanySubscribersNotification(new Date(publishDate), newEvent.id);
+  scheduleEventReminder(subtractHours(date, HOURS_BEFORE_EVENT), newEvent.id);
 
   res.status(201).json(newEvent);
 };
@@ -61,7 +65,7 @@ const getManyEvents = async (req: Request, res: Response) => {
 
 const updateEvent = async (req: Request, res: Response) => {
   const data = req.body;
-  const { publishDate } = data;
+  const { publishDate, date } = data;
   const eventId = Number(req.params.id);
 
   const [oldEvent] = await Promise.all([
@@ -78,7 +82,11 @@ const updateEvent = async (req: Request, res: Response) => {
   });
 
   if (compareDates(new Date(publishDate), oldEvent.publishDate)) {
-    scheduleCompanySubscribersNotification(new Date(publishDate), eventId, updatedEvent.companyId);
+    scheduleCompanySubscribersNotification(new Date(publishDate), eventId);
+  }
+
+  if (compareDates(new Date(date), oldEvent.date)) {
+    scheduleEventReminder(subtractHours(date, HOURS_BEFORE_EVENT), eventId);
   }
 
   res.json(updatedEvent);
