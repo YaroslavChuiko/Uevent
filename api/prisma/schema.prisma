@@ -101,7 +101,7 @@ model Event {
 
   comments   Comment[]
   promoCodes PromoCode[]
-  users      UserEvent[]
+  visitors   UserEvent[]
 
   @@map("event")
 }
