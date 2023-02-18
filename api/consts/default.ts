@@ -1,4 +1,5 @@
 const SEVEN_DAYS = 604800000;
+export const HOURS_BEFORE_EVENT = 2;
 
 export const COOKIE_OPTIONS = {
   maxAge: SEVEN_DAYS,
