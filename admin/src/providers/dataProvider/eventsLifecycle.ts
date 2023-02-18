@@ -3,8 +3,6 @@ import httpClient from './httpClient';
 const eventsLifecycle = {
   resource: 'events',
   beforeUpdate: async (params: any, dataProvider: any) => {
-    console.log(params);
-
     if (params.data.poster) {
       await updatePoster(params);
     }

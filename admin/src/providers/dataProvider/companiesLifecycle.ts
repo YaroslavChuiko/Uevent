@@ -17,8 +17,6 @@ async function updateAvatar(params: any) {
 export default {
   resource: 'companies',
   beforeUpdate: async (params: any, dataProvider: any) => {
-    console.log(params);
-
     if (params.data.avatar) {
       await updateAvatar(params);
     }
