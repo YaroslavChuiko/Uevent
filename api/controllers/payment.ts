@@ -17,13 +17,13 @@ const getDiscount = async (eventId: number, curPromoCode: string) => {
   }
 
   const found = await promoCode.findFirst({
-  	where: {
+    where: {
       promoCode: curPromoCode,
-      eventId
-    }
+      eventId,
+    },
   });
   return found ? found.discount : 0;
-}
+};
 
 const stripeLineItem = (event: Event, discount: number): StripeLineItem => ({
   price_data: {
@@ -42,7 +42,7 @@ const createSession = async (req: Request, res: Response) => {
   const isVisible = String(req.body.isVisible);
 
   const event = await EventService.findEventIfExists(eventId);
-  await EventSubscription.check(event, user.id);
+  await EventSubscription.check(event.id, user.id);
 
   const discount = await getDiscount(eventId, req.body.promoCode);
 

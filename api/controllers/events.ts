@@ -8,8 +8,25 @@ import Avatar from '../services/avatar';
 import { scheduleEventReminder } from '../jobs/event-reminder';
 import subtractHours from '../utils/subtract-hours';
 import { HOURS_BEFORE_EVENT } from '../consts/default';
+import EventSubscription, { IEventMeta } from '../services/event-subscription';
+import { User } from '@prisma/client';
 
 const event = prisma.event;
+
+const subscribeToEvent = async (req: Request, res: Response) => {
+  const data = req.body;
+  const eventId = Number(req.params.id);
+  const userId = (req.user as User).id;
+
+  const meta: IEventMeta = {
+    metadata: { ...data, eventId, userId },
+  };
+
+  await EventSubscription.check(eventId, userId);
+  await EventSubscription.handleWith(meta);
+
+  res.json({ eventId });
+};
 
 const createEvent = async (req: Request, res: Response) => {
   const data = req.body;
@@ -153,4 +170,5 @@ export {
   deleteEvent,
   updatePoster,
   deletePoster,
+  subscribeToEvent,
 };

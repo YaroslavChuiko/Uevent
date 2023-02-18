@@ -4,6 +4,7 @@ import { TICKETS_UNLIMITED } from '../consts/payment';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
 import Email from './email';
+import EventService from './event';
 import UserService from './user';
 
 const events = prisma.event;
@@ -24,9 +25,9 @@ const eventObjectToUserEvent = ({ metadata: m }: IEventMeta): UserEvent => ({
 });
 
 const EventSubscription = {
-  async check(event: Event, userId: number) {
-    await this.checkIfConnected(event.id, userId);
-    this.checkTicketAvailability(event);
+  async check(eventId: number, userId: number) {
+    await this.checkIfConnected(eventId, userId);
+    await this.checkTicketAvailability(eventId);
   },
 
   async handleWith(eventMeta: IEventMeta) {
@@ -44,15 +45,17 @@ const EventSubscription = {
       await this.updateEventTickets(event.id, event.ticketsAvailable - 1);
     }
 
-    await Email.sendMail(creator.email, templates.NEW_EVENT_VISITOR, {
+    const mailToCreator = Email.sendMail(creator.email, templates.NEW_EVENT_VISITOR, {
       eventName: event.name,
       visitorName: visitor.fullName,
     });
 
-    await Email.sendMail(visitor.email, templates.EVENT_SUBSCRIPTION, {
+    const mailToVisitor = Email.sendMail(visitor.email, templates.EVENT_SUBSCRIPTION, {
       eventName: event.name,
       eventDate: new Date(event.date).toDateString(),
     });
+
+    await Promise.all([mailToCreator, mailToVisitor]);
   },
 
   async getEventCreator(eventId: number) {
@@ -79,7 +82,8 @@ const EventSubscription = {
     }
   },
 
-  checkTicketAvailability(event: Event) {
+  async checkTicketAvailability(eventId: number) {
+    const event = await EventService.findEventIfExists(eventId);
     const tickets = event.ticketsAvailable;
 
     if (tickets <= 0 && tickets !== TICKETS_UNLIMITED) {
@@ -87,10 +91,10 @@ const EventSubscription = {
     }
   },
 
-  async updateEventTickets(eventId: number, tickets: number) {
+  async updateEventTickets(eventId: number, ticketsAvailable: number) {
     await events.update({
       where: { id: eventId },
-      data: { ticketsAvailable: tickets },
+      data: { ticketsAvailable },
     });
   },
 

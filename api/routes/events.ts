@@ -5,6 +5,7 @@ import {
   deletePoster,
   getManyEvents,
   getOneEventById,
+  subscribeToEvent,
   updateEvent,
   updatePoster,
 } from '../controllers/events';
@@ -16,7 +17,7 @@ import boundary from '../utils/error-boundary';
 import fileUpload from '../utils/file-upload';
 import validate from '../utils/validation';
 import { createUpdateSchema as createUpdateCommentSchema } from '../validation/comments';
-import { ticketSchema, updateSchema } from '../validation/events';
+import { eventSubSchema, ticketSchema, updateSchema } from '../validation/events';
 import { createSchema as createPromoCodeSchema } from '../validation/promo-codes';
 
 const router = express.Router();
@@ -46,5 +47,6 @@ router.post(
 );
 
 router.post('/:id/checkout', validate(ticketSchema), boundary(createSession));
+router.post('/:id/subscribe', validate(eventSubSchema), boundary(subscribeToEvent));
 
 export default router;
