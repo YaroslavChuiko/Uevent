@@ -3,36 +3,26 @@ import { CronJob } from 'cron';
 import templates from '../consts/email';
 import prisma from '../lib/prisma';
 import { Email } from '../services';
-import { compareDates } from '../utils/date';
+import { compareDates } from '../utils/compare-dates';
 
-const scheduleCompanySubscribersNotification = (
-  tickDate: Date,
-  eventId: number,
-  companyId: number,
-) => {
+const scheduleCompanySubscribersNotification = (tickDate: Date, eventId: number) => {
   console.log('tickDate', tickDate.toString());
 
   new CronJob(
     tickDate,
     async () => {
-      const [event, subscriptions] = await Promise.all([
-        prisma.event.findUnique({
-          where: { id: eventId },
-          select: { publishDate: true, name: true },
-        }),
-        prisma.subscriptionToCompany.findMany({
-          where: { companyId },
-          include: { user: true, company: true },
-        }),
-      ]);
+      const event = await prisma.event.findUnique({
+        where: { id: eventId },
+        include: { company: { include: { subscribers: { include: { user: true } } } } },
+      });
 
-      if (!event || !subscriptions.length) {
+      if (!event || !event.company.subscribers.length) {
         return;
       }
 
       const { publishDate, name: eventName } = event;
-      const companyName = subscriptions[0].company.name;
-      const subscribers = subscriptions.map((subscription) => subscription.user);
+      const companyName = event.company.name;
+      const subscribers = event.company.subscribers.map((subscriber) => subscriber.user);
 
       if (!compareDates(tickDate, publishDate)) {
         notifyCompanySubscribers(companyName, eventName, subscribers);
