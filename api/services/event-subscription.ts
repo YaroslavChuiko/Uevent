@@ -100,7 +100,7 @@ const EventSubscription = {
     await events.update({
       where: { id },
       data: {
-        users: {
+        visitors: {
           create: { userId, isVisible },
         },
       },
