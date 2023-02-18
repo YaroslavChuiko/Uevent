@@ -22,20 +22,6 @@ const isCompanyConnected = async (companyId: number, userId: number) => {
   return found !== null;
 };
 
-const getUserCompanies = async (req: Request, res: Response) => {
-  const { id: userId } = req.user as User;
-
-  const companies = await company.findMany({
-    where: {
-      subscribers: {
-        some: { userId },
-      },
-    },
-  });
-
-  res.json(companies);
-};
-
 const subscribeToCompany = async (req: Request, res: Response) => {
   const { id: userId } = req.user as User;
   const companyId = Number(req.params.id);
@@ -55,7 +41,7 @@ const subscribeToCompany = async (req: Request, res: Response) => {
     },
   });
 
-  res.json({ message: 'You have successfully subscribed to the company.' });
+  res.json({ companyId });
 };
 
 const unsubscribeFromCompany = async (req: Request, res: Response) => {
@@ -72,7 +58,7 @@ const unsubscribeFromCompany = async (req: Request, res: Response) => {
     where: { userId_companyId: { userId, companyId } },
   });
 
-  res.json({ message: 'You have successfully unsubscribed from the company.' });
+  res.sendStatus(204);
 };
 
-export { getUserCompanies, subscribeToCompany, unsubscribeFromCompany };
+export { subscribeToCompany, unsubscribeFromCompany };

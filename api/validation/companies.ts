@@ -12,20 +12,21 @@ const updateSchema = Joi.object().keys({
   name: Joi.string().min(COMPANY_NAME_LENGTH.min).max(COMPANY_NAME_LENGTH.max),
   email: Joi.string().email(),
   latitude: Joi.number().min(COORDINATES.min).max(COORDINATES.max),
-  longitude: Joi.number().min(COORDINATES.min).max(COORDINATES.max)
+  longitude: Joi.number().min(COORDINATES.min).max(COORDINATES.max),
 });
 
-const getCompaniesSchema = Joi.object().keys({
-  _start: Joi.number().min(0),
-  _end: Joi.number().greater(Joi.ref('_start')),
-  _sort: Joi.string(),
-  _order: Joi.any().valid('ASC', 'DESC'),
-  id: Joi.alternatives().try(Joi.number(), Joi.array().items(Joi.number())),
-  userId: Joi.number(),
-  q: Joi.string(),
-})
-.and('_start', '_end')
-.and('_sort', '_order');
+const getCompaniesSchema = Joi.object()
+  .keys({
+    _start: Joi.number().min(0),
+    _end: Joi.number().greater(Joi.ref('_start')),
+    _sort: Joi.string(),
+    _order: Joi.any().valid('ASC', 'DESC'),
+    id: Joi.alternatives().try(Joi.number(), Joi.array().items(Joi.number())),
+    creatorId: Joi.number(),
+    subscriberId: Joi.number(),
+    q: Joi.string(),
+  })
+  .and('_start', '_end')
+  .and('_sort', '_order');
 
 export { createSchema, updateSchema, getCompaniesSchema };
-

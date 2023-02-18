@@ -24,7 +24,8 @@ const checkFor = async (key: string, value: string, notId: number = 0) => {
 type TQueryParams =
   | {
       id?: string | string[];
-      userId?: string;
+      creatorId?: string;
+      subscriberId?: string;
       q?: string;
     }
   | undefined;
@@ -34,19 +35,32 @@ function getWhereOptions(queryParams: TQueryParams) {
   if (!queryParams) {
     return where;
   }
-  const { id, userId, q } = queryParams;
+  const { id, creatorId, subscriberId, q } = queryParams;
+
+  const numToArr = (id: string | string[]) =>
+    Array.isArray(id) ? id.map((item) => Number(item)) : [Number(id)];
 
   if (id) {
-    let idNum = Array.isArray(id) ? id.map((item) => Number(item)) : [Number(id)];
+    let idNum = numToArr(id);
     Array.isArray(where.AND) &&
       where.AND.push({
         id: { in: idNum },
       });
   }
-  if (userId) {
+  if (creatorId) {
     Array.isArray(where.AND) &&
       where.AND.push({
-        userId: Number(userId),
+        userId: Number(creatorId),
+      });
+  }
+  if (subscriberId) {
+    Array.isArray(where.AND) &&
+      where.AND.push({
+        subscribers: {
+          some: {
+            userId: Number(subscriberId),
+          },
+        },
       });
   }
   if (q) {
