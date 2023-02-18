@@ -35,11 +35,16 @@ paths:
           schema:
             type: integer
           description: The ids of the records to query
-        - name: userId
+        - name: creatorId
           in: query
           schema:
             type: integer
           description: The id of the companies' owner
+        - name: subscriberId
+          in: query
+          schema:
+            type: integer
+          description: The id of one of the companies' subscribers
         - name: q
           in: query
           schema:
