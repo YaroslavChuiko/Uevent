@@ -8,14 +8,12 @@ import {
   updateAvatar,
   updateCompany,
 } from '../controllers/companies';
-import { createEvent } from '../controllers/events';
 import auth from '../middleware/auth';
 import { checkUserCompanyRights } from '../middleware/check-rights';
 import boundary from '../utils/error-boundary';
 import fileUpload from '../utils/file-upload';
 import validate from '../utils/validation';
 import { createSchema, getCompaniesSchema, updateSchema } from '../validation/companies';
-import { createSchema as createEventSchema } from '../validation/events';
 
 const router = express.Router();
 
