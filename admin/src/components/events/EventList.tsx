@@ -1,40 +1,12 @@
-import {
-  BooleanField,
-  ChipField,
-  Datagrid,
-  DateField,
-  List,
-  NumberField,
-  ReferenceField,
-  TextField,
-  TextInput,
-} from 'react-admin';
+import { List, TextInput } from 'react-admin';
+import EventDatagrid from './EventDatagrid';
 
 const filters = [<TextInput source="q" label="Search" alwaysOn />];
 
-export const EventList = () => (
+const EventList = () => (
   <List filters={filters}>
-    <EventListDatagrid />
+    <EventDatagrid />
   </List>
 );
 
-export const EventListDatagrid = () => (
-  <Datagrid rowClick="show">
-    <TextField source="id" />
-    <TextField source="name" />
-    <NumberField source="price" />
-    <ReferenceField label="Company" source="companyId" reference="companies">
-      <TextField source="name" />
-    </ReferenceField>
-    <ReferenceField label="Format" source="formatId" reference="formats">
-      <ChipField source="name" />
-    </ReferenceField>
-    <ReferenceField label="Theme" source="themeId" reference="themes">
-      <ChipField source="name" />
-    </ReferenceField>
-    <DateField source="date" showTime />
-    <DateField source="publishDate" showTime />
-    <BooleanField label="Public" source="isPublic" />
-    <BooleanField label="Notifications" source="isNotificationsOn" />
-  </Datagrid>
-);
+export default EventList;

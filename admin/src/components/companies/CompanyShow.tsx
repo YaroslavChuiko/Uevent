@@ -11,7 +11,7 @@ import {
 } from 'react-admin';
 import CompanyTitle from './CompanyTitle';
 import { AvatarField } from '../customFields/AvatarField';
-import { EventListDatagrid } from '../events/EventList';
+import EventDatagrid from '../events/EventDatagrid';
 
 const CompanyShow = () => (
   <Show title={<CompanyTitle />}>
@@ -29,7 +29,7 @@ const CompanyShow = () => (
       </Tab>
       <Tab label="Events">
         <ReferenceManyField reference="events" target="companyId" pagination={<Pagination />} label={false}>
-          <EventListDatagrid />
+          <EventDatagrid />
         </ReferenceManyField>
       </Tab>
     </TabbedShowLayout>
