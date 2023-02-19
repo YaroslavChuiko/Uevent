@@ -18,7 +18,7 @@ import {
 import { PosterField } from '../customFields/PosterField';
 import EventTitle from './EventTitle';
 
-export const EventShow = () => (
+const EventShow = () => (
   <Show title={<EventTitle />}>
     <TabbedShowLayout>
       <Tab label="Summary">
@@ -63,3 +63,5 @@ export const EventShow = () => (
     </TabbedShowLayout>
   </Show>
 );
+
+export default EventShow;

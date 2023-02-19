@@ -1,6 +1,6 @@
 import EventEdit from './EventEdit';
-import { EventList } from './EventList';
-import { EventShow } from './EventShow';
+import EventList from './EventList';
+import EventShow from './EventShow';
 
 const resource = {
   list: EventList,

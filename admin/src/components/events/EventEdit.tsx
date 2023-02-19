@@ -14,7 +14,7 @@ import { updateSchema } from '../../validation/events';
 import { PosterField } from '../customFields/PosterField';
 import EventTitle from './EventTitle';
 
-export const EventEdit = () => (
+const EventEdit = () => (
   <Edit title={<EventTitle />}>
     <SimpleForm resolver={updateSchema}>
       <TextInput source="name" />
