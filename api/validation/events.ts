@@ -12,6 +12,7 @@ const createSchema = Joi.object().keys({
   publishDate: Joi.date().iso().min('now').less(Joi.ref('date')).required(),
   latitude: Joi.number().required().min(COORDINATES.min).max(COORDINATES.max),
   longitude: Joi.number().required().min(COORDINATES.min).max(COORDINATES.max),
+  companyId: Joi.number().positive().required(),
   formatId: Joi.number().positive().required(),
   themeId: Joi.number().positive().required(),
 });

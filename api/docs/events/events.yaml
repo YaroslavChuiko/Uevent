@@ -71,14 +71,6 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
-  /companies/{id}/events:
-    parameters:
-      - name: id
-        in: path
-        schema:
-          type: integer
-        required: true
-        description: The id of the event
     post:
       tags:
         - Events

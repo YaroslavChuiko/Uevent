@@ -9,7 +9,7 @@ const comment = prisma.comment;
 const promoCode = prisma.promoCode;
 
 const checkUserCompanyRights = async (req: Request, res: Response, next: NextFunction) => {
-  const companyId = Number(req.params.id);
+  const companyId = req.body.companyId || Number(req.params.id);
   const { id: userId, role } = req.user as User;
 
   const found = await company.findUnique({

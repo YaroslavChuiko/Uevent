@@ -31,7 +31,6 @@ const subscribeToEvent = async (req: Request, res: Response) => {
 const createEvent = async (req: Request, res: Response) => {
   const data = req.body;
   const { publishDate, date } = data;
-  const companyId = Number(req.params.id);
 
   await Promise.all([
     EventService.checkUniqueEventName(data.name),
@@ -40,10 +39,7 @@ const createEvent = async (req: Request, res: Response) => {
   ]);
 
   const newEvent = await event.create({
-    data: {
-      ...data,
-      companyId,
-    },
+    data,
     include: { format: true, theme: true },
   });
 
