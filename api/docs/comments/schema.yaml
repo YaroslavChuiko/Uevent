@@ -27,7 +27,16 @@ definitions:
         type: integer
       eventId:
         type: integer
-  comment_create_update: 
+  comment_create:
+    type: object
+    properties:
+      eventId:
+        type: integer
+        required: true
+      content:
+        type: string
+        required: true
+  comment_update:
     type: object
     properties:
       content:

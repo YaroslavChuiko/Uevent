@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
-import ClientError from "../types/error";
-import { User, Prisma } from "@prisma/client";
+import ClientError from '../types/error';
+import { User, Prisma } from '@prisma/client';
 import { getPageOptions, getSortOptions } from '../utils/query-options';
 
 const event = prisma.event;
@@ -14,12 +14,14 @@ const checkEventId = async (id: number) => {
   }
 };
 
-type TQueryParams = {
-  id?: string | string[];
-  userId?: string;
-  eventId?: string;
-  q?: string;
-} | undefined;
+type TQueryParams =
+  | {
+      id?: string | string[];
+      userId?: string;
+      eventId?: string;
+      q?: string;
+    }
+  | undefined;
 
 function getWhereOptions(queryParams: TQueryParams) {
   const where: Prisma.CommentWhereInput = { AND: [] };
@@ -30,43 +32,47 @@ function getWhereOptions(queryParams: TQueryParams) {
 
   if (id) {
     let idNum = Array.isArray(id) ? id.map((item) => Number(item)) : [Number(id)];
-    Array.isArray(where.AND) && where.AND.push({
-      id: { in: idNum },
-    });
+    Array.isArray(where.AND) &&
+      where.AND.push({
+        id: { in: idNum },
+      });
   }
   if (userId) {
-    Array.isArray(where.AND) && where.AND.push({
-      userId: Number(userId)
-    });
+    Array.isArray(where.AND) &&
+      where.AND.push({
+        userId: Number(userId),
+      });
   }
   if (eventId) {
-    Array.isArray(where.AND) && where.AND.push({
-      eventId: Number(eventId)
-    });
+    Array.isArray(where.AND) &&
+      where.AND.push({
+        eventId: Number(eventId),
+      });
   }
   if (q) {
-    Array.isArray(where.AND) && where.AND.push({
-      content: {
-				contains: q
-			}
-    });
+    Array.isArray(where.AND) &&
+      where.AND.push({
+        content: {
+          contains: q,
+        },
+      });
   }
   return where;
 }
 
 const getComments = async (req: Request, res: Response) => {
-	const where = getWhereOptions(req.query);
+  const where = getWhereOptions(req.query);
 
   const [count, comments] = await prisma.$transaction([
     comment.count({ where }),
     comment.findMany({
       where,
       ...getPageOptions(req.query),
-      ...getSortOptions(req.query, 'id')
+      ...getSortOptions(req.query, 'id'),
     }),
   ]);
 
-  res.header("X-Total-Count", `${count}`).json(comments);
+  res.header('X-Total-Count', `${count}`).json(comments);
 };
 
 const getCommentById = async (req: Request, res: Response) => {
@@ -74,8 +80,8 @@ const getCommentById = async (req: Request, res: Response) => {
 
   const found = await comment.findFirst({
     where: {
-      id: commentId
-    }
+      id: commentId,
+    },
   });
   if (!found) {
     throw new ClientError('The comment is not found.', 404);
@@ -85,17 +91,16 @@ const getCommentById = async (req: Request, res: Response) => {
 };
 
 const createComment = async (req: Request, res: Response) => {
-	const content = req.body.content;
-	const { id: userId } = req.user as User;
-	const eventId = Number(req.params.id);
+  const { id: userId } = req.user as User;
+  const { eventId, content } = req.body;
 
-	await checkEventId(eventId);
+  await checkEventId(eventId);
 
-	const newComment = await comment.create({
+  const newComment = await comment.create({
     data: {
       content,
       userId,
-			eventId
+      eventId,
     },
   });
 
@@ -103,15 +108,15 @@ const createComment = async (req: Request, res: Response) => {
 };
 
 const updateComment = async (req: Request, res: Response) => {
-	const content = req.body.content;
+  const content = req.body.content;
   const commentId = Number(req.params.id);
 
-	const updatedComment = await comment.update({
+  const updatedComment = await comment.update({
     where: {
-      id: commentId
+      id: commentId,
     },
     data: {
-    	content
+      content,
     },
   });
 
@@ -129,4 +134,3 @@ const deleteComment = async (req: Request, res: Response) => {
 };
 
 export { getComments, getCommentById, createComment, updateComment, deleteComment };
-

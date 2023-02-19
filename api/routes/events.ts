@@ -1,5 +1,4 @@
 import express from 'express';
-import { createComment } from '../controllers/comments';
 import {
   createEvent,
   deleteEvent,
@@ -17,10 +16,13 @@ import { checkUserCompanyRights, checkUserEventRights } from '../middleware/chec
 import boundary from '../utils/error-boundary';
 import fileUpload from '../utils/file-upload';
 import validate from '../utils/validation';
-import { createUpdateSchema as createUpdateCommentSchema } from '../validation/comments';
-import { eventSubSchema, ticketSchema, updateSchema } from '../validation/events';
+import {
+  createSchema as createEventSchema,
+  eventSubSchema,
+  ticketSchema,
+  updateSchema,
+} from '../validation/events';
 import { createSchema as createPromoCodeSchema } from '../validation/promo-codes';
-import { createSchema as createEventSchema } from '../validation/events';
 
 const router = express.Router();
 
@@ -39,8 +41,6 @@ router.put(
   boundary(updatePoster),
 );
 router.delete('/:id/poster', checkUserEventRights, boundary(deletePoster));
-
-router.post('/:id/comments', validate(createUpdateCommentSchema), boundary(createComment));
 
 router.post(
   '/:id/promo-codes',
