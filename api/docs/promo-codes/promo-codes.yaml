@@ -69,14 +69,6 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
-  /events/{id}/promo-codes:
-    parameters:
-      - name: id
-        in: path
-        schema:
-          type: integer
-        required: true
-        description: The id of the event
     post:
       tags:
         - Promo codes

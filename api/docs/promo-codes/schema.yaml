@@ -23,16 +23,19 @@ definitions:
         type: number
       eventId:
         type: integer
-  promo-code_create: 
+  promo-code_create:
     type: object
     properties:
+      eventId:
+        type: integer
+        required: true
       promoCode:
         type: string
         required: true
       discount:
         type: number
         required: true
-  promo-code_update: 
+  promo-code_update:
     type: object
     properties:
       promoCode:

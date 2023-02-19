@@ -10,7 +10,6 @@ import {
   updatePoster,
 } from '../controllers/events';
 import { createSession } from '../controllers/payment';
-import { createPromoCode } from '../controllers/promo-codes';
 import auth from '../middleware/auth';
 import { checkUserCompanyRights, checkUserEventRights } from '../middleware/check-rights';
 import boundary from '../utils/error-boundary';
@@ -22,7 +21,6 @@ import {
   ticketSchema,
   updateSchema,
 } from '../validation/events';
-import { createSchema as createPromoCodeSchema } from '../validation/promo-codes';
 
 const router = express.Router();
 
@@ -41,13 +39,6 @@ router.put(
   boundary(updatePoster),
 );
 router.delete('/:id/poster', checkUserEventRights, boundary(deletePoster));
-
-router.post(
-  '/:id/promo-codes',
-  checkUserEventRights,
-  validate(createPromoCodeSchema),
-  boundary(createPromoCode),
-);
 
 router.post('/:id/checkout', validate(ticketSchema), boundary(createSession));
 router.post('/:id/subscribe', validate(eventSubSchema), boundary(subscribeToEvent));

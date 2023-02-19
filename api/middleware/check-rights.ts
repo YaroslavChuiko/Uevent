@@ -25,7 +25,7 @@ const checkUserCompanyRights = async (req: Request, res: Response, next: NextFun
 };
 
 const checkUserEventRights = async (req: Request, res: Response, next: NextFunction) => {
-  const eventId = Number(req.params.id);
+  const eventId = req.body.eventId || Number(req.params.id);
   const { id: userId, role } = req.user as User;
 
   let found = await event.findUnique({
