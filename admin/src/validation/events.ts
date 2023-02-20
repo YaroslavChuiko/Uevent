@@ -4,6 +4,7 @@ import { COORDINATES, EVENT_NAME_LENGTH } from '../consts/validation';
 
 const createSchema = yupResolver(
   Yup.object().shape({
+    companyId: Yup.number().positive().required(),
     name: Yup.string().required().min(EVENT_NAME_LENGTH.min).max(EVENT_NAME_LENGTH.max),
     description: Yup.string().required(),
     price: Yup.number().positive().required(),
