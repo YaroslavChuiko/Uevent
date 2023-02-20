@@ -1,9 +1,7 @@
 import {
   BooleanField,
   ChipField,
-  Datagrid,
   DateField,
-  EditButton,
   NumberField,
   Pagination,
   ReferenceField,
@@ -17,6 +15,7 @@ import {
 } from 'react-admin';
 import { PosterField } from '../customFields/PosterField';
 import EventTitle from './EventTitle';
+import CommentsDatagrid from '../comments/CommentsDatagrid';
 
 const EventShow = () => (
   <Show title={<EventTitle />}>
@@ -48,16 +47,7 @@ const EventShow = () => (
       </Tab>
       <Tab label="Comments" path="comments">
         <ReferenceManyField reference="comments" target="eventId" pagination={<Pagination />} label={false}>
-          <Datagrid rowClick="show">
-            <TextField source="id" />
-            <ReferenceField source="eventId" reference="events" />
-            <ReferenceField label="Author" source="userId" reference="users">
-              <TextField source="login" />
-            </ReferenceField>
-            <TextField source="content" />
-            <DateField label="Publication date" source="publishDate" locales="uk-UA" showTime />
-            <EditButton />
-          </Datagrid>
+          <CommentsDatagrid />
         </ReferenceManyField>
       </Tab>
     </TabbedShowLayout>
