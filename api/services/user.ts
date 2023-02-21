@@ -54,14 +54,14 @@ const UserService = {
   },
 
   async updateAvatar(id: number, picturePath: string) {
-    const toUpdate = await user.findUnique({ where: { id } });
+    const toUpdate = await this.findOrThrow(id);
     await Avatar.removeFrom(toUpdate);
 
     await user.update({ data: { picturePath }, where: { id } });
   },
 
   async deleteAvatar(id: number) {
-    const toUpdate = await user.findUnique({ where: { id } });
+    const toUpdate = await this.findOrThrow(id);
     await Avatar.removeFrom(toUpdate);
 
     await user.update({ data: { picturePath: null }, where: { id } });
