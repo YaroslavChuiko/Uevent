@@ -6,6 +6,7 @@ import companies from './components/companies';
 import events from './components/events';
 import { formats, themes } from './components/formats-themes';
 import comments from './components/comments';
+import users from './components/users';
 
 const App = () => (
   <Admin dataProvider={dataProvider} authProvider={authProvider} requireAuth>
@@ -14,6 +15,7 @@ const App = () => (
     <Resource name="formats" {...formats} />
     <Resource name="themes" {...themes} />
     <Resource name="comments" {...comments} />
+    <Resource name="users" {...users} />
   </Admin>
 );
 
