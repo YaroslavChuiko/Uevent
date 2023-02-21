@@ -21,7 +21,8 @@ export default {
       await updateAvatar(params);
     }
 
-    const { data } = params;
+    const { login, fullName, email, role } = params.data;
+    const data = { login, fullName, email, role };
 
     return { ...params, data };
   },
