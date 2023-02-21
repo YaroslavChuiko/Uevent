@@ -1,6 +1,7 @@
 export const LOGIN_LENGTH = { min: 4, max: 20 };
 export const FULL_NAME_LENGTH = { min: 4, max: 30 };
 export const PASSWORD_LENGTH = { min: 8, max: 20 };
+export const ROLE_ENUM = ['user', 'admin'];
 
 export const EVENT_NAME_LENGTH = { min: 5, max: 100 };
 export const COMPANY_NAME_LENGTH = { min: 4, max: 100 };

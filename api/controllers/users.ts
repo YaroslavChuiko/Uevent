@@ -64,7 +64,7 @@ const deleteUser = async (req: Request, res: Response) => {
 
   await user.delete({ where: { id } });
 
-  res.sendStatus(204);
+  res.json({ id });
 };
 
 const updateUserAvatar = async (req: Request, res: Response) => {

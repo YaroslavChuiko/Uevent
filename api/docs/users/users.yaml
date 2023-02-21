@@ -163,8 +163,12 @@ paths:
         - bearerAuth: []
       description: Remove the user by id
       responses:
-        204:
+        200:
           description: Removed the user by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/user_id'
         404:
           description: The user was not found by id
           content:
