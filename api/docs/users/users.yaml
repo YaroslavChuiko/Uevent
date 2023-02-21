@@ -136,8 +136,12 @@ paths:
             schema:
               $ref: '#definitions/user_update'
       responses:
-        204:
+        200:
           description: Updated the user by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/user_id'
         404:
           description: The user was not found by id
           content:

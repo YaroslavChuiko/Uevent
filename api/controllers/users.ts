@@ -52,7 +52,7 @@ const updateUser = async (req: Request, res: Response) => {
 
   await UserService.update(id, data);
 
-  res.sendStatus(204);
+  res.json({ id });
 };
 
 const deleteUser = async (req: Request, res: Response) => {

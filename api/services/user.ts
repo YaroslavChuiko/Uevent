@@ -16,8 +16,13 @@ interface IUser {
 }
 
 const UserService = {
-  async checkFor(key: string, value: string) {
-    const exists = await user.findUnique({ where: { [key]: value } });
+  async checkFor(key: string, value: string, id: number = 0) {
+    const exists = await user.findFirst({
+      where: {
+        [key]: value,
+        NOT: { id },
+      },
+    });
     if (exists) {
       throw new ClientError(`The user with this ${key} already exists.`, 400);
     }
@@ -47,8 +52,12 @@ const UserService = {
   },
 
   async update(id: number, data: IUser) {
-    await UserService.checkFor('login', data.login);
-    await UserService.checkFor('email', data.email);
+    if (data.login) {
+      await UserService.checkFor('login', data.login, id);
+    }
+    if (data.email) {
+      await UserService.checkFor('email', data.email, id);
+    }
 
     await user.update({ where: { id }, data });
   },
