@@ -67,4 +67,25 @@ const deleteUser = async (req: Request, res: Response) => {
   res.sendStatus(204);
 };
 
-export { getMany, createUser, getUser, updateUser, deleteUser };
+const updateUserAvatar = async (req: Request, res: Response) => {
+  if (!req.file) {
+    throw new ClientError('Please provide a valid file.', 400);
+  }
+
+  const picturePath = req.file.filename;
+  const id = Number(req.params.id);
+
+  await UserService.updateAvatar(id, picturePath);
+
+  res.sendStatus(204);
+};
+
+const deleteUserAvatar = async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+
+  await UserService.deleteAvatar(id);
+
+  res.sendStatus(204);
+};
+
+export { getMany, createUser, getUser, updateUser, deleteUser, updateUserAvatar, deleteUserAvatar };

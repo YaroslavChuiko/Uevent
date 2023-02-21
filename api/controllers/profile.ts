@@ -37,10 +37,7 @@ const updateUserAvatar = async (req: Request, res: Response) => {
   const picturePath = req.file.filename;
   const { id } = req.user as User;
 
-  const toUpdate = await user.findUnique({ where: { id } });
-  await Avatar.removeFrom(toUpdate);
-
-  await user.update({ data: { picturePath }, where: { id } });
+  await UserService.updateAvatar(id, picturePath);
 
   res.sendStatus(204);
 };
@@ -48,10 +45,7 @@ const updateUserAvatar = async (req: Request, res: Response) => {
 const deleteUserAvatar = async (req: Request, res: Response) => {
   const { id } = req.user as User;
 
-  const toUpdate = await user.findUnique({ where: { id } });
-  await Avatar.removeFrom(toUpdate);
-
-  await user.update({ data: { picturePath: null }, where: { id } });
+  await UserService.deleteAvatar(id);
 
   res.sendStatus(204);
 };

@@ -183,3 +183,52 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
+  /users/{id}/avatar:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+        description: The id of the record to query
+    put:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      description: Update the user's avatar
+      parameters:
+        - in: formData
+          name: avatar
+          type: file
+          description: The file to upload.
+      responses:
+        204:
+          description: Updated the user's avatar
+        400:
+          description: The format of the file is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    delete:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      description: Remove the user's avatar
+      responses:
+        204:
+          description: Removed the user's avatar
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'

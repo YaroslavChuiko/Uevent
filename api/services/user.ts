@@ -2,6 +2,7 @@ import templates from '../consts/email';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
 import { hashPassword } from '../utils/password';
+import Avatar from './avatar';
 import Email from './email';
 import Token from './token';
 
@@ -50,6 +51,20 @@ const UserService = {
     await UserService.checkFor('email', data.email);
 
     await user.update({ where: { id }, data });
+  },
+
+  async updateAvatar(id: number, picturePath: string) {
+    const toUpdate = await user.findUnique({ where: { id } });
+    await Avatar.removeFrom(toUpdate);
+
+    await user.update({ data: { picturePath }, where: { id } });
+  },
+
+  async deleteAvatar(id: number) {
+    const toUpdate = await user.findUnique({ where: { id } });
+    await Avatar.removeFrom(toUpdate);
+
+    await user.update({ data: { picturePath: null }, where: { id } });
   },
 };
 
