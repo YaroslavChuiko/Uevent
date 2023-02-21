@@ -16,13 +16,12 @@ async function updateAvatar(params: any) {
 
 export default {
   resource: 'users',
-  beforeUpdate: async (params: any, dataProvider: any) => {
+  beforeUpdate: async (params: any, _dataProvider: any) => {
     if (params.data.avatar) {
       await updateAvatar(params);
     }
 
     const { data } = params;
-    console.log(data);
 
     return { ...params, data };
   },
