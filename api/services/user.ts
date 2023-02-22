@@ -1,7 +1,10 @@
+import { Prisma } from '@prisma/client';
 import templates from '../consts/email';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
 import { hashPassword } from '../utils/password';
+import { QueryParams } from '../utils/query-options';
+import Avatar from './avatar';
 import Email from './email';
 import Token from './token';
 
@@ -15,8 +18,13 @@ interface IUser {
 }
 
 const UserService = {
-  async checkFor(key: string, value: string) {
-    const exists = await user.findUnique({ where: { [key]: value } });
+  async checkFor(key: string, value: string, id: number = 0) {
+    const exists = await user.findFirst({
+      where: {
+        [key]: value,
+        NOT: { id },
+      },
+    });
     if (exists) {
       throw new ClientError(`The user with this ${key} already exists.`, 400);
     }
@@ -46,10 +54,49 @@ const UserService = {
   },
 
   async update(id: number, data: IUser) {
-    await UserService.checkFor('login', data.login);
-    await UserService.checkFor('email', data.email);
+    if (data.login) {
+      await UserService.checkFor('login', data.login, id);
+    }
+    if (data.email) {
+      await UserService.checkFor('email', data.email, id);
+    }
 
     await user.update({ where: { id }, data });
+  },
+
+  async updateAvatar(id: number, picturePath: string) {
+    const toUpdate = await this.findOrThrow(id);
+    await Avatar.removeFrom(toUpdate);
+
+    await user.update({ data: { picturePath }, where: { id } });
+  },
+
+  async deleteAvatar(id: number) {
+    const toUpdate = await this.findOrThrow(id);
+    await Avatar.removeFrom(toUpdate);
+
+    await user.update({ data: { picturePath: null }, where: { id } });
+  },
+
+  getWhereOptions(params: QueryParams) {
+    const where: Prisma.UserWhereInput = { AND: [] };
+
+    if (params && params.q) {
+      const { q } = params;
+      Array.isArray(where.AND) &&
+        where.AND.push({
+          OR: [
+            {
+              login: { contains: q },
+            },
+            {
+              email: { contains: q },
+            },
+          ],
+        });
+    }
+
+    return where;
   },
 };
 

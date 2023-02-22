@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { LOGIN_LENGTH, FULL_NAME_LENGTH, PASSWORD_LENGTH } from '../consts/validation';
+import { LOGIN_LENGTH, FULL_NAME_LENGTH, PASSWORD_LENGTH, ROLE_ENUM } from '../consts/validation';
 
 const loginSchema = Joi.object().keys({
   login: Joi.string().required(),
@@ -22,10 +22,16 @@ const resetPasswordSchema = Joi.object().keys({
 });
 
 const updateSchema = Joi.object().keys({
-  login: Joi.string().required().min(LOGIN_LENGTH.min).max(LOGIN_LENGTH.max),
-  email: Joi.string().required().email(),
-  fullName: Joi.string().required().min(FULL_NAME_LENGTH.min).max(FULL_NAME_LENGTH.max),
+  login: Joi.string().min(LOGIN_LENGTH.min).max(LOGIN_LENGTH.max),
+  email: Joi.string().email(),
+  fullName: Joi.string().min(FULL_NAME_LENGTH.min).max(FULL_NAME_LENGTH.max),
 });
+
+const role = Joi.string().valid(...ROLE_ENUM);
+
+const createSchema = registerSchema.keys({ role });
+
+const adminUpdateSchema = updateSchema.keys({ role });
 
 export {
   loginSchema,
@@ -33,4 +39,6 @@ export {
   sendPasswordConfirmationSchema,
   resetPasswordSchema,
   updateSchema,
+  createSchema,
+  adminUpdateSchema,
 };

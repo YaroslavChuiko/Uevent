@@ -18,10 +18,12 @@ const createUser = async (req: Request, res: Response) => {
 const getMany = async (req: Request, res: Response) => {
   const pagination = getPageOptions(req.query);
   const sort = getSortOptions(req.query, 'login');
+  const where = UserService.getWhereOptions(req.query);
   const [users, count] = await prisma.$transaction([
     user.findMany({
       ...pagination,
       ...sort,
+      where,
     }),
     user.count(),
   ]);
@@ -52,7 +54,7 @@ const updateUser = async (req: Request, res: Response) => {
 
   await UserService.update(id, data);
 
-  res.sendStatus(204);
+  res.json({ id });
 };
 
 const deleteUser = async (req: Request, res: Response) => {
@@ -64,7 +66,28 @@ const deleteUser = async (req: Request, res: Response) => {
 
   await user.delete({ where: { id } });
 
+  res.json({ id });
+};
+
+const updateUserAvatar = async (req: Request, res: Response) => {
+  if (!req.file) {
+    throw new ClientError('Please provide a valid file.', 400);
+  }
+
+  const picturePath = req.file.filename;
+  const id = Number(req.params.id);
+
+  await UserService.updateAvatar(id, picturePath);
+
   res.sendStatus(204);
 };
 
-export { getMany, createUser, getUser, updateUser, deleteUser };
+const deleteUserAvatar = async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+
+  await UserService.deleteAvatar(id);
+
+  res.sendStatus(204);
+};
+
+export { getMany, createUser, getUser, updateUser, deleteUser, updateUserAvatar, deleteUserAvatar };

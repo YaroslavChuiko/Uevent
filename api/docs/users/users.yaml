@@ -30,6 +30,11 @@ paths:
               - ASC
               - DESC
           description: The sorting order
+        - name: q
+          in: query
+          schema:
+            type: string
+          description: The string for general search by login / email
       responses:
         200:
           description: All registered users found
@@ -136,8 +141,12 @@ paths:
             schema:
               $ref: '#definitions/user_update'
       responses:
-        204:
+        200:
           description: Updated the user by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/user_id'
         404:
           description: The user was not found by id
           content:
@@ -163,8 +172,12 @@ paths:
         - bearerAuth: []
       description: Remove the user by id
       responses:
-        204:
+        200:
           description: Removed the user by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/user_id'
         404:
           description: The user was not found by id
           content:
@@ -179,6 +192,55 @@ paths:
                 $ref: '#definitions/error'
         403:
           description: You do not have admin rights
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+  /users/{id}/avatar:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+        description: The id of the record to query
+    put:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      description: Update the user's avatar
+      parameters:
+        - in: formData
+          name: avatar
+          type: file
+          description: The file to upload.
+      responses:
+        204:
+          description: Updated the user's avatar
+        400:
+          description: The format of the file is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    delete:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      description: Remove the user's avatar
+      responses:
+        204:
+          description: Removed the user's avatar
+        401:
+          description: Bearer token is invalid
           content:
             application/json; charset=utf-8:
               schema:

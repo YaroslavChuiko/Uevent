@@ -5,6 +5,7 @@ type QueryParams = {
   _end?: string;
   _sort?: string;
   _order?: 'ASC' | 'DESC';
+  q?: string;
 };
 
 const DEFAULT_PAGE_OPTIONS = {
