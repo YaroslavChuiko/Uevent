@@ -7,6 +7,7 @@ import events from './components/events';
 import { formats, themes } from './components/formats-themes';
 import comments from './components/comments';
 import users from './components/users';
+import promoCodes from './components/promo-codes';
 
 const App = () => (
   <Admin dataProvider={dataProvider} authProvider={authProvider} requireAuth>
@@ -16,6 +17,7 @@ const App = () => (
     <Resource name="themes" {...themes} />
     <Resource name="comments" {...comments} />
     <Resource name="users" {...users} />
+    <Resource name="promo-codes" {...promoCodes} />
   </Admin>
 );
 

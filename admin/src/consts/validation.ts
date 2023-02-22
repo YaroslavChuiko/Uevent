@@ -9,3 +9,6 @@ export const FULL_NAME_LENGTH = { min: 4, max: 30 };
 export const PASSWORD_LENGTH = { min: 8, max: 20 };
 export const ROLE_ENUM = ['user', 'admin'];
 export const ROLE_OPTIONS = ROLE_ENUM.map((r) => ({ id: r, name: r }));
+
+export const PROMO_CODE_LENGTH = { min: 4, max: 50 };
+export const DISCOUNT = { min: 1, max: 90 };
