@@ -199,8 +199,15 @@ paths:
         - bearerAuth: []
       description: Remove the promo code by id
       responses:
-        204:
+        200:
           description: Promo code was removed
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
         401:
           description: Bearer token is invalid
           content:

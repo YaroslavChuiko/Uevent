@@ -143,13 +143,13 @@ const updatePromoCode = async (req: Request, res: Response) => {
 };
 
 const deletePromoCode = async (req: Request, res: Response) => {
-  const promoCodeId = Number(req.params.id);
+  const id = Number(req.params.id);
 
   await promoCode.delete({
-    where: { id: promoCodeId },
+    where: { id },
   });
 
-  res.status(204).send();
+  res.json({ id });
 };
 
 export { getPromoCodes, getPromoCodeById, createPromoCode, updatePromoCode, deletePromoCode };
