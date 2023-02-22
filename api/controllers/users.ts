@@ -18,10 +18,12 @@ const createUser = async (req: Request, res: Response) => {
 const getMany = async (req: Request, res: Response) => {
   const pagination = getPageOptions(req.query);
   const sort = getSortOptions(req.query, 'login');
+  const where = UserService.getWhereOptions(req.query);
   const [users, count] = await prisma.$transaction([
     user.findMany({
       ...pagination,
       ...sort,
+      where,
     }),
     user.count(),
   ]);

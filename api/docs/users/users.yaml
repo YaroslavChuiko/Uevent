@@ -30,6 +30,11 @@ paths:
               - ASC
               - DESC
           description: The sorting order
+        - name: q
+          in: query
+          schema:
+            type: string
+          description: The string for general search by login / email
       responses:
         200:
           description: All registered users found

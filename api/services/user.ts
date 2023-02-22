@@ -1,7 +1,9 @@
+import { Prisma } from '@prisma/client';
 import templates from '../consts/email';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
 import { hashPassword } from '../utils/password';
+import { QueryParams } from '../utils/query-options';
 import Avatar from './avatar';
 import Email from './email';
 import Token from './token';
@@ -74,6 +76,27 @@ const UserService = {
     await Avatar.removeFrom(toUpdate);
 
     await user.update({ data: { picturePath: null }, where: { id } });
+  },
+
+  getWhereOptions(params: QueryParams) {
+    const where: Prisma.UserWhereInput = { AND: [] };
+
+    if (params && params.q) {
+      const { q } = params;
+      Array.isArray(where.AND) &&
+        where.AND.push({
+          OR: [
+            {
+              login: { contains: q },
+            },
+            {
+              email: { contains: q },
+            },
+          ],
+        });
+    }
+
+    return where;
   },
 };
 
