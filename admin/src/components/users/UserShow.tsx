@@ -1,20 +1,18 @@
 import {
   BooleanField,
   ChipField,
-  DateField,
   NumberField,
   Pagination,
-  ReferenceField,
   ReferenceManyField,
-  RichTextField,
   Show,
   SimpleShowLayout,
   Tab,
   TabbedShowLayout,
   TextField,
 } from 'react-admin';
+import CommentsDatagrid from '../comments/CommentsDatagrid';
+import CompaniesDatagrid from '../companies/CompaniesDatagrid';
 import { AvatarField } from '../customFields/AvatarField';
-import { PosterField } from '../customFields/PosterField';
 import UserTitle from './UserTitle';
 
 const UserShow = () => (
@@ -30,6 +28,16 @@ const UserShow = () => (
           <ChipField source="role" />
           <AvatarField source="picturePath" label="Avatar" />
         </SimpleShowLayout>
+      </Tab>
+      <Tab label="Comments">
+        <ReferenceManyField reference="comments" target="userId" pagination={<Pagination />} label={false}>
+          <CommentsDatagrid />
+        </ReferenceManyField>
+      </Tab>
+      <Tab label="Companies">
+        <ReferenceManyField reference="companies" target="creatorId" pagination={<Pagination />} label={false}>
+          <CompaniesDatagrid />
+        </ReferenceManyField>
       </Tab>
     </TabbedShowLayout>
   </Show>
