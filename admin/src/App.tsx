@@ -17,7 +17,7 @@ const App = () => (
     <Resource name="themes" {...themes} />
     <Resource name="comments" {...comments} />
     <Resource name="users" {...users} />
-    <Resource name="promo-codes" {...promoCodes} />
+    <Resource name="promo-codes" options={{ label: 'Promo Codes' }} {...promoCodes} />
   </Admin>
 );
 
