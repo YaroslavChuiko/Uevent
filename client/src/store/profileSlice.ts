@@ -32,8 +32,7 @@ const profileSlice = createSlice({
       state.user = user;
     },
     logout(state) {
-      state.user = initialState.user;
-      state.accessToken = null;
+      state = initialState;
     },
   },
 });
