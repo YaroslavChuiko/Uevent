@@ -1,8 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
+import ProfilePage from '~/pages/Profile/Profile';
 
 const ProfileRoutes = () => (
   <Routes>
-    <Route index element={<div>something</div>}></Route>;
+    <Route index element={<ProfilePage />}></Route>;
   </Routes>
 );
 
