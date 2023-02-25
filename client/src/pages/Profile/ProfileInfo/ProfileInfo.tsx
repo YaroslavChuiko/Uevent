@@ -1,4 +1,4 @@
-import { DeleteIcon, EditIcon, LockIcon } from '@chakra-ui/icons';
+import { EditIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
@@ -17,25 +17,14 @@ import {
   Wrap,
 } from '@chakra-ui/react';
 import { useAppSelector } from '~/hooks/use-app-selector';
-import { useLogoutMutation } from '~/store/api/authSlice';
-import { profileLinks as links } from './const';
-import useCustomToast from '~/hooks/use-custom-toast';
+import { profileLinks as links } from '../const';
 import styles from './profile-info.styles';
+import DangerZone from './DangerZone';
 
 const ProfileInfo = () => {
   const { user } = useAppSelector((state) => state.profile);
-  const [logout, { isLoading }] = useLogoutMutation();
-  const { toast } = useCustomToast();
 
   const avatarSrc = `${import.meta.env.VITE_API_URL}/${user.picturePath}`;
-
-  const logoutHandler = async () => {
-    try {
-      await logout(null).unwrap();
-    } catch (error: any) {
-      toast(error.data.message, 'error');
-    }
-  };
 
   return (
     <Card sx={styles.card} variant="outline">
@@ -90,21 +79,7 @@ const ProfileInfo = () => {
             <Heading size="xs" textTransform="uppercase">
               Danger zone
             </Heading>
-            <Wrap mt="4" spacing="4">
-              <LinkBox maxW="sm">
-                <Button leftIcon={<LockIcon />} colorScheme="blue" variant="outline">
-                  <LinkOverlay isExternal href="/password-reset">
-                    Reset password
-                  </LinkOverlay>
-                </Button>
-              </LinkBox>
-              <Button colorScheme="red" variant="outline" isLoading={isLoading} onClick={logoutHandler}>
-                Logout
-              </Button>
-              <Button leftIcon={<DeleteIcon />} colorScheme="red">
-                Delete my account
-              </Button>
-            </Wrap>
+            <DangerZone />
           </Box>
         </Stack>
       </CardBody>

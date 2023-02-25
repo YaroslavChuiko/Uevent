@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import ProfileInfo from './ProfileInfo';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 
 const ProfilePage = () => {
   return (
