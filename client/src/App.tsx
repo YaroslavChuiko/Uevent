@@ -6,6 +6,7 @@ import SendPasswordConfirmation from './pages/Auth/SendPasswordConfirmation';
 import PasswordReset from './pages/Auth/PasswordReset';
 import ProfileRoutes from './routes/Profile';
 import Layout from './components/Layout/Layout';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
         <Route path="/confirm-password-reset" element={<SendPasswordConfirmation />} />
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/" element={<Layout />}>
-          <Route path="profile/*" element={<ProfileRoutes />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="profile/*" element={<ProfileRoutes />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

@@ -17,13 +17,25 @@ import {
   Wrap,
 } from '@chakra-ui/react';
 import { useAppSelector } from '~/hooks/use-app-selector';
+import { useLogoutMutation } from '~/store/api/authSlice';
 import { profileLinks as links } from './const';
+import useCustomToast from '~/hooks/use-custom-toast';
 import styles from './profile-info.styles';
 
 const ProfileInfo = () => {
   const { user } = useAppSelector((state) => state.profile);
+  const [logout, { isLoading }] = useLogoutMutation();
+  const { toast } = useCustomToast();
 
   const avatarSrc = `${import.meta.env.VITE_API_URL}/${user.picturePath}`;
+
+  const logoutHandler = async () => {
+    try {
+      await logout(null).unwrap();
+    } catch (error: any) {
+      toast(error.data.message, 'error');
+    }
+  };
 
   return (
     <Card sx={styles.card} variant="outline">
@@ -86,6 +98,9 @@ const ProfileInfo = () => {
                   </LinkOverlay>
                 </Button>
               </LinkBox>
+              <Button colorScheme="red" variant="outline" isLoading={isLoading} onClick={logoutHandler}>
+                Logout
+              </Button>
               <Button leftIcon={<DeleteIcon />} colorScheme="red">
                 Delete my account
               </Button>
