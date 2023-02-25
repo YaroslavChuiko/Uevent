@@ -1,6 +1,6 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/dist/query';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { logout, setCredentials } from '../profileSlice';
+import { logout, setToken } from '../profileSlice';
 import type { RootState } from '../store';
 
 const baseQuery = fetchBaseQuery({
@@ -32,7 +32,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
       extraOptions,
     );
     if (refreshResult.data) {
-      api.dispatch(setCredentials(refreshResult.data));
+      api.dispatch(setToken(refreshResult.data));
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logout());

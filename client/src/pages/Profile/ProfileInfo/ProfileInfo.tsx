@@ -18,10 +18,14 @@ import {
 } from '@chakra-ui/react';
 import { useAppSelector } from '~/hooks/use-app-selector';
 import { profileLinks as links } from '../const';
-import styles from './profile-info.styles';
+import styles from '../profile-card.styles';
 import DangerZone from './DangerZone';
 
-const ProfileInfo = () => {
+type PropsType = {
+  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const ProfileInfo = ({ setEdit }: PropsType) => {
   const { user } = useAppSelector((state) => state.profile);
 
   const avatarSrc = `${import.meta.env.VITE_API_URL}/${user.picturePath}`;
@@ -38,7 +42,9 @@ const ProfileInfo = () => {
             </Heading>
           </Flex>
           <Flex>
-            <Button leftIcon={<EditIcon />}>Edit</Button>
+            <Button onClick={() => setEdit(true)} leftIcon={<EditIcon />}>
+              Edit
+            </Button>
           </Flex>
         </Flex>
       </CardHeader>
