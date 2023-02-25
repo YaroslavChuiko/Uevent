@@ -63,11 +63,7 @@ const login = async (req: Request, res: Response) => {
   const { accessToken, refreshToken } = generateUserTokens(found);
 
   res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
-  const { password: p, ...toSend } = found;
-  res.json({
-    accessToken,
-    ...toSend
-  });
+  res.json({ accessToken, id: found.id });
 };
 
 const refresh = async (req: Request, res: Response) => {

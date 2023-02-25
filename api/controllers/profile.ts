@@ -8,6 +8,12 @@ import fileUpload from '../utils/file-upload';
 
 const user = prisma.user;
 
+const getProfile = async (req: Request, res: Response) => {
+  const { password, isConfirmed, ...rest } = req.user as User;
+
+  res.json(rest);
+};
+
 const updateProfile = async (req: Request, res: Response) => {
   const { id } = req.user as User;
   const data = req.body;
@@ -39,7 +45,7 @@ const updateUserAvatar = async (req: Request, res: Response) => {
 
   await UserService.updateAvatar(id, picturePath);
 
-  res.sendStatus(204);
+  res.json({ picturePath });
 };
 
 const deleteUserAvatar = async (req: Request, res: Response) => {
@@ -50,4 +56,11 @@ const deleteUserAvatar = async (req: Request, res: Response) => {
   res.sendStatus(204);
 };
 
-export { updateProfile, deleteProfile, uploadPhoto, updateUserAvatar, deleteUserAvatar };
+export {
+  getProfile,
+  updateProfile,
+  deleteProfile,
+  uploadPhoto,
+  updateUserAvatar,
+  deleteUserAvatar,
+};
