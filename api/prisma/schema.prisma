@@ -83,7 +83,7 @@ model Event {
   name              String   @unique @db.VarChar(255)
   description       String   @db.Text
   date              DateTime @db.Timestamp() //? not sure about type
-  price             Int // if price == 0 ticket is free
+  price             Decimal  @db.Decimal(7, 2) // if price == 0 ticket is free
   latitude          Decimal  @db.Decimal(7, 5)
   longitude         Decimal  @db.Decimal(7, 5)
   ticketsAvailable  Int      @map("tickets_available") //? can it be unlimmited
