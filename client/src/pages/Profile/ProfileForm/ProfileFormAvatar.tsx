@@ -46,7 +46,7 @@ const ProfileFormAvatar = ({ avatar }: PropTypes) => {
           <FormErrorMessage>{errors.files && errors?.files.message}</FormErrorMessage>
         </FormControl>
 
-        <Button mt="4" variant="outline" colorScheme="blue" type="submit">
+        <Button mt="4" variant="outline" colorScheme="blue" type="submit" isLoading={isLoading}>
           Submit
         </Button>
       </Flex>

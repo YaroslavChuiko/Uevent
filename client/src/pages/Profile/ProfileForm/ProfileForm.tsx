@@ -69,7 +69,7 @@ const ProfileForm = ({ setEdit }: PropsType) => {
             <FormControl isInvalid={!!errors.login}>
               <FormLabel htmlFor="login">Login</FormLabel>
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<CheckIcon />} />
+                <InputLeftElement pointerEvents="none" children={<CheckIcon color="secondary" />} />
                 <Input id="login" placeholder="Your login" {...register('login')} />
               </InputGroup>
               <FormErrorMessage>{errors.login && errors.login.message}</FormErrorMessage>
@@ -77,7 +77,7 @@ const ProfileForm = ({ setEdit }: PropsType) => {
             <FormControl isInvalid={!!errors.email}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<AtSignIcon />} />
+                <InputLeftElement pointerEvents="none" children={<AtSignIcon color="secondary" />} />
                 <Input id="email" placeholder="Your email" {...register('email')} />
               </InputGroup>
               <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
@@ -85,7 +85,7 @@ const ProfileForm = ({ setEdit }: PropsType) => {
             <FormControl isInvalid={!!errors.fullName}>
               <FormLabel htmlFor="fullName">Full Name</FormLabel>
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<EditIcon />} />
+                <InputLeftElement pointerEvents="none" children={<EditIcon color="secondary" />} />
                 <Input id="fullName" placeholder="Your full name" {...register('fullName')} />
               </InputGroup>
               <FormErrorMessage>{errors.fullName && errors.fullName.message}</FormErrorMessage>

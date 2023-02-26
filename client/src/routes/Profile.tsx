@@ -3,7 +3,7 @@ import ProfilePage from '~/pages/Profile/Profile';
 
 const ProfileRoutes = () => (
   <Routes>
-    <Route index element={<ProfilePage />}></Route>;
+    <Route index element={<ProfilePage />}></Route>
   </Routes>
 );
 
