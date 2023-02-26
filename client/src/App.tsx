@@ -6,11 +6,13 @@ import SendPasswordConfirmation from './pages/Auth/SendPasswordConfirmation';
 import PasswordReset from './pages/Auth/PasswordReset';
 import ProfileRoutes from './routes/Profile';
 import Layout from './components/Layout/Layout';
+import Home from './pages/Home/Home';
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/confirm-email" element={<EmailConfirmation />} />
