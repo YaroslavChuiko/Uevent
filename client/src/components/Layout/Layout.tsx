@@ -1,13 +1,9 @@
+import React from 'react';
 import { Flex } from '@chakra-ui/react';
 import styles from './Layout.styles';
-import { Outlet } from 'react-router-dom';
 
-const Layout = () => {
-  return (
-    <Flex sx={styles.page}>
-      <Outlet />
-    </Flex>
-  );
+const Layout = ({ children }: { children: React.ReactElement | React.ReactElement[] }) => {
+  return <Flex sx={styles.page}>{children}</Flex>;
 };
 
 export default Layout;

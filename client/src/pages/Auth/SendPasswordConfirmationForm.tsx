@@ -1,10 +1,11 @@
 import { useForm } from 'react-hook-form';
-import { FormErrorMessage, FormLabel, FormControl, Input, Button } from '@chakra-ui/react';
+import { FormErrorMessage, FormLabel, FormControl, Input, Button, VStack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { sendPasswordConfirmationSchema } from '~/validation/auth';
 import type { ISendPasswordConfirmation } from '~/validation/auth';
 import { useSendPasswordConfirmationMutation } from '~/store/api/authSlice';
 import useCustomToast from '~/hooks/use-custom-toast';
+import styles from './auth.styles';
 
 const SendPasswordConfirmationForm = () => {
   const [sendPasswordConfirmation, { isLoading }] = useSendPasswordConfirmationMutation();
@@ -29,14 +30,16 @@ const SendPasswordConfirmationForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FormControl isInvalid={!!errors.email} isRequired>
-        <FormLabel htmlFor="email">Email</FormLabel>
-        <Input id="email" placeholder="email" {...register('email')} />
-        <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-      </FormControl>
-      <Button type="submit" isLoading={isLoading} loadingText="Submitting" spinnerPlacement="end">
-        Request password reset
-      </Button>
+      <VStack spacing="4">
+        <FormControl isInvalid={!!errors.email} isRequired>
+          <FormLabel htmlFor="email">Email</FormLabel>
+          <Input id="email" placeholder="email" {...register('email')} />
+          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+        </FormControl>
+        <Button type="submit" sx={styles.button} isLoading={isLoading} loadingText="Submitting" spinnerPlacement="end">
+          Request password reset
+        </Button>
+      </VStack>
     </form>
   );
 };

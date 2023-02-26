@@ -1,5 +1,24 @@
 paths:
   /me/profile:
+    get:
+      tags:
+        - UserProfile
+      security:
+        - bearerAuth: []
+      description: Get the current user's profile info
+      responses:
+        200:
+          description: The user's info
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/user'
+        401:
+          description: Bearer token is invalid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
     put:
       tags:
         - UserProfile
@@ -54,8 +73,15 @@ paths:
           type: file
           description: The file to upload.
       responses:
-        204:
+        200:
           description: Updated the user's avatar
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  picturePath:
+                    type: string
         400:
           description: The format of the file is invalid
           content:

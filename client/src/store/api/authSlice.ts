@@ -1,4 +1,4 @@
-import { logout, setCredentials } from '../profileSlice';
+import { logout, setToken } from '../profileSlice';
 import { apiSlice } from './apiSlice';
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
@@ -19,9 +19,11 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          dispatch(setCredentials(data));
+          dispatch(setToken(data));
+          await dispatch(extendedApiSlice.endpoints.getProfile.initiate(null));
         } catch (error) {}
       },
+      invalidatesTags: ['User'],
     }),
     logout: builder.mutation({
       query: () => ({
