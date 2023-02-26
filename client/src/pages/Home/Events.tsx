@@ -1,4 +1,4 @@
-import Container from '~/components/Container';
+import Container from '~/components/Container/Container';
 import EventList from './EventList';
 import EventsFilter from './EventsFilter';
 
