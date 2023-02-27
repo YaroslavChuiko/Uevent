@@ -1,13 +1,14 @@
-import { SyntheticEvent, useRef, useState } from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { Avatar, InputGroup } from '@chakra-ui/react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 type PropsType = {
   register: UseFormRegisterReturn;
   avatar: string;
+  name: string;
 };
 
-const FileUpload = ({ register, avatar }: PropsType) => {
+const FileUpload = ({ register, avatar, name }: PropsType) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { ref, onChange, ...rest } = register;
   const [preview, setPreview] = useState('');
@@ -19,6 +20,13 @@ const FileUpload = ({ register, avatar }: PropsType) => {
     setPreview(file);
     onChange(e);
   };
+
+  useEffect(() => {
+    if (!avatar && preview) {
+      URL.revokeObjectURL(preview);
+      setPreview('');
+    }
+  }, [avatar]);
 
   const handleClick = () => {
     inputRef.current?.click();
@@ -37,7 +45,7 @@ const FileUpload = ({ register, avatar }: PropsType) => {
           inputRef.current = e;
         }}
       />
-      <Avatar size="2xl" src={preview || avatar} cursor="pointer" />
+      <Avatar size="2xl" name={name} src={preview || avatar} bgColor="secondary" cursor="pointer" />
     </InputGroup>
   );
 };

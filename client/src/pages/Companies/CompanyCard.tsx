@@ -18,7 +18,7 @@ const CompanyCard = ({ company }: { company: Company }) => {
   return (
     <LinkBox>
       <Card maxW="sm" direction={{ base: 'column', sm: 'row' }} overflow="hidden" variant="outline" padding={'10px'}>
-        <Avatar size="2xl" src={AVATAR_PATH(company.picturePath as string)} />
+        <Avatar size="2xl" name={company.name} src={AVATAR_PATH(company.picturePath)} />
         <CardBody>
           <Stack mt="1" spacing="2">
             <Heading as="h3" noOfLines={2} fontSize="18px">
@@ -26,7 +26,8 @@ const CompanyCard = ({ company }: { company: Company }) => {
             </Heading>
             <Text>{company.email}</Text>
             <Box fontSize="14px">
-              Founder <Avatar size="xs" ml="3px" src={AVATAR_PATH(user?.picturePath as string)} /> @{user?.login}
+              Founder <Avatar size="xs" ml="3px" name={user?.fullName} src={AVATAR_PATH(user?.picturePath)} /> @
+              {user?.login}
             </Box>
           </Stack>
         </CardBody>
