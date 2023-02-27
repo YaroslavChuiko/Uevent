@@ -1,11 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
 import { logout, setUser, updateUser } from '../profileSlice';
-import baseQueryWithReauth from './baseQueryWithReauth';
+import { apiSlice } from './api-slice';
 
-export const apiSlice = createApi({
-  reducerPath: 'api',
-  baseQuery: baseQueryWithReauth,
-  tagTypes: ['User', 'Event', 'Company'],
+export const profileSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProfile: builder.query({
       query: () => '/me/profile',
@@ -25,7 +21,7 @@ export const apiSlice = createApi({
       }),
       async onQueryStarted(body, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          apiSlice.util.updateQueryData('getProfile', undefined, (draft) => {
+          profileSlice.util.updateQueryData('getProfile', undefined, (draft) => {
             Object.assign(draft, body);
           }),
         );
@@ -59,8 +55,20 @@ export const apiSlice = createApi({
         } catch (error) {}
       },
     }),
+    // deleteAvatar: builder.mutation({
+    //   query: () => ({
+    //     url: 'me/profile/avatar',
+    //     method: 'DELETE',
+    //   }),
+    //   async onQueryStarted(_body, { dispatch, queryFulfilled }) {
+    //     try {
+    //       await queryFulfilled;
+    //       dispatch(updateUser({ picturePath: undefined }));
+    //     } catch (error) {}
+    //   },
+    // }),
   }),
 });
 
 export const { useGetProfileQuery, useUpdateProfileMutation, useDeleteProfileMutation, useUpdateAvatarMutation } =
-  apiSlice;
+  profileSlice;

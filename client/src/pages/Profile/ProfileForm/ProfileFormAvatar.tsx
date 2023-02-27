@@ -2,7 +2,7 @@ import { Button, Flex, FormControl, FormErrorMessage } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import FileUpload from '~/components/FileUpload/FileUpload';
 import useRequestHandler from '~/hooks/use-request-handler';
-import { useUpdateAvatarMutation } from '~/store/api/apiSlice';
+import { useUpdateAvatarMutation } from '~/store/api/profile-slice';
 
 type PropTypes = {
   avatar: string;

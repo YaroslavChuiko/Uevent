@@ -1,6 +1,8 @@
 import { SystemStyleObject } from '@chakra-ui/react';
 
-const styles: { card: SystemStyleObject } = {
+type StylesType = { card: SystemStyleObject };
+
+const styles: StylesType = {
   card: {
     width: { base: '90%', md: '80%', xl: '50%' },
     margin: '0 auto',

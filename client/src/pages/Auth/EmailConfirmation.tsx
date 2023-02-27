@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSearchParams, Link as RouterLink } from 'react-router-dom';
 import { Button } from '@chakra-ui/react';
-import { useConfirmEmailMutation } from '~/store/api/authSlice';
+import { useConfirmEmailMutation } from '~/store/api/auth-slice';
 import Loader from '~/components/Loader/Loader';
 import PageAlert from '~/components/PageAlert/PageAlert';
 import IError from '~/types/error';
