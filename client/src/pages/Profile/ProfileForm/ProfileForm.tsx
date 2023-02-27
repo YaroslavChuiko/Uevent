@@ -41,10 +41,16 @@ const ProfileForm = ({ setEdit }: PropsType) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<IUpdate>({
     resolver: zodResolver(updateSchema),
     defaultValues,
   });
+
+  const onSubmit = async (data: IUpdate) => {
+    await updateHandler(data);
+    reset(defaultValues);
+  };
 
   return (
     <Card sx={styles.card} variant="outline">
@@ -62,7 +68,7 @@ const ProfileForm = ({ setEdit }: PropsType) => {
       </CardHeader>
 
       <CardBody>
-        <form onSubmit={handleSubmit(updateHandler)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing="4">
             <FormControl isInvalid={!!errors.login}>
               <FormLabel htmlFor="login">Login</FormLabel>

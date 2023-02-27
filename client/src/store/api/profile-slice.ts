@@ -23,9 +23,9 @@ export const profileSlice = apiSlice.injectEndpoints({
         const patchResult = dispatch(
           profileSlice.util.updateQueryData('getProfile', undefined, (draft) => {
             Object.assign(draft, body);
+            dispatch(updateUser(body));
           }),
         );
-        dispatch(updateUser(body));
         queryFulfilled.catch(patchResult.undo);
       },
     }),
