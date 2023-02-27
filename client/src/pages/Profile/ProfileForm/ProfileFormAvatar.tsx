@@ -15,6 +15,7 @@ const ProfileFormAvatar = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormValues>();
 
   const [updateAvatar, { isLoading: isUpdateLoading }] = useUpdateAvatarMutation();
@@ -28,7 +29,7 @@ const ProfileFormAvatar = () => {
     successMsg: "You've successfully removed your avatar.",
   });
 
-  const { onSubmit } = useFileSubmit({ handleSubmit, requestHandler: updateHandler });
+  const { onSubmit } = useFileSubmit({ handleSubmit, requestHandler: updateHandler, reset });
 
   return (
     <form onSubmit={onSubmit}>
