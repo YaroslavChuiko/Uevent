@@ -5,6 +5,7 @@ import EmailConfirmation from './pages/Auth/EmailConfirmation';
 import SendPasswordConfirmation from './pages/Auth/SendPasswordConfirmation';
 import PasswordReset from './pages/Auth/PasswordReset';
 import ProfileRoutes from './routes/Profile';
+import CompaniesRoutes from './routes/Companies';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Home from './pages/Home/Home';
 
@@ -20,6 +21,9 @@ function App() {
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route element={<ProtectedRoute />}>
           <Route path="profile/*" element={<ProfileRoutes />} />
+        </Route>
+        <Route>
+          <Route path="companies/*" element={<CompaniesRoutes />} />
         </Route>
       </Routes>
     </Router>

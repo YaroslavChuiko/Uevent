@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form';
 import { AVATAR_PATH } from '~/consts/avatar';
 import { useAppSelector } from '~/hooks/use-app-selector';
 import useRequestHandler from '~/hooks/use-request-handler';
-import { useUpdateProfileMutation } from '~/store/api/apiSlice';
+import { useUpdateProfileMutation } from '~/store/api/profile-slice';
 import { IUpdate, updateSchema } from '~/validation/profile';
 import styles from '../profile-card.styles';
 import ProfileFormAvatar from './ProfileFormAvatar';

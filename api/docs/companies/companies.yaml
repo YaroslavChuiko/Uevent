@@ -3,8 +3,6 @@ paths:
     get:
       tags:
         - Companies
-      security:
-        - bearerAuth: []
       description: Get all companies
       parameters:
         - name: _start
@@ -68,12 +66,6 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
-        401:
-          description: Bearer token is invalid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#definitions/error'
     post:
       tags:
         - Companies
@@ -115,8 +107,6 @@ paths:
     get:
       tags:
         - Companies
-      security:
-        - bearerAuth: []
       description: Get the company by id
       responses:
         200:
@@ -125,12 +115,6 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/company'
-        401:
-          description: Bearer token is invalid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#definitions/error'
         404:
           description: The company was not found by id
           content:

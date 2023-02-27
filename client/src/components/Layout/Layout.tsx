@@ -1,9 +1,9 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
-import styles from './Layout.styles';
+import { Center } from '@chakra-ui/react';
+import styles from './layout.styles';
 
 const Layout = ({ children }: { children: React.ReactElement | React.ReactElement[] }) => {
-  return <Flex sx={styles.page}>{children}</Flex>;
+  return <Center sx={styles.page}>{children}</Center>;
 };
 
 export default Layout;

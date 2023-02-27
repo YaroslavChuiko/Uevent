@@ -101,8 +101,6 @@ paths:
     get:
       tags:
         - Users
-      security:
-        - bearerAuth: []
       description: Get the user by id
       responses:
         200:
@@ -113,18 +111,6 @@ paths:
                 $ref: '#definitions/user'
         404:
           description: The user was not found by id
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#definitions/error'
-        401:
-          description: Bearer token is invalid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#definitions/error'
-        403:
-          description: You do not have admin rights
           content:
             application/json; charset=utf-8:
               schema:

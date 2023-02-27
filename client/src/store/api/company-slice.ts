@@ -1,5 +1,5 @@
 import { CompaniesParam, CompaniesResponse, Company } from '~/types/company';
-import { apiSlice } from './apiSlice';
+import { apiSlice } from './api-slice';
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

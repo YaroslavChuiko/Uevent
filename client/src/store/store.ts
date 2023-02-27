@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import profileReducer from './profileSlice';
-import { apiSlice } from './api/apiSlice';
+import { apiSlice } from './api/api-slice';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 

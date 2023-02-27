@@ -3,7 +3,7 @@ import { FormErrorMessage, FormLabel, FormControl, Input, Button, VStack } from 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { resetPasswordSchema } from '~/validation/auth';
 import type { IResetPassword } from '~/validation/auth';
-import { useResetPasswordMutation } from '~/store/api/authSlice';
+import { useResetPasswordMutation } from '~/store/api/auth-slice';
 import { useSearchParams } from 'react-router-dom';
 import useCustomToast from '~/hooks/use-custom-toast';
 import { useAppSelector } from '~/hooks/use-app-selector';

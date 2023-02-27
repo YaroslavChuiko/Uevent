@@ -16,8 +16,8 @@ export type CompaniesResponse = {
 export type CompaniesParam = {
   _start: number;
   _end: number;
-  _sort: string;
-  _order: 'ASC' | 'DESC';
+  _sort?: string;
+  _order?: 'ASC' | 'DESC';
   id?: number;
   creatorId?: number;
   subscriberId?: number;

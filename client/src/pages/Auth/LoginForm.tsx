@@ -3,7 +3,7 @@ import { FormErrorMessage, FormLabel, FormControl, Input, Button, VStack } from 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '~/validation/auth';
 import type { ILogin } from '~/validation/auth';
-import { useLoginMutation } from '~/store/api/authSlice';
+import { useLoginMutation } from '~/store/api/auth-slice';
 import { useNavigate } from 'react-router-dom';
 import useRequestHandler from '~/hooks/use-request-handler';
 import styles from './auth.styles';

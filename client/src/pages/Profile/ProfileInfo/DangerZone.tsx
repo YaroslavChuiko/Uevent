@@ -2,8 +2,8 @@ import { DeleteIcon, LockIcon } from '@chakra-ui/icons';
 import { Button, LinkBox, LinkOverlay, useDisclosure, Wrap } from '@chakra-ui/react';
 import ConfirmPopover from '~/components/ConfirmPopover/ConfirmPopover';
 import useRequestHandler from '~/hooks/use-request-handler';
-import { useDeleteProfileMutation } from '~/store/api/apiSlice';
-import { useLogoutMutation } from '~/store/api/authSlice';
+import { useDeleteProfileMutation } from '~/store/api/profile-slice';
+import { useLogoutMutation } from '~/store/api/auth-slice';
 
 const DangerZone = () => {
   const [logout, { isLoading: isLogoutLoading }] = useLogoutMutation();

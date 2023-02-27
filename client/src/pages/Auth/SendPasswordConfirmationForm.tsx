@@ -3,7 +3,7 @@ import { FormErrorMessage, FormLabel, FormControl, Input, Button, VStack } from 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { sendPasswordConfirmationSchema } from '~/validation/auth';
 import type { ISendPasswordConfirmation } from '~/validation/auth';
-import { useSendPasswordConfirmationMutation } from '~/store/api/authSlice';
+import { useSendPasswordConfirmationMutation } from '~/store/api/auth-slice';
 import useCustomToast from '~/hooks/use-custom-toast';
 import styles from './auth.styles';
 
