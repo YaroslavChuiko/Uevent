@@ -17,10 +17,11 @@ import { adminUpdateSchema, createSchema } from '../validation/user';
 
 const router = express.Router();
 
+router.get('/:id', boundary(getUser));
+
 router.use(auth, adminAuth);
 
 router.get('/', boundary(getMany));
-router.get('/:id', boundary(getUser));
 
 router.post('/', validate(createSchema), boundary(createUser));
 router.put('/:id', validate(adminUpdateSchema), boundary(updateUser));

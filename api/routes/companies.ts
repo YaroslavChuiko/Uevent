@@ -17,10 +17,11 @@ import { createSchema, getCompaniesSchema, updateSchema } from '../validation/co
 
 const router = express.Router();
 
-router.use(auth);
-
 router.get('/', validate(getCompaniesSchema, 'query'), boundary(getCompanies));
 router.get('/:id', boundary(getCompanyById));
+
+router.use(auth);
+
 router.post('/', validate(createSchema), boundary(createCompany));
 router.put('/:id', checkUserCompanyRights, validate(updateSchema), boundary(updateCompany));
 router.delete('/:id', checkUserCompanyRights, boundary(deleteCompany));

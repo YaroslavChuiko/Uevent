@@ -5,9 +5,9 @@ import React from 'react';
 
 type IProps = {
   status: 'info' | 'warning' | 'success' | 'error' | 'loading';
-  title: string | null;
+  title?: string | null;
   message: string;
-  children: React.ReactElement;
+  children?: React.ReactElement;
 };
 
 const PageAlert = ({ status, title = null, message, children }: IProps) => (

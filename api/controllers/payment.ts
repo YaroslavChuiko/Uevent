@@ -31,7 +31,7 @@ const stripeLineItem = (event: Event, discount: number): StripeLineItem => ({
     product_data: {
       name: `Ticket for the '${event.name}' event`,
     },
-    unit_amount: event.price * (100 - discount),
+    unit_amount: Number(event.price) * (100 - discount),
   },
   quantity: 1,
 });
