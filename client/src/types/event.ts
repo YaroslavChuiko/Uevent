@@ -1,3 +1,5 @@
+import { Order } from './order';
+
 export type Event = {
   id: number;
   name: string;
@@ -33,7 +35,7 @@ export type EventsParam = {
   _start: number;
   _end: number;
   _sort: string;
-  _order: 'ASC' | 'DESC';
+  _order: Order;
   id?: number;
   companyId?: number;
   formatId?: number;

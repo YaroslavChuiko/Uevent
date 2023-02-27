@@ -1,3 +1,5 @@
+import { Order } from './order';
+
 export type Company = {
   id: number;
   name: string;
@@ -17,7 +19,7 @@ export type CompaniesParam = {
   _start: number;
   _end: number;
   _sort?: string;
-  _order?: 'ASC' | 'DESC';
+  _order?: Order;
   id?: number;
   creatorId?: number;
   subscriberId?: number;
