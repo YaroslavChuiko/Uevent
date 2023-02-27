@@ -16,6 +16,7 @@ import {
   Text,
   Wrap,
 } from '@chakra-ui/react';
+import { AVATAR_PATH } from '~/consts/avatar';
 import { useAppSelector } from '~/hooks/use-app-selector';
 import { profileLinks as links } from '../const';
 import styles from '../profile-card.styles';
@@ -28,14 +29,12 @@ type PropsType = {
 const ProfileInfo = ({ setEdit }: PropsType) => {
   const { user } = useAppSelector((state) => state.profile);
 
-  const avatarSrc = `${import.meta.env.VITE_API_URL}/${user.picturePath}`;
-
   return (
     <Card sx={styles.card} variant="outline">
       <CardHeader>
         <Flex flexDir="row">
           <Flex flexDir="column" flexGrow="1">
-            <Avatar size="2xl" name={user.fullName as string} src={avatarSrc} bgColor="secondary" />
+            <Avatar size="2xl" name={user.fullName as string} src={AVATAR_PATH(user.picturePath)} bgColor="secondary" />
 
             <Heading mt="4" size="lg">
               {user.fullName}
