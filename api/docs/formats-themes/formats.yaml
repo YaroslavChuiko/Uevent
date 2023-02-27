@@ -3,8 +3,6 @@ paths:
     get:
       tags:
         - Formats
-      security:
-        - bearerAuth: []
       description: Get all formats
       parameters:
         - name: _start
@@ -111,8 +109,6 @@ paths:
     get:
       tags:
         - Formats
-      security:
-        - bearerAuth: []
       description: Get the format by id
       responses:
         200:
