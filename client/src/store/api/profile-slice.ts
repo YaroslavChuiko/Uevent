@@ -11,7 +11,7 @@ export const profileSlice = apiSlice.injectEndpoints({
           dispatch(setUser(data));
         } catch (error) {}
       },
-      providesTags: ['User'],
+      providesTags: ['UserProfile'],
     }),
     updateProfile: builder.mutation({
       query: ({ login, email, fullName }) => ({
@@ -40,7 +40,7 @@ export const profileSlice = apiSlice.injectEndpoints({
           dispatch(logout());
         } catch (error) {}
       },
-      invalidatesTags: ['User'],
+      invalidatesTags: ['UserProfile'],
     }),
     updateAvatar: builder.mutation({
       query: (form) => ({
