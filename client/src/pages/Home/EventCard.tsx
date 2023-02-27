@@ -1,6 +1,8 @@
 import { Avatar, Box, Card, CardBody, Heading, Image, Stack, Tag, Text, Wrap } from '@chakra-ui/react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 import { useGetCompanyQuery } from '~/store/api/company-slice';
 import { Event } from '~/types/event';
+import styles from './event-card.styles';
 
 type Props = {
   event: Event;
@@ -25,43 +27,49 @@ const EventCard = ({ event }: Props) => {
   const price = event.price ? new Intl.NumberFormat('en-US', PriceFormatOptions).format(event.price) : 'free';
 
   return (
-    <Card maxW="sm" overflow="hidden">
-      <Image
-        h="160px"
-        objectFit="cover"
-        src={`${import.meta.env.VITE_API_URL}/${event.picturePath}`}
-        fallbackSrc="https://via.placeholder.com/468x400?text=Poster"
-        alt={event.name}
-      />
+    <Card sx={styles.card}>
+      <ReactRouterLink to={`/event/${event.id}`}>
+        <Image
+          sx={styles.img}
+          src={`${import.meta.env.VITE_API_URL}/${event.picturePath}`}
+          fallbackSrc="https://via.placeholder.com/468x400?text=Poster"
+          alt={event.name}
+        />
+      </ReactRouterLink>
+
       <CardBody>
         <Stack mt="1" spacing="2">
-          <Heading as="h3" noOfLines={2} fontSize="18px">
-            {event.name}
-          </Heading>
+          <ReactRouterLink to={`/event/${event.id}`}>
+            <Heading as="h3" noOfLines={2} fontSize="18px">
+              {event.name}
+            </Heading>
+          </ReactRouterLink>
 
           <Wrap spacing="10px">
-            <Tag fontSize="12px">{event.theme.name}</Tag>
-            <Tag fontSize="12px">{event.format.name}</Tag>
+            <Tag sx={styles.tag}>{event.theme.name}</Tag>
+            <Tag sx={styles.tag}>{event.format.name}</Tag>
           </Wrap>
 
-          <Text color="red.500" fontWeight="medium">
-            {date}
-          </Text>
+          <Text sx={styles.date}>{date}</Text>
 
-          <Box color="blue.600" fontSize="14px">
+          <Box sx={styles.price}>
             <Text>Tickets left: {event.ticketsAvailable}</Text>
             <Text>{price}</Text>
           </Box>
 
-          <Box fontSize="14px">
+          <Box sx={styles.company} noOfLines={1}>
             By{' '}
-            <Avatar
-              size="xs"
-              ml="3px"
-              name={company?.name}
-              src={`${import.meta.env.VITE_API_URL}/${company?.picturePath}`}
-            />{' '}
-            {company?.name}
+            <ReactRouterLink to={`/company/${company?.id}`}>
+              <Avatar
+                size="xs"
+                ml="3px"
+                name={company?.name}
+                src={`${import.meta.env.VITE_API_URL}/${company?.picturePath}`}
+              />{' '}
+              <Text as="span" fontWeight="medium">
+                {company?.name}
+              </Text>
+            </ReactRouterLink>
           </Box>
         </Stack>
       </CardBody>
