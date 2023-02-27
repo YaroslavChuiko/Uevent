@@ -55,20 +55,25 @@ export const profileSlice = apiSlice.injectEndpoints({
         } catch (error) {}
       },
     }),
-    // deleteAvatar: builder.mutation({
-    //   query: () => ({
-    //     url: 'me/profile/avatar',
-    //     method: 'DELETE',
-    //   }),
-    //   async onQueryStarted(_body, { dispatch, queryFulfilled }) {
-    //     try {
-    //       await queryFulfilled;
-    //       dispatch(updateUser({ picturePath: undefined }));
-    //     } catch (error) {}
-    //   },
-    // }),
+    deleteAvatar: builder.mutation({
+      query: () => ({
+        url: 'me/profile/avatar',
+        method: 'DELETE',
+      }),
+      async onQueryStarted(_body, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(updateUser({ picturePath: undefined }));
+        } catch (error) {}
+      },
+    }),
   }),
 });
 
-export const { useGetProfileQuery, useUpdateProfileMutation, useDeleteProfileMutation, useUpdateAvatarMutation } =
-  profileSlice;
+export const {
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+  useDeleteProfileMutation,
+  useUpdateAvatarMutation,
+  useDeleteAvatarMutation,
+} = profileSlice;

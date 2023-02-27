@@ -35,7 +35,7 @@ const ProfileInfo = ({ setEdit }: PropsType) => {
       <CardHeader>
         <Flex flexDir="row">
           <Flex flexDir="column" flexGrow="1">
-            <Avatar size="2xl" src={avatarSrc} />
+            <Avatar size="2xl" name={user.fullName as string} src={avatarSrc} bgColor="secondary" />
 
             <Heading mt="4" size="lg">
               {user.fullName}

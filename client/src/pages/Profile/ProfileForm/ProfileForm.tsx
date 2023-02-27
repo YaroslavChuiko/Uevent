@@ -15,7 +15,6 @@ import {
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { AVATAR_PATH } from '~/consts/avatar';
 import { useAppSelector } from '~/hooks/use-app-selector';
 import useRequestHandler from '~/hooks/use-request-handler';
 import { useUpdateProfileMutation } from '~/store/api/profile-slice';
@@ -29,7 +28,6 @@ type PropsType = {
 
 const ProfileForm = ({ setEdit }: PropsType) => {
   const { user } = useAppSelector((state) => state.profile);
-  const avatarSrc = AVATAR_PATH(user.picturePath as string);
 
   const [update, { isLoading }] = useUpdateProfileMutation();
   const { picturePath, id, ...defaultValues } = user;
@@ -53,7 +51,7 @@ const ProfileForm = ({ setEdit }: PropsType) => {
       <CardHeader>
         <Flex flexDir="row">
           <Flex flexDir="column" flexGrow="0">
-            <ProfileFormAvatar avatar={avatarSrc} />
+            <ProfileFormAvatar />
           </Flex>
           <Flex justify="flex-end" flexGrow="1">
             <Button onClick={() => setEdit(false)} variant="outline">
