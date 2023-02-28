@@ -1,16 +1,16 @@
-import CustomAsyncSelect from '~/components/Select/CustomAsyncSelect/CustomAsyncSelect';
 import { useLazyGetFormatsQuery } from '~/store/api/format-slice';
-import { formatOption } from './format-option.type';
+import { SelectOptionData } from '~/types/select-option-data';
+import CustomAsyncSelect from '../CustomAsyncSelect';
 
 type Props = {
-  format: formatOption | null;
-  setFormat: (format: formatOption) => void;
+  format: SelectOptionData | null;
+  setFormat: (format: SelectOptionData) => void;
 };
 
 const AsyncSelectFormat = ({ format, setFormat }: Props) => {
   const [getFormats] = useLazyGetFormatsQuery();
 
-  const loadOptions = async (inputValue: string, callback: (options: formatOption[]) => void) => {
+  const loadOptions = async (inputValue: string, callback: (options: SelectOptionData[]) => void) => {
     const params = {
       _sort: 'name',
       _order: 'ASC' as const,

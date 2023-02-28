@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, Text } from '@chakra-ui/layout';
-import Container from '~/components/Container/Container';
+import Container from '~/components/Container';
 
 const HomePromo = () => {
   return (

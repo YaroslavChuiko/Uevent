@@ -1,10 +1,10 @@
 import { Box } from '@chakra-ui/react';
-import { formatOption } from '~/components/Select/AsyncSelectFormat/format-option.type';
-import AsyncSelectFormat from '../../../components/Select/AsyncSelectFormat/AsyncSelectFormat';
+import AsyncSelectFormat from '~/components/Select/AsyncSelectFormat';
+import { SelectOptionData } from '~/types/select-option-data';
 
 type Props = {
-  format: formatOption | null;
-  setFormat: (format: formatOption) => void;
+  format: SelectOptionData | null;
+  setFormat: (format: SelectOptionData) => void;
 };
 
 const EventFilters = ({ format, setFormat }: Props) => {

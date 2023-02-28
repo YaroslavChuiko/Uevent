@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import Container from '~/components/Container/Container';
 import EventList from './EventList';
 import EventFilters from './EventFilters';
-import { formatOption } from '~/components/Select/AsyncSelectFormat/format-option.type';
+import { SelectOptionData } from '~/types/select-option-data';
+import Container from '~/components/Container';
 
 const Events = () => {
-  const [format, setFormat] = useState<formatOption | null>(null);
+  const [format, setFormat] = useState<SelectOptionData | null>(null);
 
   return (
     <Container>
