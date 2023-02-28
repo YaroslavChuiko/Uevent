@@ -1,4 +1,3 @@
-import { EditIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
@@ -7,6 +6,7 @@ import {
   CardBody,
   CardHeader,
   Flex,
+  Icon,
   Heading,
   HStack,
   LinkBox,
@@ -16,6 +16,7 @@ import {
   Text,
   Wrap,
 } from '@chakra-ui/react';
+import { FiEdit } from 'react-icons/fi';
 import { AVATAR_PATH } from '~/consts/avatar';
 import { useAppSelector } from '~/hooks/use-app-selector';
 import { profileLinks as links } from '../const';
@@ -41,7 +42,7 @@ const ProfileInfo = ({ setEdit }: PropsType) => {
             </Heading>
           </Flex>
           <Flex>
-            <Button onClick={() => setEdit(true)} leftIcon={<EditIcon />}>
+            <Button onClick={() => setEdit(true)} leftIcon={<Icon as={FiEdit} />}>
               Edit
             </Button>
           </Flex>

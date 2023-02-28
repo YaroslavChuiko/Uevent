@@ -1,4 +1,3 @@
-import { AtSignIcon, CheckIcon, EditIcon } from '@chakra-ui/icons';
 import {
   Button,
   Card,
@@ -8,6 +7,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Icon,
   Input,
   InputGroup,
   InputLeftElement,
@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { FiAtSign, FiUser, FiUserCheck } from 'react-icons/fi';
 import { useAppSelector } from '~/hooks/use-app-selector';
 import useRequestHandler from '~/hooks/use-request-handler';
 import { useUpdateProfileMutation } from '~/store/api/profile-slice';
@@ -73,7 +74,7 @@ const ProfileForm = ({ setEdit }: PropsType) => {
             <FormControl isInvalid={!!errors.login}>
               <FormLabel htmlFor="login">Login</FormLabel>
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<CheckIcon color="secondary" />} />
+                <InputLeftElement pointerEvents="none" children={<Icon as={FiUser} color="secondary" />} />
                 <Input id="login" placeholder="Your login" {...register('login')} />
               </InputGroup>
               <FormErrorMessage>{errors.login && errors.login.message}</FormErrorMessage>
@@ -81,7 +82,7 @@ const ProfileForm = ({ setEdit }: PropsType) => {
             <FormControl isInvalid={!!errors.email}>
               <FormLabel htmlFor="email">Email</FormLabel>
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<AtSignIcon color="secondary" />} />
+                <InputLeftElement pointerEvents="none" children={<Icon as={FiAtSign} color="secondary" />} />
                 <Input id="email" placeholder="Your email" {...register('email')} />
               </InputGroup>
               <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
@@ -89,7 +90,7 @@ const ProfileForm = ({ setEdit }: PropsType) => {
             <FormControl isInvalid={!!errors.fullName}>
               <FormLabel htmlFor="fullName">Full Name</FormLabel>
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<EditIcon color="secondary" />} />
+                <InputLeftElement pointerEvents="none" children={<Icon as={FiUserCheck} color="secondary" />} />
                 <Input id="fullName" placeholder="Your full name" {...register('fullName')} />
               </InputGroup>
               <FormErrorMessage>{errors.fullName && errors.fullName.message}</FormErrorMessage>
