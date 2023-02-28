@@ -37,6 +37,7 @@ export type EventsParam = {
   _sort: string;
   _order: Order;
   id?: number;
+  upcoming?: boolean;
   companyId?: number;
   formatId?: number;
   themeId?: number;
