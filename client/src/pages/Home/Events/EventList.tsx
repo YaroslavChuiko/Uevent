@@ -5,16 +5,19 @@ import EventCard from './EventCard';
 
 type Props = {
   formatId: number | undefined;
+  themeId: number | undefined;
 };
 
-const EventList = ({ formatId }: Props) => {
+const EventList = ({ formatId, themeId }: Props) => {
   const params: EventsParam = {
-    _sort: 'format',
-    _order: 'DESC' as const,
+    _sort: 'date',
+    _order: 'ASC' as const,
     _start: 0,
     _end: 10,
+    upcoming: true,
   };
   formatId ? (params.formatId = formatId) : null;
+  themeId ? (params.themeId = themeId) : null;
 
   const { data, error, isError, isLoading } = useGetEventsQuery(params);
 

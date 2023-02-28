@@ -6,11 +6,12 @@ import Container from '~/components/Container';
 
 const Events = () => {
   const [format, setFormat] = useState<SelectOptionData | null>(null);
+  const [theme, setTheme] = useState<SelectOptionData | null>(null);
 
   return (
     <Container>
-      <EventFilters format={format} setFormat={setFormat} />
-      <EventList formatId={format?.id} />
+      <EventFilters format={format} setFormat={setFormat} theme={theme} setTheme={setTheme} />
+      <EventList formatId={format?.id} themeId={theme?.id} />
     </Container>
   );
 };
