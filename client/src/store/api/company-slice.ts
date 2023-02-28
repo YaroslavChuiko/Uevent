@@ -1,5 +1,6 @@
 import { CompaniesParam, CompaniesResponse, Company } from '~/types/company';
 import { apiSlice } from './api-slice';
+import type { IUpdate } from '~/validation/companies';
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -20,7 +21,44 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       query: (id) => `/companies/${id}`,
       providesTags: (_result, _error, arg) => [{ type: 'Company' as const, id: arg }],
     }),
+    updateCompany: builder.mutation<Company, IUpdate & Pick<Company, 'id'>>({
+      query: ({ id, ...body }) => ({
+        url: `/companies/${id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Company', id: arg.id }],
+    }),
+    deleteCompany: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/companies/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Company'],
+    }),
+    updateCompanyAvatar: builder.mutation<Company, { form: FormData } & Pick<Company, 'id'>>({
+      query: ({ id, form }) => ({
+        url: `/companies/${id}/avatar`,
+        method: 'PUT',
+        body: form,
+      }),
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Company', id: arg.id }],
+    }),
+    deleteCompanyAvatar: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/companies/${id}/avatar`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Company', id: arg }],
+    }),
   }),
 });
 
-export const { useGetCompaniesQuery, useGetCompanyQuery } = extendedApiSlice;
+export const {
+  useGetCompaniesQuery,
+  useGetCompanyQuery,
+  useUpdateCompanyMutation,
+  useDeleteCompanyMutation,
+  useUpdateCompanyAvatarMutation,
+  useDeleteCompanyAvatarMutation,
+} = extendedApiSlice;
