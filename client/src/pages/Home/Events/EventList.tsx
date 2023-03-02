@@ -1,4 +1,5 @@
 import { SimpleGrid } from '@chakra-ui/react';
+import { DateRange } from 'react-day-picker';
 import { useGetEventsQuery } from '~/store/api/event-slice';
 import { EventsParam } from '~/types/event';
 import EventCard from './EventCard';
@@ -6,9 +7,10 @@ import EventCard from './EventCard';
 type Props = {
   formatId: number | undefined;
   themeId: number | undefined;
+  dateRange: DateRange | null;
 };
 
-const EventList = ({ formatId, themeId }: Props) => {
+const EventList = ({ formatId, themeId, dateRange }: Props) => {
   const params: EventsParam = {
     _sort: 'date',
     _order: 'ASC' as const,
@@ -18,6 +20,10 @@ const EventList = ({ formatId, themeId }: Props) => {
   };
   formatId ? (params.formatId = formatId) : null;
   themeId ? (params.themeId = themeId) : null;
+  if (dateRange?.from && dateRange?.to) {
+    params.dateFrom = dateRange.from.toISOString();
+    params.dateTo = dateRange.to.toISOString();
+  }
 
   const { data, error, isError, isLoading } = useGetEventsQuery(params);
 
