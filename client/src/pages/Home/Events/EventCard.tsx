@@ -32,7 +32,7 @@ const EventCard = ({ event }: Props) => {
         <Image
           sx={styles.img}
           src={`${import.meta.env.VITE_API_URL}/${event.picturePath}`}
-          fallbackSrc="https://via.placeholder.com/468x400?text=Poster"
+          fallbackSrc="https://via.placeholder.com/868x300?text=Poster"
           alt={event.name}
         />
       </ReactRouterLink>
@@ -59,7 +59,7 @@ const EventCard = ({ event }: Props) => {
 
           <Box sx={styles.company} noOfLines={1}>
             By{' '}
-            <ReactRouterLink to={`/company/${company?.id}`}>
+            <ReactRouterLink to={`/companies/${company?.id}`}>
               <Avatar
                 size="xs"
                 ml="3px"

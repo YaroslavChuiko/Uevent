@@ -3,9 +3,9 @@ import Container from '~/components/Container';
 
 const HomePromo = () => {
   return (
-    <Box bg="red.400">
+    <Box bg="#0000ff">
       <Container>
-        <Flex flexDir="column" alignItems="center" justifyContent="center" p="50px 0" bg="red.400">
+        <Flex flexDir="column" alignItems="center" justifyContent="center" p="50px 0" color="white">
           <Heading as="h1" textTransform="capitalize">
             Let's Make Live Happen
           </Heading>
