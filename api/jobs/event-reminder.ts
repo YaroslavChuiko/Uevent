@@ -8,8 +8,6 @@ import { compareDates } from '../utils/compare-dates';
 import subtractHours from '../utils/subtract-hours';
 
 const scheduleEventReminder = (tickDate: Date, eventId: number) => {
-  console.log('tickDate reminder', tickDate.toString());
-
   new CronJob(
     tickDate,
     async () => {

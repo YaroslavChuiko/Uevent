@@ -6,8 +6,6 @@ import { Email } from '../services';
 import { compareDates } from '../utils/compare-dates';
 
 const scheduleCompanySubscribersNotification = (tickDate: Date, eventId: number) => {
-  console.log('tickDate', tickDate.toString());
-
   new CronJob(
     tickDate,
     async () => {
