@@ -1,8 +1,10 @@
 import { SystemStyleObject } from '@chakra-ui/react';
 import { NAVBAR_COLOR, NAVBAR_HEIGHT } from '~/consts/components';
-import layout from '../Layout/layout.styles';
+import container from '../Container/container.styles';
 
-type StylesType = { navbar: SystemStyleObject };
+type StylesType = {
+  [key: string]: SystemStyleObject;
+};
 
 const styles: StylesType = {
   navbar: {
@@ -13,11 +15,11 @@ const styles: StylesType = {
     left: 0,
     bgColor: NAVBAR_COLOR,
     zIndex: 100,
-    px: layout.page.p,
     py: '10px',
     borderBottom: '1px solid',
     borderColor: 'gray.200',
   },
+  container: container.container,
 };
 
 export default styles;

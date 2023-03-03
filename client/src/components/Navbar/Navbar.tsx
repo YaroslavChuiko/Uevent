@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <Box sx={styles.navbar}>
-      <Flex h="100%" align="center" justify="space-between">
+      <Flex sx={styles.container} h="100%" align="center" justify="space-between">
         <IconButton
           size="md"
           bgColor={NAVBAR_COLOR}
@@ -42,7 +42,7 @@ const Navbar = () => {
       </Flex>
 
       {isOpen ? (
-        <Box bgColor={NAVBAR_COLOR} px={4} pb={4} display={{ md: 'none' }}>
+        <Box bgColor={NAVBAR_COLOR} px={4} py={4} display={{ md: 'none' }}>
           <Stack spacing={4}>
             {links.map((l) => (
               <NavLink to={l.href} key={l.label}>
