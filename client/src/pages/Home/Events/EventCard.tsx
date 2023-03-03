@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardBody, Heading, Image, Stack, Tag, Text, Wrap } from '@chakra-ui/react';
+import { Avatar, Box, Card, CardBody, CardProps, Heading, Image, Stack, Tag, Text, Wrap } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useGetCompanyQuery } from '~/store/api/company-slice';
 import { Event } from '~/types/event';
@@ -6,7 +6,7 @@ import styles from './event-card.styles';
 
 type Props = {
   event: Event;
-};
+} & CardProps;
 
 const DateFormatOptions = {
   weekday: 'short',
@@ -21,13 +21,13 @@ const PriceFormatOptions = {
   currency: 'USD',
 } as const;
 
-const EventCard = ({ event }: Props) => {
+const EventCard = ({ event, ...cardProps }: Props) => {
   const { data: company } = useGetCompanyQuery(event.companyId);
   const date = new Intl.DateTimeFormat('en-US', DateFormatOptions).format(new Date(event.date));
   const price = event.price ? new Intl.NumberFormat('en-US', PriceFormatOptions).format(event.price) : 'free';
 
   return (
-    <Card sx={styles.card}>
+    <Card sx={styles.card} {...cardProps}>
       <ReactRouterLink to={`/event/${event.id}`}>
         <Image
           sx={styles.img}
