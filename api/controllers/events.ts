@@ -10,6 +10,7 @@ import subtractHours from '../utils/subtract-hours';
 import { HOURS_BEFORE_EVENT } from '../consts/default';
 import EventSubscription, { IEventMeta } from '../services/event-subscription';
 import { User } from '@prisma/client';
+import wait from '../utils/wait';
 
 const event = prisma.event;
 
@@ -71,6 +72,8 @@ const getManyEvents = async (req: Request, res: Response) => {
     }),
     event.count({ where }),
   ]);
+
+  await wait(2000);
 
   res.setHeader('X-Total-Count', count);
   res.status(200).json(events);
