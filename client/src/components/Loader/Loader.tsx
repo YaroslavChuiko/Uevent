@@ -14,6 +14,7 @@ const Loader = ({ isFullScreen = true }) => {
           height: 100,
         }}
         speed=".6s"
+        color="secondary"
         thickness="4px"
       />
     </Layout>

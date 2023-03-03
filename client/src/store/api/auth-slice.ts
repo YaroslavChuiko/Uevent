@@ -24,7 +24,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
           await dispatch(profileSlice.endpoints.getProfile.initiate(null));
         } catch (error) {}
       },
-      invalidatesTags: ['User'],
+      invalidatesTags: ['UserProfile'],
     }),
     logout: builder.mutation({
       query: () => ({

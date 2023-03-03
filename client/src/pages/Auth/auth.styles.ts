@@ -1,4 +1,5 @@
 import { SystemStyleObject } from '@chakra-ui/react';
+import { NAVBAR_HEIGHT } from '~/consts/components';
 
 type TStyle = {
   wrapper: SystemStyleObject;
@@ -14,7 +15,7 @@ const styles: TStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: '20px',
-    minH: '100vh',
+    minH: `calc(100vh - ${NAVBAR_HEIGHT}rem)`,
   },
   container: {
     minW: '400px',

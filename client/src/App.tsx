@@ -8,25 +8,34 @@ import ProfileRoutes from './routes/Profile';
 import CompaniesRoutes from './routes/Companies';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Home from './pages/Home/Home';
+import Navbar from './components/Navbar/Navbar';
+import { Box } from '@chakra-ui/react';
+import './index.css';
+import styles from './app.styles';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/confirm-email" element={<EmailConfirmation />} />
-        <Route path="/confirm-password-reset" element={<SendPasswordConfirmation />} />
-        <Route path="/password-reset" element={<PasswordReset />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="profile/*" element={<ProfileRoutes />} />
-        </Route>
-        <Route>
-          <Route path="companies/*" element={<CompaniesRoutes />} />
-        </Route>
-      </Routes>
-    </Router>
+    <Box sx={styles.main}>
+      <Router>
+        <Navbar />
+        <Box sx={styles.router}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/confirm-email" element={<EmailConfirmation />} />
+            <Route path="/confirm-password-reset" element={<SendPasswordConfirmation />} />
+            <Route path="/password-reset" element={<PasswordReset />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="profile/*" element={<ProfileRoutes />} />
+            </Route>
+            <Route>
+              <Route path="companies/*" element={<CompaniesRoutes />} />
+            </Route>
+          </Routes>
+        </Box>
+      </Router>
+    </Box>
   );
 }
 
