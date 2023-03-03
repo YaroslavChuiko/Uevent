@@ -1,4 +1,4 @@
-import { ChakraProps, extendTheme } from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
   semanticTokens: {
@@ -8,6 +8,9 @@ const theme = extendTheme({
       },
       hover: {
         default: 'blue.800',
+      },
+      tertiary: {
+        default: 'purple.500',
       },
       text: {
         default: 'white',
