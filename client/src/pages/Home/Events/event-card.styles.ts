@@ -12,6 +12,7 @@ type TStyle = {
 const styles: TStyle = {
   card: {
     maxWidth: 'sm',
+    minWidth: '300px',
     overflow: 'hidden',
     boxShadow: 'lg',
     transition: 'box-shadow 0.2s ease-out',

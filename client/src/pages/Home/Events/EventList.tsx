@@ -1,8 +1,10 @@
-import { SimpleGrid } from '@chakra-ui/react';
+import { SimpleGrid, SlideFade } from '@chakra-ui/react';
 import { DateRange } from 'react-day-picker';
 import { useGetEventsQuery } from '~/store/api/event-slice';
 import { EventsParam } from '~/types/event';
 import EventCard from './EventCard';
+import EventCardSkeleton from './EventCardSkeleton';
+import NothingFound from './NothingFound';
 
 type Props = {
   formatId: number | undefined;
@@ -25,21 +27,30 @@ const EventList = ({ formatId, themeId, dateRange }: Props) => {
     params.dateTo = dateRange.to.toISOString();
   }
 
-  const { data, error, isError, isLoading } = useGetEventsQuery(params);
-
-  if (isLoading) {
-    return <div>Loading</div>;
-  } else if (isError) {
-    return <div>{error.toString()}</div>;
-  }
-
-  console.log('🚀 ~ file: EventList.tsx:12 ~ EventList ~ data:', data);
+  const { data, isFetching } = useGetEventsQuery(params);
 
   return (
     <SimpleGrid minChildWidth="300px" spacing="30px" p="40px 0">
-      {data?.events.map((event) => (
-        <EventCard key={event.id} event={event} />
-      ))}
+      {isFetching ? (
+        <>
+          <EventCardSkeleton />
+          <EventCardSkeleton />
+          <EventCardSkeleton />
+          <EventCardSkeleton />
+          <EventCardSkeleton />
+          <EventCardSkeleton />
+        </>
+      ) : data?.events.length ? (
+        data?.events.map((event) => (
+          <SlideFade key={event.id} offsetY="30px" in={true}>
+            <EventCard event={event} h="100%" />
+          </SlideFade>
+        ))
+      ) : (
+        <SlideFade offsetY="30px" in={true}>
+          <NothingFound />
+        </SlideFade>
+      )}
     </SimpleGrid>
   );
 };
