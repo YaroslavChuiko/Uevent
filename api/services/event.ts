@@ -13,8 +13,8 @@ type FilterAttributes = {
   formatId?: string | string[];
   themeId?: string | string[];
   upcoming?: boolean;
-  dateFrom: string;
-  dateTo: string;
+  dateFrom?: string;
+  dateTo?: string;
   q?: string;
 };
 
