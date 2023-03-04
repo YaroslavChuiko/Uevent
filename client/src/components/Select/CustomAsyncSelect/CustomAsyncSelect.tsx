@@ -1,97 +1,74 @@
-import { useTheme, useToken } from '@chakra-ui/react';
-import { components, SelectInstance, StylesConfig } from 'react-select';
-import AsyncSelect, { AsyncProps } from 'react-select/async';
+import { Icon, useToken } from '@chakra-ui/react';
+import { FiX } from 'react-icons/fi';
+import { ClearIndicatorProps, components, StylesConfig } from 'react-select';
+import AsyncSelect from 'react-select/async';
 
 const CustomAsyncSelect = (props: any) => {
-  //TODO: add styles
-  // const [red] = useToken('colors', ['red']);
+  const [gray100, gray200, gray300, gray500] = useToken('colors', ['gray.100', 'gray.200', 'gray.300', 'gray.500']);
 
-  // const ClearIndicator = (props) => {
-  //   return (
-  //     <components.ClearIndicator {...props}>
-  //       <X size="20px" />
-  //     </components.ClearIndicator>
-  //   );
-  // };
+  const ClearIndicator = (props: ClearIndicatorProps) => {
+    return (
+      <components.ClearIndicator {...props}>
+        <Icon as={FiX} boxSize={5} />
+      </components.ClearIndicator>
+    );
+  };
 
-  // const customStyles: StylesConfig = {
-  //   control: (provided, state) => ({
-  //     ...provided,
-  //     borderRadius: '6px',
-  //     boxShadow: 'none',
-  //     fontSize: '14px',
-  //     color: theme.colors.,
-  //     borderColor: state.isFocused ? 'black' : palette.accents_2,
-  //     transition: 'border 150ms ease-in 0s,color 200ms ease-out 0s, box-shadow 200ms ease 0s',
-  //     '&:hover': {
-  //       borderColor: palette.foreground,
-  //       cursor: 'text',
-  //     },
-  //     '&:focus': {
-  //       borderColor: palette.foreground,
-  //     },
-  //   }),
-  //   menu: (provided, state) => ({
-  //     ...provided,
-  //     fontSize: '13px',
-  //     borderRadius: '6px',
-  //     border: 'node',
-  //     boxShadow: '0 8px 30px rgb(0 0 0 / 12%)',
-  //     color: palette.accents_5,
-  //     zIndex: '999999',
-  //   }),
-  //   option: (provided, state) => ({
-  //     ...provided,
-  //     padding: '8px 12px',
-  //     backgroundColor: state.isSelected ? palette.accents_1 : palette.background,
-  //     color: state.isSelected ? palette.accents_8 : palette.accents_5,
-  //     border: 'node',
-  //     transition: 'all 0.1s linear',
-  //     '&:hover': {
-  //       backgroundColor: palette.accents_1,
-  //       color: palette.accents_8,
-  //       cursor: 'pointer',
-  //     },
-  //   }),
-  //   multiValue: (provided, state) => ({
-  //     ...provided,
-  //     padding: '2px 0px 2px 7px',
-  //     backgroundColor: palette.accents_2,
-  //     color: palette.accents_6,
-  //     borderRadius: '6px',
-  //   }),
-  //   multiValueRemove: (provided, state) => ({
-  //     ...provided,
-  //     padding: '0 7px',
-  //     color: palette.accents_3,
-  //     transition: 'all 0.1s linear',
+  const customStyles: StylesConfig = {
+    control: (base) => ({
+      ...base,
+      minWidth: '270px',
+      height: '40px',
+      borderColor: gray200,
+      '&:hover': {
+        borderColor: gray300,
+        cursor: 'text',
+      },
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: gray500,
+      fontWeight: 400,
+    }),
+    menu: (base) => ({
+      ...base,
+      padding: '3px 0',
+      color: '#000',
+      zIndex: 99999,
+    }),
+    option: (base, state) => ({
+      ...base,
+      padding: '5px 10px',
+      color: '#000',
+      backgroundColor: state.isSelected ? gray100 : '#fff',
+      '&:hover': {
+        backgroundColor: gray100,
+        cursor: 'pointer',
+      },
+    }),
+    noOptionsMessage: (base) => ({
+      ...base,
+      color: gray500,
+      padding: '0',
+    }),
+    clearIndicator: (base, state) => ({
+      ...base,
+      cursor: 'pointer',
+      color: state.isFocused ? gray500 : gray300,
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      display: 'none',
+    }),
+    indicatorSeparator: (base) => ({
+      ...base,
+      display: 'none',
+    }),
+  };
 
-  //     '&:hover': {
-  //       backgroundColor: 'transparent',
-  //       color: palette.foreground,
-  //       cursor: 'pointer',
-  //     },
-  //   }),
-  //   indicatorsContainer: (provided, state) => ({
-  //     ...provided,
-  //     color: palette.accents_3,
-  //     transition: 'all 0.1s linear',
-  //     '&:hover': {
-  //       cursor: 'pointer',
-  //       color: palette.foreground,
-  //     },
-  //   }),
-  //   dropdownIndicator: (provided) => ({
-  //     ...provided,
-  //     display: 'none',
-  //   }),
-  //   indicatorSeparator: (provided, state) => ({
-  //     ...provided,
-  //     display: 'none',
-  //   }),
-  // };
-  // components={{ ClearIndicator }} styles={customStyles}
-  return <AsyncSelect {...props} />;
+  return (
+    <AsyncSelect {...props} components={{ ClearIndicator }} styles={customStyles} menuPortalTarget={document.body} />
+  );
 };
 
 export default CustomAsyncSelect;
