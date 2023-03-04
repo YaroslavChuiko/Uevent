@@ -28,7 +28,7 @@ const AsyncSelectTheme = ({ theme, setTheme }: Props) => {
       cacheOptions
       isClearable
       value={theme}
-      placeholder="e.g. (business politics psychology)"
+      placeholder="e.g. (business politics sport)"
       onChange={setTheme}
       loadOptions={loadOptions}
     />
