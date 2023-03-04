@@ -20,8 +20,8 @@ const styles: TStyle = {
     },
   },
   date: {
-    color: 'red.500',
-    fontWeight: 'medium',
+    color: 'secondary',
+    fontWeight: 'semibold',
   },
   price: {
     color: 'gray.600',
