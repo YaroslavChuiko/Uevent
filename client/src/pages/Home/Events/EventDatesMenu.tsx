@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Icon,
   Menu,
@@ -99,37 +100,39 @@ const EventDatesMenu = ({ dateRange, setDateRange }: Props) => {
   };
 
   return (
-    <Menu closeOnSelect={true} isOpen={isMenuOpen} onOpen={onMenuOpen} onClose={closeMenu}>
-      <MenuButton
-        as={Button}
-        variant="ghost"
-        colorScheme="blue"
-        leftIcon={<Icon as={FiCalendar} />}
-        rightIcon={<Icon as={FiChevronDown} />}
-      >
-        {activeOption.label}
-      </MenuButton>
-      {!isCustomRangeOpen ? (
-        <MenuList minWidth="240px">
-          <MenuOptionGroup defaultValue={activeOption.value} type="radio">
-            {options.map((option, i) => (
-              <MenuItemOption
-                key={i}
-                value={option.value}
-                closeOnSelect={option.closeOnSelect}
-                onClick={option.onClick}
-              >
-                {option.value}
-              </MenuItemOption>
-            ))}
-          </MenuOptionGroup>
-        </MenuList>
-      ) : (
-        <MenuList>
-          <DayPicker mode="range" disabled={{ before: now }} selected={customRange} onSelect={onCustomRangeSelect} />
-        </MenuList>
-      )}
-    </Menu>
+    <Box>
+      <Menu closeOnSelect={true} isOpen={isMenuOpen} onOpen={onMenuOpen} onClose={closeMenu}>
+        <MenuButton
+          as={Button}
+          variant="ghost"
+          colorScheme="blue"
+          leftIcon={<Icon as={FiCalendar} />}
+          rightIcon={<Icon as={FiChevronDown} />}
+        >
+          {activeOption.label}
+        </MenuButton>
+        {!isCustomRangeOpen ? (
+          <MenuList minWidth="240px">
+            <MenuOptionGroup defaultValue={activeOption.value} type="radio">
+              {options.map((option, i) => (
+                <MenuItemOption
+                  key={i}
+                  value={option.value}
+                  closeOnSelect={option.closeOnSelect}
+                  onClick={option.onClick}
+                >
+                  {option.value}
+                </MenuItemOption>
+              ))}
+            </MenuOptionGroup>
+          </MenuList>
+        ) : (
+          <MenuList>
+            <DayPicker mode="range" disabled={{ before: now }} selected={customRange} onSelect={onCustomRangeSelect} />
+          </MenuList>
+        )}
+      </Menu>
+    </Box>
   );
 };
 

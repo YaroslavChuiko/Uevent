@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, InputGroup, InputLeftAddon, Stack } from '@chakra-ui/react';
 import { DateRange } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import AsyncSelectFormat from '~/components/Select/AsyncSelectFormat';
@@ -17,11 +17,17 @@ type Props = {
 
 const EventFilters = ({ format, theme, setFormat, setTheme, dateRange, setDateRange }: Props) => {
   return (
-    <Box>
-      <AsyncSelectFormat format={format} setFormat={setFormat} />
-      <AsyncSelectTheme theme={theme} setTheme={setTheme} />
+    <Stack direction={{ base: 'column', lg: 'row' }} spacing="20px">
+      <InputGroup>
+        <InputLeftAddon>Format</InputLeftAddon>
+        <AsyncSelectFormat format={format} setFormat={setFormat} />
+      </InputGroup>
+      <InputGroup>
+        <InputLeftAddon>Theme</InputLeftAddon>
+        <AsyncSelectTheme theme={theme} setTheme={setTheme} />
+      </InputGroup>
       <EventDatesMenu dateRange={dateRange} setDateRange={setDateRange} />
-    </Box>
+    </Stack>
   );
 };
 
