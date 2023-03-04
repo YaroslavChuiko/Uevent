@@ -1,5 +1,7 @@
-import { SimpleGrid, SlideFade } from '@chakra-ui/react';
+import { Box, Center, Flex, SimpleGrid, SlideFade } from '@chakra-ui/react';
+import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
+import Pagination from '~/components/Pagination/Pagination';
 import { useGetEventsQuery } from '~/store/api/event-slice';
 import { EventsParam } from '~/types/event';
 import EventCard from './EventCard';
@@ -13,11 +15,14 @@ type Props = {
 };
 
 const EventList = ({ formatId, themeId, dateRange }: Props) => {
+  const [curPage, setCurPage] = useState(1);
+  const itemsPerPage = 8;
+
   const params: EventsParam = {
     _sort: 'date',
     _order: 'ASC' as const,
-    _start: 0,
-    _end: 10,
+    _start: (curPage - 1) * itemsPerPage,
+    _end: curPage * itemsPerPage,
     upcoming: true,
   };
   formatId ? (params.formatId = formatId) : null;
@@ -30,28 +35,39 @@ const EventList = ({ formatId, themeId, dateRange }: Props) => {
   const { data, isFetching } = useGetEventsQuery(params);
 
   return (
-    <SimpleGrid minChildWidth="300px" spacing={{ base: '20px', md: '30px' }} p="40px 0">
-      {isFetching ? (
-        <>
-          <EventCardSkeleton />
-          <EventCardSkeleton />
-          <EventCardSkeleton />
-          <EventCardSkeleton />
-          <EventCardSkeleton />
-          <EventCardSkeleton />
-        </>
-      ) : data?.events.length ? (
-        data?.events.map((event) => (
-          <SlideFade key={event.id} offsetY="30px" in={true}>
-            <EventCard event={event} h="100%" />
+    <>
+      <SimpleGrid minChildWidth="300px" spacing={{ base: '20px', md: '30px' }} py="40px">
+        {isFetching ? (
+          <>
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+          </>
+        ) : data?.events.length ? (
+          data?.events.map((event) => (
+            <SlideFade key={event.id} offsetY="30px" in={true}>
+              <EventCard event={event} h="100%" />
+            </SlideFade>
+          ))
+        ) : (
+          <SlideFade offsetY="30px" in={true}>
+            <NothingFound />
           </SlideFade>
-        ))
-      ) : (
-        <SlideFade offsetY="30px" in={true}>
-          <NothingFound />
-        </SlideFade>
-      )}
-    </SimpleGrid>
+        )}
+      </SimpleGrid>
+      <Flex w="100%" alignItems="center" justifyContent="center" pb="40px">
+        {data?.events.length ? (
+          <Pagination
+            numberOfPages={Math.ceil((data?.totalCount as number) / itemsPerPage)}
+            curPage={curPage}
+            setCurPage={setCurPage}
+          />
+        ) : null}
+      </Flex>
+    </>
   );
 };
 
