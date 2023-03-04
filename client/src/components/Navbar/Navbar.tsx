@@ -1,6 +1,6 @@
-import { Box, Flex, HStack, IconButton, Icon, Stack, useDisclosure, Heading } from '@chakra-ui/react';
-import { FiAlignJustify, FiX } from 'react-icons/fi';
-import { NavLink } from 'react-router-dom';
+import { Box, Flex, Heading, HStack, Icon, IconButton, Stack, useDisclosure } from '@chakra-ui/react';
+import { FiMenu, FiX } from 'react-icons/fi';
+import { Link as ReactRouterLink, NavLink } from 'react-router-dom';
 import { NAVBAR_COLOR } from '~/consts/components';
 import styles from './navbar.styles';
 import NavbarAuth from './NavbarAuth';
@@ -19,15 +19,17 @@ const Navbar = () => {
         <IconButton
           size="md"
           bgColor={NAVBAR_COLOR}
-          icon={<Icon as={isOpen ? FiX : FiAlignJustify} />}
+          icon={<Icon boxSize={6} as={isOpen ? FiX : FiMenu} />}
           aria-label="Open Menu"
           display={{ md: 'none' }}
           onClick={isOpen ? onClose : onOpen}
         />
         <Box>
-          <Heading size="lg" color="secondary">
-            uevent
-          </Heading>
+          <ReactRouterLink to="/">
+            <Heading size="lg" color="secondary">
+              uevent
+            </Heading>
+          </ReactRouterLink>
         </Box>
         <HStack align="center" spacing={6}>
           <HStack as="nav" spacing={6} display={{ base: 'none', md: 'flex' }}>
