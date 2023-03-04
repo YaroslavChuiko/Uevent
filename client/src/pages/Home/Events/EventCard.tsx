@@ -25,10 +25,11 @@ const EventCard = ({ event, ...cardProps }: Props) => {
   const { data: company } = useGetCompanyQuery(event.companyId);
   const date = new Intl.DateTimeFormat('en-US', DateFormatOptions).format(new Date(event.date));
   const price = event.price ? new Intl.NumberFormat('en-US', PriceFormatOptions).format(event.price) : 'free';
+  const eventUrl = `/events/${event.id}`;
 
   return (
     <Card sx={styles.card} {...cardProps}>
-      <ReactRouterLink to={`/events/${event.id}`}>
+      <ReactRouterLink to={eventUrl}>
         <Flex w="100%" h="155px" overflow="hidden" alignItems="center" justifyContent="center">
           <Image
             sx={styles.img}
@@ -41,7 +42,7 @@ const EventCard = ({ event, ...cardProps }: Props) => {
 
       <CardBody>
         <Stack mt="1" spacing="2">
-          <ReactRouterLink to={`/event/${event.id}`}>
+          <ReactRouterLink to={eventUrl}>
             <Heading as="h3" noOfLines={2} fontSize="18px">
               {event.name}
             </Heading>
