@@ -21,7 +21,7 @@ const GoogleMap = ({ text, lat, lng }: IProps) => {
   const zoom = 13;
 
   return (
-    <div style={{ height: '500px', width: '700px' }}>
+    <div style={{ height: '400px', width: '100%', maxWidth: '50rem' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: '' }}
         defaultCenter={{ lat: Number(lat), lng: Number(lng) }}
