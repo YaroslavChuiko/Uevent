@@ -10,7 +10,6 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Home from './pages/Home/Home';
 import Navbar from './components/Navbar/Navbar';
 import { Box } from '@chakra-ui/react';
-import './index.css';
 import styles from './app.styles';
 import EventRoutes from './routes/Events';
 
