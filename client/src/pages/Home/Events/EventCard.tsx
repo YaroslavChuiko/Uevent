@@ -28,7 +28,7 @@ const EventCard = ({ event, ...cardProps }: Props) => {
 
   return (
     <Card sx={styles.card} {...cardProps}>
-      <ReactRouterLink to={`/event/${event.id}`}>
+      <ReactRouterLink to={`/events/${event.id}`}>
         <Image
           sx={styles.img}
           src={`${import.meta.env.VITE_API_URL}/${event.picturePath}`}

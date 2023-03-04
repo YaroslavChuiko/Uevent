@@ -57,6 +57,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetCompaniesQuery,
   useGetCompanyQuery,
+  useLazyGetCompanyQuery,
   useUpdateCompanyMutation,
   useDeleteCompanyMutation,
   useUpdateCompanyAvatarMutation,

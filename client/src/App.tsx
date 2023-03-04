@@ -12,6 +12,7 @@ import Navbar from './components/Navbar/Navbar';
 import { Box } from '@chakra-ui/react';
 import './index.css';
 import styles from './app.styles';
+import EventRoutes from './routes/Events';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="profile/*" element={<ProfileRoutes />} />
             </Route>
+            <Route path="events/*" element={<EventRoutes />} />
             <Route>
               <Route path="companies/*" element={<CompaniesRoutes />} />
             </Route>

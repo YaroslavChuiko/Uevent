@@ -9,6 +9,7 @@ const styles: TStyle = {
     minH: `calc(100vh - ${NAVBAR_HEIGHT}rem)`,
     p: {
       base: '10px',
+      sm: '20px',
       md: '40px',
       xl: '80px 100px',
     },
