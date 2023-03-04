@@ -4,6 +4,7 @@ import styles from '../event.styles';
 import { Event } from '~/types/event';
 import { AVATAR_PATH } from '~/consts/avatar';
 import GoogleMap from '~/components/GoogleMap/GoogleMap';
+import { PRICE_FORMAT_OPTIONS } from '~/consts/options';
 
 type PropType = {
   event: Event;
@@ -15,6 +16,7 @@ const EventInfo = ({ event, companyName }: PropType) => {
   const date = new Date(event.date);
   const shortDate = date.toLocaleString('default', { month: 'long', day: '2-digit' });
   const eventTitle = `${event.name} by ${companyName}`;
+  const price = event.price ? new Intl.NumberFormat('en-US', PRICE_FORMAT_OPTIONS).format(event.price) : 'free';
 
   return (
     <Box pb="8">
@@ -32,8 +34,7 @@ const EventInfo = ({ event, companyName }: PropType) => {
           <Card p={{ base: '4', sm: '10' }} variant="filled" w="100%">
             <Flex flexDir="column" justify="center" w="100%">
               <Text fontSize="3xl" fontWeight="semibold" textAlign="center">
-                {event.price !== 0 && '$'}
-                {event.price}
+                {price}
               </Text>
               <Button disabled={event.ticketsAvailable === 0} size="lg" colorScheme="blue" mt="4">
                 Get a ticket
