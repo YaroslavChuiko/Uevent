@@ -11,7 +11,6 @@ type TStyle = {
 
 const styles: TStyle = {
   card: {
-    maxWidth: 'sm',
     minWidth: '300px',
     overflow: 'hidden',
     boxShadow: 'lg',
@@ -33,7 +32,6 @@ const styles: TStyle = {
     color: 'gray.700',
   },
   img: {
-    h: '160px',
     objectFit: 'cover',
   },
   tag: {

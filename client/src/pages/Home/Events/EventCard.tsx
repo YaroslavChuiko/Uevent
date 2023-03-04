@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardBody, CardProps, Heading, Image, Stack, Tag, Text, Wrap } from '@chakra-ui/react';
+import { Avatar, Box, Card, CardBody, CardProps, Flex, Heading, Image, Stack, Tag, Text, Wrap } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useGetCompanyQuery } from '~/store/api/company-slice';
 import { Event } from '~/types/event';
@@ -29,12 +29,14 @@ const EventCard = ({ event, ...cardProps }: Props) => {
   return (
     <Card sx={styles.card} {...cardProps}>
       <ReactRouterLink to={`/events/${event.id}`}>
-        <Image
-          sx={styles.img}
-          src={`${import.meta.env.VITE_API_URL}/${event.picturePath}`}
-          fallbackSrc="https://via.placeholder.com/868x300?text=Poster"
-          alt={event.name}
-        />
+        <Flex w="100%" h="155px" overflow="hidden" alignItems="center" justifyContent="center">
+          <Image
+            sx={styles.img}
+            src={`${import.meta.env.VITE_API_URL}/${event.picturePath}`}
+            fallbackSrc="https://via.placeholder.com/668x400?text=Poster"
+            alt={event.name}
+          />
+        </Flex>
       </ReactRouterLink>
 
       <CardBody>

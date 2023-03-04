@@ -30,7 +30,7 @@ const EventList = ({ formatId, themeId, dateRange }: Props) => {
   const { data, isFetching } = useGetEventsQuery(params);
 
   return (
-    <SimpleGrid minChildWidth="300px" spacing="30px" p="40px 0">
+    <SimpleGrid minChildWidth="300px" spacing={{ base: '20px', md: '30px' }} p="40px 0">
       {isFetching ? (
         <>
           <EventCardSkeleton />

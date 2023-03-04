@@ -10,7 +10,7 @@ const styles: TStyle = {
       md: '800px',
       lg: '1360px',
     },
-    px: layout.page.p,
+    px: '15px',
     mx: 'auto',
   },
 };
