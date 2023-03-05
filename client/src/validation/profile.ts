@@ -7,4 +7,9 @@ export const updateSchema = z.object({
   fullName: z.string().min(FULL_NAME_LENGTH.min).max(FULL_NAME_LENGTH.max),
 });
 
+export const avatarResponse = z.object({
+  picturePath: z.string(),
+});
+
+export type IAvatarUpdate = z.infer<typeof avatarResponse>;
 export type IUpdate = z.infer<typeof updateSchema>;
