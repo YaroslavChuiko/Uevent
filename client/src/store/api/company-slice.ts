@@ -1,4 +1,4 @@
-import { CompaniesParam, CompaniesResponse, Company } from '~/types/company';
+import { CompaniesParam, CompaniesResponse, Company, SubscriptionResponse } from '~/types/company';
 import { apiSlice } from './api-slice';
 import type { IUpdate } from '~/validation/companies';
 import { User, UsersParam, UsersResponse } from '~/types/user';
@@ -60,7 +60,21 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       transformResponse(users: User[], meta: any) {
         return { users, totalCount: Number(meta.response.headers.get('X-Total-Count')) };
       },
-      providesTags: ['CompanySubscribers'],
+      providesTags: (_result, _err, arg) => [{ type: 'CompanySubscribers' as const, id: arg.companyId }],
+    }),
+    subscribe: builder.mutation<SubscriptionResponse, number>({
+      query: (id) => ({
+        url: `/me/companies/${id}`,
+        method: 'POST',
+      }),
+      invalidatesTags: (_result, _err, arg) => [{ type: 'CompanySubscribers', id: arg }],
+    }),
+    unsubscribe: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/me/companies/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, _err, arg) => [{ type: 'CompanySubscribers', id: arg }],
     }),
   }),
 });
@@ -74,4 +88,6 @@ export const {
   useUpdateCompanyAvatarMutation,
   useDeleteCompanyAvatarMutation,
   useGetCompanySubscribersQuery,
+  useSubscribeMutation,
+  useUnsubscribeMutation,
 } = extendedApiSlice;
