@@ -14,8 +14,8 @@ type TStyle = {
 const mainInfoMaxW = {
   maxW: {
     base: '100%',
-    md: '30rem',
-    lg: '50rem',
+    lg: '40rem',
+    xl: '60rem',
   },
 };
 
@@ -23,21 +23,20 @@ const styles: TStyle = {
   info: {
     flexDir: {
       base: 'column',
-      md: 'row',
+      lg: 'row',
     },
   },
   mainInfo: mainInfoMaxW,
   price: {
-    w: { base: '100%', md: '30rem' },
-    ml: { md: '8' },
-    mt: { base: '8', md: '0' },
+    w: { base: '100%', lg: '30rem' },
+    ml: { lg: '8' },
+    mt: { base: '8', lg: '0' },
   },
   dateNLocation: {
     flexDir: { base: 'column', sm: 'row' },
     justifyContent: 'space-evenly',
     alignItems: 'stretch',
     w: '100%',
-    ...mainInfoMaxW,
   },
   location: {
     p: {

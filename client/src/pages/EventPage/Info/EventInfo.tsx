@@ -30,7 +30,7 @@ const EventInfo = ({ event, companyName }: PropType) => {
   const tags = [e.format.name, e.theme.name];
 
   return (
-    <Box pb="8">
+    <Box>
       <Flex sx={styles.poster}>
         <Box sx={styles.blurBg(e.picturePath)}></Box>
         <Image sx={styles.image} src={e.picturePath} boxSize="full" objectFit="contain" alt="Event image" />
@@ -67,7 +67,7 @@ const EventInfo = ({ event, companyName }: PropType) => {
           </Card>
         </VStack>
       </Flex>
-      <Flex pt="8" flexDir="column">
+      <Flex pt="8" flexDir="column" sx={styles.mainInfo}>
         <Flex sx={styles.dateNLocation}>
           <Card p={{ base: '4', sm: '6' }} variant="outline">
             <HStack spacing="6">
@@ -88,9 +88,9 @@ const EventInfo = ({ event, companyName }: PropType) => {
             </HStack>
           </Card>
         </Flex>
-        <Box pt="8">
+        <Flex pt="8" justify="center">
           <GoogleMap text={e.name} lat={e.latitude} lng={e.longitude} />
-        </Box>
+        </Flex>
       </Flex>
     </Box>
   );
