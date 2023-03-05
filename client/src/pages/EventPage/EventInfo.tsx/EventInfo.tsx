@@ -33,7 +33,7 @@ const EventInfo = ({ event, companyName }: PropType) => {
     <Box pb="8">
       <Flex sx={styles.poster}>
         <Box sx={styles.blurBg(e.picturePath)}></Box>
-        <Image sx={styles.image} src={e.picturePath} boxSize="full" objectFit="cover" alt="Event image" />
+        <Image sx={styles.image} src={e.picturePath} boxSize="full" objectFit="contain" alt="Event image" />
       </Flex>
       <Flex pt="8" justify="space-between" sx={styles.info}>
         <VStack spacing={4} align="flex-start" sx={styles.mainInfo}>

@@ -49,12 +49,6 @@ const styles: TStyle = {
   },
   poster: {
     bgColor: 'gray.100',
-    height: {
-      base: '200px',
-      sm: '300px',
-      md: '500px',
-      lg: '480px',
-    },
     width: '100%',
     px: {
       base: '2rem',
@@ -76,7 +70,15 @@ const styles: TStyle = {
     filter: 'blur(30px) brightness(.8)',
     zIndex: 0,
   }),
-  image: { zIndex: 5 },
+  image: {
+    zIndex: 5,
+    maxHeight: {
+      base: '200px',
+      sm: '300px',
+      md: '400px',
+      lg: '480px',
+    },
+  },
 };
 
 export default styles;
