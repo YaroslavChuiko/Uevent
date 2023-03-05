@@ -31,7 +31,6 @@ const styles: TStyle = {
     w: { base: '100%', md: '30rem' },
     ml: { md: '8' },
     mt: { base: '8', md: '0' },
-    p: '',
   },
   dateNLocation: {
     flexDir: { base: 'column', sm: 'row' },

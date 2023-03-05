@@ -27,6 +27,7 @@ type PropType = {
 const EventInfo = ({ event, companyName }: PropType) => {
   const eventTitle = `${event.name} by ${companyName}`;
   const e = GET_DISPLAY_EVENT(event);
+  const tags = [e.format.name, e.theme.name];
 
   return (
     <Box pb="8">
@@ -38,7 +39,14 @@ const EventInfo = ({ event, companyName }: PropType) => {
         <VStack spacing={4} align="flex-start" sx={styles.mainInfo}>
           <Text fontSize="lg">{e.shortDate}</Text>
           <Heading fontSize={{ base: '3xl', md: '5xl' }}>{eventTitle.toUpperCase()}</Heading>
-          <Text fontSize="lg">{event.description}</Text>
+          <Text fontSize="xl">{e.description}</Text>
+          <HStack spacing="4">
+            {tags.map((t, i) => (
+              <Tag size="lg" key={i} colorScheme="purple">
+                {t}
+              </Tag>
+            ))}
+          </HStack>
         </VStack>
         <VStack spacing={4} sx={styles.price}>
           <Flex w="100%" justify="flex-end">
