@@ -1,4 +1,5 @@
 import { ROLE_ENUM } from '~/consts/validation';
+import { Order } from './order';
 
 export type User = {
   id: number;
@@ -8,4 +9,18 @@ export type User = {
   isConfirmed: boolean;
   picturePath?: string;
   role: typeof ROLE_ENUM;
+};
+
+export type UsersResponse = {
+  users: User[];
+  totalCount: number;
+};
+
+export type UsersParam = {
+  _start?: number;
+  _end?: number;
+  _sort?: string;
+  _order?: Order;
+  companyId?: number;
+  q?: string;
 };

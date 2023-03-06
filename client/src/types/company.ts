@@ -25,3 +25,7 @@ export type CompaniesParam = {
   subscriberId?: number;
   q?: string;
 };
+
+export type SubscriptionResponse = {
+  companyId: number;
+};

@@ -42,7 +42,6 @@ const ProfileForm = ({ setEdit }: PropsType) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<IUpdate>({
     resolver: zodResolver(updateSchema),
     defaultValues,
@@ -50,7 +49,6 @@ const ProfileForm = ({ setEdit }: PropsType) => {
 
   const onSubmit = async (data: IUpdate) => {
     await updateHandler(data);
-    reset(defaultValues);
   };
 
   return (

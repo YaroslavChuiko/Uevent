@@ -10,6 +10,8 @@ import Token from './token';
 
 const user = prisma.user;
 
+type UserQueryParams = QueryParams & { companyId?: number };
+
 interface IUser {
   login: string;
   email: string;
@@ -78,10 +80,16 @@ const UserService = {
     await user.update({ data: { picturePath: null }, where: { id } });
   },
 
-  getWhereOptions(params: QueryParams) {
+  getWhereOptions(params: UserQueryParams) {
     const where: Prisma.UserWhereInput = { AND: [] };
 
-    if (params && params.q) {
+    if (!params) {
+      return where;
+    }
+
+    const { q, companyId } = params;
+
+    if (q) {
       const { q } = params;
       Array.isArray(where.AND) &&
         where.AND.push({
@@ -93,6 +101,16 @@ const UserService = {
               email: { contains: q },
             },
           ],
+        });
+    }
+    if (companyId) {
+      Array.isArray(where.AND) &&
+        where.AND.push({
+          subscriptions: {
+            some: {
+              companyId: Number(companyId),
+            },
+          },
         });
     }
 

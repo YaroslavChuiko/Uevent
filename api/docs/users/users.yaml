@@ -3,8 +3,6 @@ paths:
     get:
       tags:
         - Users
-      security:
-        - bearerAuth: []
       description: Get all the users
       parameters:
         - name: _start
@@ -35,6 +33,11 @@ paths:
           schema:
             type: string
           description: The string for general search by login / email
+        - name: companyId
+          in: query
+          schema:
+            type: number
+          description: The id of the company the user may be subscribed to
       responses:
         200:
           description: All registered users found
@@ -42,18 +45,6 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/users'
-        401:
-          description: Bearer token is invalid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#definitions/error'
-        403:
-          description: You do not have admin rights
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#definitions/error'
     post:
       tags:
         - Users

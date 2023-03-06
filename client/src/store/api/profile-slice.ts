@@ -1,9 +1,11 @@
+import { User } from '~/types/user';
+import { IAvatarUpdate, IUpdate } from '~/validation/profile';
 import { logout, setUser, updateUser } from '../profileSlice';
 import { apiSlice } from './api-slice';
 
 export const profileSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProfile: builder.query({
+    getProfile: builder.query<User, void>({
       query: () => '/me/profile',
       async onQueryStarted(_args, { dispatch, queryFulfilled }) {
         try {
@@ -13,21 +15,17 @@ export const profileSlice = apiSlice.injectEndpoints({
       },
       providesTags: ['UserProfile'],
     }),
-    updateProfile: builder.mutation({
+    updateProfile: builder.mutation<void, IUpdate>({
       query: ({ login, email, fullName }) => ({
         url: 'me/profile',
         method: 'PUT',
         body: { login, email, fullName },
       }),
       async onQueryStarted(body, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          profileSlice.util.updateQueryData('getProfile', undefined, (draft) => {
-            Object.assign(draft, body);
-            dispatch(updateUser(body));
-          }),
-        );
-        queryFulfilled.catch(patchResult.undo);
+        dispatch(updateUser(body));
+        await queryFulfilled;
       },
+      invalidatesTags: ['UserProfile'],
     }),
     deleteProfile: builder.mutation({
       query: () => ({
@@ -42,7 +40,7 @@ export const profileSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: ['UserProfile'],
     }),
-    updateAvatar: builder.mutation({
+    updateAvatar: builder.mutation<IAvatarUpdate, FormData>({
       query: (form) => ({
         url: 'me/profile/avatar',
         method: 'PUT',

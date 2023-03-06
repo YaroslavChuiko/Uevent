@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import Container from '~/components/Container';
-import EventInfo from './EventInfo.tsx/EventInfo';
+import EventInfo from './Info/EventInfo';
 import { useGetEventQuery } from '~/store/api/event-slice';
 import Loader from '~/components/Loader/Loader';
 import PageAlert from '~/components/PageAlert/PageAlert';
@@ -8,6 +8,7 @@ import IError from '~/types/error';
 import { useEffect } from 'react';
 import { useLazyGetCompanyQuery } from '~/store/api/company-slice';
 import { Company } from '~/types/company';
+import CompanyInfo from './Info/CompanyInfo';
 
 const EventPage = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ const EventPage = () => {
       getCompany(event.companyId);
     }
   }, [event]);
-  
+
   if (isLoadingEvent || isLoadingCompany || ((!event || !company) && !error)) {
     return <Loader />;
   }
@@ -28,10 +29,10 @@ const EventPage = () => {
     return <PageAlert status="error" message={(error as IError).data.message} />;
   }
 
-
   return (
-    <Container>
+    <Container pb="16">
       <EventInfo event={event} companyName={(company as Company).name}></EventInfo>
+      <CompanyInfo company={company as Company}></CompanyInfo>
     </Container>
   );
 };

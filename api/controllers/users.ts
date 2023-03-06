@@ -25,7 +25,7 @@ const getMany = async (req: Request, res: Response) => {
       ...sort,
       where,
     }),
-    user.count(),
+    user.count({ where }),
   ]);
 
   const result = users.map(({ password, ...obj }) => obj);
