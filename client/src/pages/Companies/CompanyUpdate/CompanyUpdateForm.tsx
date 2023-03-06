@@ -18,6 +18,7 @@ import { updateSchema } from '~/validation/companies';
 import type { IUpdate } from '~/validation/companies';
 import type { Company } from '~/types/company';
 import CompanyFormAvatar from './CompanyFormAvatar';
+import PlacesSearch from '~/components/PlacesSearch/PlacesSearch';
 
 type IProps = {
   company: Company;
@@ -32,7 +33,7 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    setValue,
   } = useForm<IUpdate>({
     resolver: zodResolver(updateSchema),
     defaultValues,
@@ -41,9 +42,6 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
   const { handler: updateHandler } = useRequestHandler<IUpdate & { id: number }>({
     f: update,
     successMsg: "You've successfully updated the company",
-    successF: () => {
-      reset(defaultValues);
-    },
   });
 
   const onSubmit = async (data: IUpdate) => {
@@ -78,16 +76,13 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
               <Input id="email" placeholder="email" {...register('email')} />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={!!errors.latitude}>
-              <FormLabel htmlFor="latitude">Latitude</FormLabel>
-              <Input id="latitude" placeholder="latitude" {...register('latitude')} />
-              <FormErrorMessage>{errors.latitude?.message}</FormErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={!!errors.longitude}>
-              <FormLabel htmlFor="longitude">Longitude</FormLabel>
-              <Input id="longitude" placeholder="longitude" {...register('longitude')} />
-              <FormErrorMessage>{errors.longitude?.message}</FormErrorMessage>
-            </FormControl>
+            <PlacesSearch
+              lat={defaultValues.latitude}
+              lng={defaultValues.longitude}
+              register={register}
+              setValue={setValue}
+              errors={errors}
+            />
             <Button type="submit" w="200px" colorScheme="blue" isLoading={isLoading}>
               Submit
             </Button>

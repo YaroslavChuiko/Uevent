@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -26,6 +27,7 @@ import ConfirmPopover from '~/components/ConfirmPopover/ConfirmPopover';
 import IError from '~/types/error';
 import type { Company } from '~/types/company';
 import { AVATAR_PATH } from '~/consts/avatar';
+import Geocode from '~/consts/geocode';
 
 type IProps = {
   company: Company;
@@ -38,6 +40,20 @@ const CompanyInfo = ({ company, setEdit }: IProps) => {
   const [deleteCompany, { isLoading: isDeleteLoading }] = useDeleteCompanyMutation();
   const { onOpen: onOpenDelete, onClose: onCloseDelete, isOpen: isOpenDelete } = useDisclosure();
   const navigate = useNavigate();
+
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    Geocode.fromLatLng(company.latitude.toString(), company.longitude.toString()).then(
+      (response) => {
+        const address = response.results[0].formatted_address;
+        setAddress(address);
+      },
+      (error) => {
+        setAddress('');
+      },
+    );
+  }, []);
 
   const { handler: deleteHandler } = useRequestHandler<number>({
     f: deleteCompany,
@@ -97,7 +113,10 @@ const CompanyInfo = ({ company, setEdit }: IProps) => {
         <Stack divider={<StackDivider />} spacing="4">
           <HStack divider={<StackDivider />} spacing="4">
             <Text fontSize="md" colorScheme="gray">
-              {`${company.email}`}
+              {company.email}
+            </Text>
+            <Text fontSize="md" colorScheme="gray">
+              {address}
             </Text>
             <Box fontSize="md">
               <Flex alignItems="center">
@@ -107,7 +126,7 @@ const CompanyInfo = ({ company, setEdit }: IProps) => {
               </Flex>
             </Box>
           </HStack>
-          <GoogleMap text={company.name} lat={company.latitude} lng={company.longitude} />
+          <GoogleMap text={`${company.name}, ${address}`} lat={company.latitude} lng={company.longitude} />
         </Stack>
       </CardBody>
     </Card>
