@@ -1,6 +1,8 @@
 import { Event } from '~/types/event';
 import { AVATAR_PATH } from './avatar';
 
+export const STRIPE_API_KEY = import.meta.env.VITE_STRIPE_API_KEY;
+
 export const PRICE_FORMAT_OPTIONS = {
   style: 'currency',
   currency: 'USD',

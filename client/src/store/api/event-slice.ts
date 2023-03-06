@@ -1,4 +1,5 @@
-import { Event, EventsParam, EventsResponse } from '~/types/event';
+import { SubscriptionResponse, Event, EventsParam, EventsResponse } from '~/types/event';
+import { ISubscribe } from '~/validation/event';
 import { apiSlice } from './api-slice';
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
@@ -44,7 +45,16 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Event'],
     }),
+    checkoutForEvent: builder.mutation<SubscriptionResponse, ISubscribe & { id: number }>({
+      query: ({ isVisible, id }) => ({
+        url: `/events/${id}/subscribe`,
+        method: 'POST',
+        body: { isVisible },
+      }),
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Event' as const, id: arg.id }],
+    }),
   }),
 });
 
-export const { useGetEventQuery, useGetEventsQuery, useDeleteEventMutation } = extendedApiSlice;
+export const { useGetEventQuery, useGetEventsQuery, useDeleteEventMutation, useCheckoutForEventMutation } =
+  extendedApiSlice;

@@ -12,12 +12,15 @@ import {
   TagLeftIcon,
   Tag,
   TagLabel,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { FiCalendar, FiMapPin, FiUsers } from 'react-icons/fi';
 import styles from '../event.styles';
 import { Event } from '~/types/event';
 import GoogleMap from '~/components/GoogleMap/GoogleMap';
 import { GET_DISPLAY_EVENT } from '~/consts/event';
+import { useAppSelector } from '~/hooks/use-app-selector';
+import EventSubscribe from './EventSubscribe';
 
 type PropType = {
   event: Event;
@@ -25,9 +28,12 @@ type PropType = {
 };
 
 const EventInfo = ({ event, companyName }: PropType) => {
+  const { user } = useAppSelector((state) => state.profile);
   const eventTitle = `${event.name} by ${companyName}`;
   const e = GET_DISPLAY_EVENT(event);
   const tags = [e.format.name, e.theme.name];
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box>
@@ -60,9 +66,10 @@ const EventInfo = ({ event, companyName }: PropType) => {
               <Text fontSize="3xl" fontWeight="semibold" textAlign="center">
                 {e.price}
               </Text>
-              <Button isDisabled={!e.tickets} size="lg" colorScheme="blue" mt="4">
+              <Button onClick={onOpen} isDisabled={!e.tickets || !user.id} size="lg" colorScheme="blue" mt="4">
                 Get a ticket
               </Button>
+              <EventSubscribe isOpen={isOpen} onClose={onClose} event={event} />
             </Flex>
           </Card>
         </VStack>
