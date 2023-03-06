@@ -44,6 +44,18 @@ const createSession = async (req: Request, res: Response) => {
   const event = await EventService.findEventIfExists(eventId);
   await EventSubscription.check(event.id, user.id);
 
+  if (event.price === 0) {
+    const meta: IEventMeta = {
+      metadata: {
+        isVisible,
+        eventId: String(eventId),
+        userId: String(user.id),
+      },
+    };
+    await EventSubscription.handleWith(meta);
+    return res.json({ sessionId: -1 });
+  }
+
   const discount = await getDiscount(eventId, req.body.promoCode);
 
   const params: Stripe.Checkout.SessionCreateParams = {

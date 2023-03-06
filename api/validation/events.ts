@@ -32,15 +32,9 @@ const updateSchema = Joi.object().keys({
   themeId: Joi.number().positive().required(),
 });
 
-const isVisible = Joi.boolean().required();
-
-const eventSubSchema = Joi.object().keys({
-  isVisible,
-});
-
 const ticketSchema = Joi.object().keys({
-  isVisible,
+  isVisible: Joi.boolean().required(),
   promoCode: Joi.string(),
 });
 
-export { createSchema, updateSchema, eventSubSchema, ticketSchema };
+export { createSchema, updateSchema, ticketSchema };
