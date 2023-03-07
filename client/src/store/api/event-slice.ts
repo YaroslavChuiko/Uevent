@@ -46,10 +46,10 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Event'],
     }),
     checkoutForEvent: builder.mutation<SubscriptionResponse, ISubscribe & { id: number }>({
-      query: ({ isVisible, id }) => ({
+      query: ({ isVisible, promoCode, id }) => ({
         url: `/events/${id}/subscribe`,
         method: 'POST',
-        body: { isVisible },
+        body: { isVisible, promoCode },
       }),
       invalidatesTags: (_result, _error, arg) => [{ type: 'Event' as const, id: arg.id }],
     }),
