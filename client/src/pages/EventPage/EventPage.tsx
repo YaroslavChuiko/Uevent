@@ -1,14 +1,16 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Container from '~/components/Container';
-import EventInfo from './Info/EventInfo';
-import { useGetEventQuery } from '~/store/api/event-slice';
 import Loader from '~/components/Loader/Loader';
 import PageAlert from '~/components/PageAlert/PageAlert';
-import IError from '~/types/error';
-import { useEffect } from 'react';
 import { useLazyGetCompanyQuery } from '~/store/api/company-slice';
+import { useGetEventQuery } from '~/store/api/event-slice';
 import { Company } from '~/types/company';
+import IError from '~/types/error';
+import CompanyEventsCarousel from './Carousel/CompanyEventsCarousel';
+import SimilarEventsCarousel from './Carousel/SimilarEventsCarousel';
 import CompanyInfo from './Info/CompanyInfo';
+import EventInfo from './Info/EventInfo';
 
 const EventPage = () => {
   const { id } = useParams();
@@ -33,6 +35,8 @@ const EventPage = () => {
     <Container pb="16">
       <EventInfo event={event} companyName={(company as Company).name}></EventInfo>
       <CompanyInfo company={company as Company}></CompanyInfo>
+      <SimilarEventsCarousel eventId={event.id} eventFormatId={event.formatId} eventThemeId={event.themeId} />
+      <CompanyEventsCarousel eventId={event.id} companyId={event.companyId} />
     </Container>
   );
 };
