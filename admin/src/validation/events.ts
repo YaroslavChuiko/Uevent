@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { COORDINATES, EVENT_NAME_LENGTH } from '../consts/validation';
+import { LATITUDE, LONGITUDE, EVENT_NAME_LENGTH } from '../consts/validation';
 
 const createSchema = yupResolver(
   Yup.object().shape({
@@ -13,8 +13,8 @@ const createSchema = yupResolver(
     isPublic: Yup.boolean().required(),
     date: Yup.date().min(new Date()).required(),
     publishDate: Yup.date().max(Yup.ref('date')).required(),
-    latitude: Yup.number().required().min(COORDINATES.min).max(COORDINATES.max),
-    longitude: Yup.number().required().min(COORDINATES.min).max(COORDINATES.max),
+    latitude: Yup.number().required().min(LATITUDE.min).max(LATITUDE.max),
+    longitude: Yup.number().required().min(LONGITUDE.min).max(LONGITUDE.max),
     formatId: Yup.number().positive().required(),
     themeId: Yup.number().positive().required(),
   }),
@@ -30,8 +30,8 @@ const updateSchema = yupResolver(
     isPublic: Yup.boolean().required(),
     date: Yup.date().required(),
     publishDate: Yup.date().max(Yup.ref('date')).required(),
-    latitude: Yup.number().required().min(COORDINATES.min).max(COORDINATES.max),
-    longitude: Yup.number().required().min(COORDINATES.min).max(COORDINATES.max),
+    latitude: Yup.number().required().min(LATITUDE.min).max(LATITUDE.max),
+    longitude: Yup.number().required().min(LONGITUDE.min).max(LONGITUDE.max),
     formatId: Yup.number().positive().required(),
     themeId: Yup.number().positive().required(),
   }),

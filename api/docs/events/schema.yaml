@@ -169,3 +169,6 @@ definitions:
     properties:
       isVisible:
         type: boolean
+      promoCode:
+        type: string
+        required: false

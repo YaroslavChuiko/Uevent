@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetCompanyQuery } from '~/store/api/company-slice';
 import CompanyInfo from './CompanyInfo';
-import CompanyUpdateForm from './CompanyUpdate/CompanyUpdateForm';
+import CompanyUpdateForm from '../CompanyUpdate/CompanyUpdateForm';
 import PageAlert from '~/components/PageAlert/PageAlert';
 import Loader from '~/components/Loader/Loader';
 import IError from '~/types/error';

@@ -287,7 +287,7 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
-  /events/{id}/checkout:
+  /events/{id}/subscribe:
     parameters:
       - name: id
         in: path
@@ -308,63 +308,13 @@ paths:
               $ref: '#definitions/event_checkout'
       responses:
         200:
-          description: Created a Stripe session
+          description: Created a Stripe session OR Subscribed to a free event
           content:
             application/json; charset=utf-8:
               schema:
                 type: object
                 properties:
                   sessionId:
-                    type: integer
-        400:
-          description: You're already subscribed to the event
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#definitions/error'
-        401:
-          description: Bearer token is invalid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#definitions/error'
-        403:
-          description: No tickets available
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#definitions/error'
-  /events/{id}/subscribe:
-    parameters:
-      - name: id
-        in: path
-        schema:
-          type: integer
-        required: true
-        description: The id of the record to query
-    post:
-      tags:
-        - Events
-      security:
-        - bearerAuth: []
-      description: Subscribe to a free event
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                isVisible:
-                  type: boolean
-      responses:
-        200:
-          description: Subscribed to a free event
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: object
-                properties:
-                  eventId:
                     type: integer
         400:
           description: You're already subscribed to the event

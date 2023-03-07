@@ -45,3 +45,7 @@ export type EventsParam = {
   dateTo?: string;
   q?: string;
 };
+
+export type SubscriptionResponse = {
+  sessionId: number;
+};

@@ -1,6 +1,6 @@
 import { CompaniesParam, CompaniesResponse, Company, SubscriptionResponse } from '~/types/company';
 import { apiSlice } from './api-slice';
-import type { IUpdate } from '~/validation/companies';
+import type { ICreate, IUpdate } from '~/validation/companies';
 import { User, UsersParam, UsersResponse } from '~/types/user';
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
@@ -21,6 +21,14 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     getCompany: builder.query<Company, number>({
       query: (id) => `/companies/${id}`,
       providesTags: (_result, _error, arg) => [{ type: 'Company' as const, id: arg }],
+    }),
+    createCompany: builder.mutation<Company, ICreate>({
+      query: (body) => ({
+        url: '/companies',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Company'],
     }),
     updateCompany: builder.mutation<Company, IUpdate & Pick<Company, 'id'>>({
       query: ({ id, ...body }) => ({
@@ -83,6 +91,7 @@ export const {
   useGetCompaniesQuery,
   useGetCompanyQuery,
   useLazyGetCompanyQuery,
+  useCreateCompanyMutation,
   useUpdateCompanyMutation,
   useDeleteCompanyMutation,
   useUpdateCompanyAvatarMutation,

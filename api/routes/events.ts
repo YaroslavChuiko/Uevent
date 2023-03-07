@@ -5,7 +5,6 @@ import {
   deletePoster,
   getManyEvents,
   getOneEventById,
-  subscribeToEvent,
   updateEvent,
   updatePoster,
 } from '../controllers/events';
@@ -17,7 +16,6 @@ import fileUpload from '../utils/file-upload';
 import validate from '../utils/validation';
 import {
   createSchema as createEventSchema,
-  eventSubSchema,
   ticketSchema,
   updateSchema,
 } from '../validation/events';
@@ -40,7 +38,6 @@ router.put(
 );
 router.delete('/:id/poster', checkUserEventRights, boundary(deletePoster));
 
-router.post('/:id/checkout', validate(ticketSchema), boundary(createSession));
-router.post('/:id/subscribe', validate(eventSubSchema), boundary(subscribeToEvent));
+router.post('/:id/subscribe', validate(ticketSchema), boundary(createSession));
 
 export default router;

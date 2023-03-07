@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { COORDINATES, EVENT_NAME_LENGTH } from '../consts/validation';
+import { LATITUDE, LONGITUDE, EVENT_NAME_LENGTH } from '../consts/validation';
 
 const createSchema = Joi.object().keys({
   name: Joi.string().required().min(EVENT_NAME_LENGTH.min).max(EVENT_NAME_LENGTH.max),
@@ -10,8 +10,8 @@ const createSchema = Joi.object().keys({
   isPublic: Joi.boolean().required(),
   date: Joi.date().iso().min('now').required(),
   publishDate: Joi.date().iso().min('now').less(Joi.ref('date')).required(),
-  latitude: Joi.number().required().min(COORDINATES.min).max(COORDINATES.max),
-  longitude: Joi.number().required().min(COORDINATES.min).max(COORDINATES.max),
+  latitude: Joi.number().required().min(LATITUDE.min).max(LATITUDE.max),
+  longitude: Joi.number().required().min(LONGITUDE.min).max(LONGITUDE.max),
   companyId: Joi.number().positive().required(),
   formatId: Joi.number().positive().required(),
   themeId: Joi.number().positive().required(),
@@ -26,21 +26,15 @@ const updateSchema = Joi.object().keys({
   isPublic: Joi.boolean().required(),
   date: Joi.date().iso().min('now').required(),
   publishDate: Joi.date().iso().less(Joi.ref('date')).required(),
-  latitude: Joi.number().required().min(COORDINATES.min).max(COORDINATES.max),
-  longitude: Joi.number().required().min(COORDINATES.min).max(COORDINATES.max),
+  latitude: Joi.number().required().min(LATITUDE.min).max(LATITUDE.max),
+  longitude: Joi.number().required().min(LONGITUDE.min).max(LONGITUDE.max),
   formatId: Joi.number().positive().required(),
   themeId: Joi.number().positive().required(),
 });
 
-const isVisible = Joi.boolean().required();
-
-const eventSubSchema = Joi.object().keys({
-  isVisible,
-});
-
 const ticketSchema = Joi.object().keys({
-  isVisible,
-  promoCode: Joi.string(),
+  isVisible: Joi.boolean().required(),
+  promoCode: Joi.string().optional().allow(''),
 });
 
-export { createSchema, updateSchema, eventSubSchema, ticketSchema };
+export { createSchema, updateSchema, ticketSchema };
