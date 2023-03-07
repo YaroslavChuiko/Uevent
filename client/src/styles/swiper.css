@@ -1,0 +1,29 @@
+.swiper-wrapper {
+  padding: 20px 0px 50px;
+  margin: 0;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  font-weight: bold;
+  color: var(--chakra-colors-blue-500);
+}
+
+.swiper-button-prev {
+  left: 0;
+}
+
+.swiper-button-next {
+  right: 0;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 30px;
+}
+
+.swiper-pagination-bullet {
+  background-color: var(--chakra-colors-blue-500);
+  width: 10px;
+  height: 10px;
+}
