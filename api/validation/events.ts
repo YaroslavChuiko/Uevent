@@ -34,7 +34,7 @@ const updateSchema = Joi.object().keys({
 
 const ticketSchema = Joi.object().keys({
   isVisible: Joi.boolean().required(),
-  promoCode: Joi.string(),
+  promoCode: Joi.string().optional().allow(''),
 });
 
 export { createSchema, updateSchema, ticketSchema };
