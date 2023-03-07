@@ -10,7 +10,10 @@ import Token from './token';
 
 const user = prisma.user;
 
-type UserQueryParams = QueryParams & { companyId?: number };
+type UserQueryParams = QueryParams & {
+  companyId?: number;
+  eventId?: number;
+};
 
 interface IUser {
   login: string;
@@ -87,7 +90,7 @@ const UserService = {
       return where;
     }
 
-    const { q, companyId } = params;
+    const { q, companyId, eventId } = params;
 
     if (q) {
       const { q } = params;
@@ -109,6 +112,17 @@ const UserService = {
           subscriptions: {
             some: {
               companyId: Number(companyId),
+            },
+          },
+        });
+    }
+    if (eventId) {
+      Array.isArray(where.AND) &&
+        where.AND.push({
+          events: {
+            some: {
+              eventId: Number(eventId),
+              isVisible: true,
             },
           },
         });

@@ -38,6 +38,11 @@ paths:
           schema:
             type: number
           description: The id of the company the user may be subscribed to
+        - name: eventId
+          in: query
+          schema:
+            type: number
+          description: The id of the event the user may be subscribed to
       responses:
         200:
           description: All registered users found
