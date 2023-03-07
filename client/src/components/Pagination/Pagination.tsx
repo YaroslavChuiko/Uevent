@@ -16,7 +16,7 @@ const Pagination = ({ numberOfPages, curPage, setCurPage }: IProps) => {
 
   return (
     <Flex justify="flex-end" align="center" fontSize="14px">
-      <Text marginRight="17px">Page</Text>
+      {!!pagesArr.length && <Text marginRight="17px">Page</Text>}
       {pagesArr.map((index) => {
         if (index > 0) {
           return (

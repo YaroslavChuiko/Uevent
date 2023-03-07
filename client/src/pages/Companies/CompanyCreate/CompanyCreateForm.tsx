@@ -2,7 +2,7 @@ import { Button, Card, CardBody, FormControl, FormErrorMessage, FormLabel, Input
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import useRequestHandler from '~/hooks/use-request-handler';
+import useCustomToast from '~/hooks/use-custom-toast';
 import { useCreateCompanyMutation } from '~/store/api/company-slice';
 import { createSchema } from '~/validation/companies';
 import type { ICreate } from '~/validation/companies';
@@ -11,6 +11,7 @@ import PlacesSearch from '~/components/PlacesSearch/PlacesSearch';
 const CompanyCreateForm = () => {
   const [create, { isLoading }] = useCreateCompanyMutation();
   const navigate = useNavigate();
+  const { toast } = useCustomToast();
 
   const {
     register,
@@ -21,18 +22,20 @@ const CompanyCreateForm = () => {
     resolver: zodResolver(createSchema),
   });
 
-  const { handler: createHandler } = useRequestHandler<ICreate>({
-    f: create,
-    successMsg: "You've successfully created new company",
-    successF: () => {
-      navigate('/profile/companies');
-    },
-  });
+  const onSubmit = async (data: ICreate) => {
+    try {
+      const { id } = await create(data).unwrap();
+      toast("You've successfully created new company", 'success');
+      navigate(`/companies/${id}`);
+    } catch (error: any) {
+      toast(error.data.message, 'error');
+    }
+  };
 
   return (
     <Card variant="outline">
       <CardBody>
-        <form onSubmit={handleSubmit(createHandler)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing="4">
             <FormControl isInvalid={!!errors.name}>
               <FormLabel htmlFor="name">Name</FormLabel>

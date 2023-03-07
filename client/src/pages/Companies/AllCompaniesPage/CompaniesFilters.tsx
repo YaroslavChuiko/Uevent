@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { FormLabel, FormControl, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import { FormControl, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 
 type IFilter = {
@@ -24,7 +24,6 @@ const CompaniesFilters = ({ setSearch }: IProps) => {
   return (
     <form onSubmit={handleSubmit(submitHandler)}>
       <FormControl>
-        <FormLabel htmlFor="search">Search</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<SearchIcon color="secondary" />} />
           <Input

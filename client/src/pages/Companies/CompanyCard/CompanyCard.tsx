@@ -1,8 +1,9 @@
 import { Avatar, Box, Card, CardBody, Heading, Stack, Text, LinkBox, LinkOverlay } from '@chakra-ui/react';
 import { useGetUserQuery } from '~/store/api/user-slice';
-import Loader from '~/components/Loader/Loader';
+import CompanyCardSkeleton from './CompanyCardSkeleton';
 import type { Company } from '~/types/company';
 import { AVATAR_PATH } from '~/consts/avatar';
+import styles from './company-card.styles';
 
 const CompanyCard = ({ company }: { company: Company }) => {
   const { data: user, isLoading: userIsLoading, error: userError } = useGetUserQuery(company.userId);
@@ -12,20 +13,20 @@ const CompanyCard = ({ company }: { company: Company }) => {
   }
 
   if (userIsLoading) {
-    return <Loader />;
+    return <CompanyCardSkeleton />;
   }
 
   return (
     <LinkBox>
-      <Card maxW="sm" direction={{ base: 'column', sm: 'row' }} overflow="hidden" variant="outline" padding={'10px'}>
+      <Card sx={styles.card}>
         <Avatar size="2xl" name={company.name} src={AVATAR_PATH(company.picturePath)} />
-        <CardBody>
-          <Stack mt="1" spacing="2">
-            <Heading as="h3" noOfLines={2} fontSize="18px">
+        <CardBody sx={styles.cardBody}>
+          <Stack sx={styles.stack}>
+            <Heading sx={styles.heading}>
               <LinkOverlay href={`/companies/${company.id}`}>{company.name}</LinkOverlay>
             </Heading>
-            <Text>{company.email}</Text>
-            <Box fontSize="14px">
+            <Text sx={styles.text}>{company.email}</Text>
+            <Box sx={styles.founder}>
               Founder <Avatar size="xs" ml="3px" name={user?.fullName} src={AVATAR_PATH(user?.picturePath)} /> @
               {user?.login}
             </Box>
