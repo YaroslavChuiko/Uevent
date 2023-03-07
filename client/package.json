@@ -31,6 +31,7 @@
     "react-router-dom": "^6.8.1",
     "react-select": "^5.7.0",
     "redux-persist": "^6.0.0",
+    "swiper": "^9.1.0",
     "zod": "^3.20.6"
   },
   "devDependencies": {
