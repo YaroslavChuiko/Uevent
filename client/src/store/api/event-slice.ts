@@ -51,7 +51,10 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: { isVisible, promoCode },
       }),
-      invalidatesTags: (_result, _error, arg) => [{ type: 'Event' as const, id: arg.id }],
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'Event' as const, id: arg.id },
+        { type: 'EventSubscribers' as const, id: arg.id },
+      ],
     }),
   }),
 });

@@ -1,4 +1,4 @@
-import { User } from '~/types/user';
+import { User, UsersParam, UsersResponse } from '~/types/user';
 import { apiSlice } from './api-slice';
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
@@ -7,7 +7,27 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       query: (id) => `/users/${id}`,
       providesTags: (_result, _error, arg) => [{ type: 'User' as const, id: arg }],
     }),
+    getUsers: builder.query<UsersResponse, UsersParam>({
+      query: (params) => ({
+        url: '/users',
+        params,
+      }),
+      transformResponse(users: User[], meta: any) {
+        return { users, totalCount: Number(meta.response.headers.get('X-Total-Count')) };
+      },
+      providesTags: (_result, _err, arg) => {
+        const { eventId, companyId } = arg;
+        const tag = {
+          id: eventId || companyId,
+          type:
+            (eventId && ('EventSubscribers' as const)) ||
+            (companyId && ('CompanySubscribers' as const)) ||
+            ('User' as const),
+        };
+        return [tag];
+      },
+    }),
   }),
 });
 
-export const { useGetUserQuery } = extendedApiSlice;
+export const { useGetUserQuery, useGetUsersQuery } = extendedApiSlice;

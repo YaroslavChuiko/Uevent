@@ -22,5 +22,6 @@ export type UsersParam = {
   _sort?: string;
   _order?: Order;
   companyId?: number;
+  eventId?: number;
   q?: string;
 };

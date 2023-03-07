@@ -15,12 +15,13 @@ import {
 import Loader from '~/components/Loader/Loader';
 import { AVATAR_PATH } from '~/consts/avatar';
 import useRequestHandler from '~/hooks/use-request-handler';
-import { useGetCompanySubscribersQuery, useSubscribeMutation, useUnsubscribeMutation } from '~/store/api/company-slice';
+import { useSubscribeMutation, useUnsubscribeMutation } from '~/store/api/company-slice';
 import { Company } from '~/types/company';
 import useCustomToast from '~/hooks/use-custom-toast';
 import styles from '../event.styles';
 import IError from '~/types/error';
 import { useAppSelector } from '~/hooks/use-app-selector';
+import { useGetUsersQuery } from '~/store/api/user-slice';
 
 type PropType = {
   company: Company;
@@ -28,7 +29,7 @@ type PropType = {
 
 const CompanyInfo = ({ company }: PropType) => {
   const { user } = useAppSelector((state) => state.profile);
-  const { data, isLoading: areUsersLoading } = useGetCompanySubscribersQuery({
+  const { data, isLoading: areUsersLoading } = useGetUsersQuery({
     companyId: company.id,
   });
 

@@ -1,11 +1,12 @@
 import { Button, HStack, Stat, StatLabel, StatNumber } from '@chakra-ui/react';
 import { useAppSelector } from '~/hooks/use-app-selector';
-import { useGetCompanySubscribersQuery, useSubscribeMutation, useUnsubscribeMutation } from '~/store/api/company-slice';
+import { useSubscribeMutation, useUnsubscribeMutation } from '~/store/api/company-slice';
 import useRequestHandler from '~/hooks/use-request-handler';
 import useCustomToast from '~/hooks/use-custom-toast';
 import Loader from '~/components/Loader/Loader';
 import IError from '~/types/error';
 import type { Company } from '~/types/company';
+import { useGetUsersQuery } from '~/store/api/user-slice';
 
 type IProps = {
   company: Company;
@@ -13,7 +14,7 @@ type IProps = {
 
 const SubscribersInfo = ({ company }: IProps) => {
   const { user } = useAppSelector((state) => state.profile);
-  const { data, isLoading: areUsersLoading } = useGetCompanySubscribersQuery({
+  const { data, isLoading: areUsersLoading } = useGetUsersQuery({
     companyId: company.id,
   });
 
