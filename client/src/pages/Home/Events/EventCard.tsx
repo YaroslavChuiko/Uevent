@@ -28,7 +28,7 @@ const EventCard = ({ event, ...cardProps }: Props) => {
   const eventUrl = `/events/${event.id}`;
 
   return (
-    <Card sx={styles.card} {...cardProps}>
+    <Card sx={styles.card} variant="outline" {...cardProps}>
       <ReactRouterLink to={eventUrl}>
         <Flex w="100%" h="155px" overflow="hidden" alignItems="center" justifyContent="center">
           <Image
