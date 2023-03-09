@@ -1,11 +1,11 @@
-import { Box, Center, Flex, SimpleGrid, SlideFade } from '@chakra-ui/react';
+import { Flex, SimpleGrid, SlideFade } from '@chakra-ui/react';
 import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
+import EventCard from '~/components/EventCard/EventCard';
+import EventCardSkeleton from '~/components/EventCard/EventCardSkeleton';
 import Pagination from '~/components/Pagination/Pagination';
 import { useGetEventsQuery } from '~/store/api/event-slice';
 import { EventsParam } from '~/types/event';
-import EventCard from './EventCard';
-import EventCardSkeleton from './EventCardSkeleton';
 import NothingFound from './NothingFound';
 
 type Props = {

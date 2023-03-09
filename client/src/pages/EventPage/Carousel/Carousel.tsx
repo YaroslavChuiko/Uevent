@@ -4,8 +4,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import EventCard from '~/pages/Home/Events/EventCard';
-import EventCardSkeleton from '~/pages/Home/Events/EventCardSkeleton';
+import EventCard from '~/components/EventCard/EventCard';
+import EventCardSkeleton from '~/components/EventCard/EventCardSkeleton';
 import { Event } from '~/types/event';
 
 type Props = {
