@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
-import AllCompaniesPage from '~/pages/Companies/AllCompaniesPage/AllCompaniesPage';
+import CompaniesMainPage from '~/pages/Companies/CompaniesMainPage';
 import CompanyPage from '~/pages/Companies/CompanyPage/CompanyPage';
 import CompanyCreateForm from '~/pages/Companies/CompanyCreate/CompanyCreateForm';
 import ProtectedRoute from '~/components/ProtectedRoute/ProtectedRoute';
 
 const CompaniesRoutes = () => (
   <Routes>
-    <Route index element={<AllCompaniesPage />} />;
+    <Route index element={<CompaniesMainPage />} />;
     <Route path="/:id" element={<CompanyPage />} />;
     <Route element={<ProtectedRoute />}>
       <Route path="/create" element={<CompanyCreateForm />} />;
