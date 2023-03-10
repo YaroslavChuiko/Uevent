@@ -3,7 +3,7 @@ import { useGetEventsQuery } from '~/store/api/event-slice';
 import { Event, EventsParam } from '~/types/event';
 import styles from '../event.styles';
 import Carousel from './Carousel';
-import NothingFound from './NothingFound';
+import CarouselNothingFound from './CarouselNothingFound';
 
 type Props = {
   eventId: number;
@@ -35,7 +35,7 @@ const SimilarEventsCarousel = ({ eventId, eventFormatId, eventThemeId }: Props) 
       <Heading as="h3" fontSize="24px">
         More similar events
       </Heading>
-      {!events?.length && !isFetching ? <NothingFound /> : <Carousel isFetching={isFetching} events={events} />}
+      {!events?.length && !isFetching ? <CarouselNothingFound /> : <Carousel isFetching={isFetching} events={events} />}
     </Box>
   );
 };
