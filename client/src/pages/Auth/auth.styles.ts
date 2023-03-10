@@ -1,29 +1,23 @@
 import { SystemStyleObject } from '@chakra-ui/react';
-import { NAVBAR_HEIGHT } from '~/consts/components';
 
 type TStyle = {
-  wrapper: SystemStyleObject;
-  container: SystemStyleObject;
+  card: SystemStyleObject;
   heading: SystemStyleObject;
   button: SystemStyleObject;
   footer: SystemStyleObject;
   footerText: SystemStyleObject;
+  link: SystemStyleObject;
 };
 
 const styles: TStyle = {
-  wrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '20px',
-    minH: `calc(100vh - ${NAVBAR_HEIGHT}rem)`,
-  },
-  container: {
-    minW: '400px',
+  card: {
+    width: { base: '90%', md: '80%', xl: '50%' },
+    margin: '0 auto',
+    variant: 'outline',
   },
   heading: {
-    fontSize: '35px',
-    marginBottom: '30px',
     textAlign: 'center',
+    color: 'hover',
   },
   button: {
     w: '200px',
@@ -34,6 +28,13 @@ const styles: TStyle = {
   },
   footerText: {
     marginBottom: '10px',
+  },
+  link: {
+    textDecoration: 'underline',
+    color: 'secondary',
+    _hover: {
+      color: 'hover',
+    },
   },
 };
 

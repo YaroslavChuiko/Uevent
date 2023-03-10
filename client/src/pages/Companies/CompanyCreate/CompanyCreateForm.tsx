@@ -1,4 +1,16 @@
-import { Button, Card, CardBody, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  VStack,
+  Flex,
+} from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -7,6 +19,8 @@ import { useCreateCompanyMutation } from '~/store/api/company-slice';
 import { createSchema } from '~/validation/companies';
 import type { ICreate } from '~/validation/companies';
 import PlacesSearch from '~/components/PlacesSearch/PlacesSearch';
+import styles from '../company-form.styles';
+import layoutStyles from '~/components/Layout/layout.styles';
 
 const CompanyCreateForm = () => {
   const [create, { isLoading }] = useCreateCompanyMutation();
@@ -33,28 +47,34 @@ const CompanyCreateForm = () => {
   };
 
   return (
-    <Card variant="outline">
-      <CardBody>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack spacing="4">
-            <FormControl isInvalid={!!errors.name}>
-              <FormLabel htmlFor="name">Name</FormLabel>
-              <Input id="name" placeholder="name" {...register('name')} />
-              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={!!errors.email}>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <Input id="email" placeholder="email" {...register('email')} />
-              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-            </FormControl>
-            <PlacesSearch register={register} setValue={setValue} errors={errors} />
-            <Button type="submit" w="200px" colorScheme="blue" isLoading={isLoading}>
-              Create
-            </Button>
-          </VStack>
-        </form>
-      </CardBody>
-    </Card>
+    <Flex justify="center" align="flex-start" sx={layoutStyles.page}>
+      <Card sx={styles.card} variant="outline">
+        <CardHeader>
+          <Heading sx={styles.heading}>Create new company</Heading>
+        </CardHeader>
+
+        <CardBody>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <VStack spacing="4">
+              <FormControl isInvalid={!!errors.name} isRequired>
+                <FormLabel htmlFor="name">Name</FormLabel>
+                <Input id="name" placeholder="name" {...register('name')} />
+                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.email} isRequired>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <Input id="email" placeholder="email" {...register('email')} />
+                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+              </FormControl>
+              <PlacesSearch register={register} setValue={setValue} errors={errors} />
+              <Button type="submit" w="200px" colorScheme="blue" isLoading={isLoading}>
+                Create
+              </Button>
+            </VStack>
+          </form>
+        </CardBody>
+      </Card>
+    </Flex>
   );
 };
 

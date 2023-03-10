@@ -52,7 +52,7 @@ const PasswordReset = () => {
           />
           <FormErrorMessage>{errors.passwordConfirm?.message}</FormErrorMessage>
         </FormControl>
-        <Button type="submit" sx={styles.button} isLoading={isLoading} loadingText="Submitting" spinnerPlacement="end">
+        <Button type="submit" colorScheme="blue" sx={styles.button} isLoading={isLoading} loadingText="Submitting">
           Reset password
         </Button>
       </VStack>

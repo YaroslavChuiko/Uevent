@@ -61,7 +61,7 @@ const RegisterForm = () => {
           <Input id="fullName" placeholder="full name" {...register('fullName')} />
           <FormErrorMessage>{errors.fullName?.message}</FormErrorMessage>
         </FormControl>
-        <Button type="submit" sx={styles.button} isLoading={isLoading} loadingText="Submitting" spinnerPlacement="end">
+        <Button type="submit" colorScheme="blue" sx={styles.button} isLoading={isLoading} loadingText="Submitting">
           Sign up
         </Button>
       </VStack>

@@ -37,6 +37,8 @@ function PlacesSearch({ lat, lng, register, setValue, errors }: IProps) {
     setValue('latitude', 1000, { shouldValidate: true });
   };
 
+  const isRequired = lat === undefined;
+
   useEffect(() => {
     if (lat && lng) {
       Geocode.fromLatLng(lat.toString(), lng.toString()).then(
@@ -73,7 +75,7 @@ function PlacesSearch({ lat, lng, register, setValue, errors }: IProps) {
     <Box sx={{ width: '100%' }}>
       <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY} libraries={libraries}>
         <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesChanged}>
-          <FormControl isInvalid={!!errors.latitude || !!errors.longitude}>
+          <FormControl isInvalid={!!errors.latitude || !!errors.longitude} isRequired={isRequired}>
             <FormLabel htmlFor="address">Address</FormLabel>
             <Input id="address" placeholder="address" value={address} onChange={handleChangeAddress} />
             <FormErrorMessage>Input correct address please</FormErrorMessage>
