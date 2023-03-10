@@ -8,7 +8,7 @@ export type Comment = {
   eventId: number;
 };
 
-export type CreateCommentPayload = Omit<Comment, 'id' | 'publishDate' | 'eventId'>;
+export type CreateCommentPayload = Omit<Comment, 'id' | 'publishDate' | 'userId'>;
 
 export type UpdateCommentPayload = Omit<Comment, 'id' | 'publishDate' | 'eventId' | 'userId'>;
 
