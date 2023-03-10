@@ -12,6 +12,7 @@ import Navbar from './components/Navbar/Navbar';
 import { Box } from '@chakra-ui/react';
 import styles from './app.styles';
 import EventRoutes from './routes/Events';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route>
               <Route path="companies/*" element={<CompaniesRoutes />} />
             </Route>
+            <Route path="/*" element={<NotFound />} />
           </Routes>
         </Box>
       </Router>

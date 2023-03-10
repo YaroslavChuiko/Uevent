@@ -3,6 +3,7 @@ import CompaniesMainPage from '~/pages/Companies/CompaniesMainPage';
 import CompanyPage from '~/pages/Companies/CompanyPage/CompanyPage';
 import CompanyCreateForm from '~/pages/Companies/CompanyCreate/CompanyCreateForm';
 import ProtectedRoute from '~/components/ProtectedRoute/ProtectedRoute';
+import NotFound from '~/pages/NotFound/NotFound';
 
 const CompaniesRoutes = () => (
   <Routes>
@@ -11,6 +12,7 @@ const CompaniesRoutes = () => (
     <Route element={<ProtectedRoute />}>
       <Route path="/create" element={<CompanyCreateForm />} />;
     </Route>
+    <Route path="/*" element={<NotFound />} />
   </Routes>
 );
 
