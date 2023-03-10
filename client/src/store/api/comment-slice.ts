@@ -47,4 +47,5 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetCommentsQuery } = extendedApiSlice;
+export const { useGetCommentsQuery, useCreateCommentMutation, useUpdateCommentMutation, useDeleteCommentMutation } =
+  extendedApiSlice;
