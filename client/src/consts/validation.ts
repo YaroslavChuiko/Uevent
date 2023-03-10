@@ -6,3 +6,4 @@ export const ROLE_ENUM = ['user', 'admin'];
 export const COMPANY_NAME_LENGTH = { min: 4, max: 100 };
 export const LATITUDE = { min: -90, max: 90 };
 export const LONGITUDE = { min: -180, max: 180 };
+export const COMMENT_CONTENT_LENGTH = { min: 4, max: 60000 };
