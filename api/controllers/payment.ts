@@ -44,7 +44,7 @@ const createSession = async (req: Request, res: Response) => {
   const event = await EventService.findEventIfExists(eventId);
   await EventSubscription.check(event.id, user.id);
 
-  if (event.price === 0) {
+  if (Number(event.price) === 0) {
     const meta: IEventMeta = {
       metadata: {
         isVisible,
