@@ -28,7 +28,7 @@ const Comments = ({ eventId }: Props) => {
   const { data, isFetching, isSuccess } = useGetCommentsQuery(params);
 
   return (
-    <Box sx={styles.mainInfo} my="20px">
+    <Box sx={styles.mainInfo} mt="40px" mb="20px">
       <Heading as="h3" fontSize="24px" mb="10px">
         {isSuccess && data.totalCount} {isSuccess && data.totalCount > 1 ? 'Comments' : 'Comment'}
       </Heading>
