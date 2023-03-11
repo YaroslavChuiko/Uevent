@@ -63,10 +63,7 @@ const EventInfo = ({ event, companyName }: PropType) => {
               <TagLeftIcon boxSize="6" as={FiUsers} />
               <TagLabel pl="2">{e.availability}</TagLabel>
             </Tag>
-            <Button colorScheme="blue" variant="outline" onClick={onVistorsOpen}>
-              View visitors
-            </Button>
-            <EventVisitors isOpen={isVistorsOpen} onClose={onVistorsClose} eventId={e.id} />
+            <EventVisitors event={event} />
           </Wrap>
           <Card p={{ base: '4', sm: '10' }} variant="filled" w="100%">
             <Flex flexDir="column" justify="center" w="100%">
