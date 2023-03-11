@@ -10,7 +10,7 @@ import {
   updateUserAvatar,
 } from '../controllers/users';
 import adminAuth from '../middleware/admin-auth';
-import auth from '../middleware/auth';
+import auth, { optionalAuth } from '../middleware/auth';
 import boundary from '../utils/error-boundary';
 import validate from '../utils/validation';
 import { adminUpdateSchema, createSchema } from '../validation/user';
@@ -18,7 +18,7 @@ import { adminUpdateSchema, createSchema } from '../validation/user';
 const router = express.Router();
 
 router.get('/:id', boundary(getUser));
-router.get('/', boundary(getMany));
+router.get('/', optionalAuth, boundary(getMany));
 
 router.use(auth, adminAuth);
 

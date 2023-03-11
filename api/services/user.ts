@@ -6,6 +6,7 @@ import { hashPassword } from '../utils/password';
 import { QueryParams } from '../utils/query-options';
 import Avatar from './avatar';
 import Email from './email';
+import EventService from './event';
 import Token from './token';
 
 const user = prisma.user;
@@ -83,11 +84,12 @@ const UserService = {
     await user.update({ data: { picturePath: null }, where: { id } });
   },
 
-  getWhereOptions(params: UserQueryParams) {
+  async getWhereOptions(params: UserQueryParams, userId?: number) {
     const where: Prisma.UserWhereInput = { AND: [] };
+    let isViewAllowed = true;
 
     if (!params) {
-      return where;
+      return { where, isViewAllowed };
     }
 
     const { q, companyId, eventId } = params;
@@ -117,7 +119,10 @@ const UserService = {
         });
     }
     if (eventId) {
-      Array.isArray(where.AND) &&
+      isViewAllowed = await EventService.isUsersQueryAllowed(Number(eventId), userId);
+
+      isViewAllowed &&
+        Array.isArray(where.AND) &&
         where.AND.push({
           events: {
             some: {
@@ -128,7 +133,7 @@ const UserService = {
         });
     }
 
-    return where;
+    return { where, isViewAllowed };
   },
 };
 

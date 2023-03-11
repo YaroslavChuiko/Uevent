@@ -19,7 +19,12 @@ const createUser = async (req: Request, res: Response) => {
 const getMany = async (req: Request, res: Response) => {
   const pagination = getPageOptions(req.query);
   const sort = getSortOptions(req.query, 'login');
-  const where = UserService.getWhereOptions(req.query);
+  const { where, isViewAllowed } = await UserService.getWhereOptions(req.query, req.user?.id);
+
+  if (!isViewAllowed) {
+    return res.header('X-Total-Count', '-1').json(null);
+  }
+
   const [users, count] = await prisma.$transaction([
     user.findMany({
       ...pagination,

@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+import logger from '../lib/logger';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
 import { DEFAULT_SORT_OPTIONS, getSortOptions, QueryParams } from '../utils/query-options';
@@ -32,6 +33,29 @@ const EventService = {
     } catch (_e) {
       throw new ClientError("The event doesn't exist!", 404);
     }
+  },
+
+  async isUsersQueryAllowed(eventId: number, userId: number | undefined) {
+    const e = await event.findFirst({
+      where: {
+        id: eventId,
+        OR: [
+          {
+            visitors: {
+              some: {
+                userId: userId || -1,
+              },
+            },
+          },
+          { isPublic: true },
+        ],
+      },
+    });
+
+    const isAllowed = e !== null;
+    isAllowed && logger.warn("You are not allowed to view the event's visitors");
+
+    return isAllowed;
   },
 
   async checkUniqueEventName(name: string, notId: number = 0) {
