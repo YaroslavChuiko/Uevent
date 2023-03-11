@@ -11,8 +11,8 @@ export const STRIPE_CONFIG: Stripe.StripeConfig = {
 export const STRIPE_PAYMENT_OPTIONS: Stripe.Checkout.SessionCreateParams = {
   payment_method_types: ['card'],
   mode: 'payment',
-  success_url: `${CLIENT_URL}/success`,
-  cancel_url: `${CLIENT_URL}/cancel`,
+  success_url: `${CLIENT_URL}/payment/success`,
+  cancel_url: `${CLIENT_URL}/payment/cancel`,
 };
 
 export const TICKETS_UNLIMITED = -1;
