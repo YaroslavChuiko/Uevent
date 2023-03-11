@@ -3,8 +3,6 @@ paths:
     get:
       tags:
         - Comments
-      security:
-        - bearerAuth: []
       description: Get all comments
       parameters:
         - name: _start
@@ -121,8 +119,6 @@ paths:
     get:
       tags:
         - Comments
-      security:
-        - bearerAuth: []
       description: Get the comment by id
       responses:
         200:

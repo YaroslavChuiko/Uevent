@@ -14,11 +14,12 @@ import { createSchema, getCommentsSchema, updateSchema } from '../validation/com
 
 const router = express.Router();
 
+router.get('/', validate(getCommentsSchema, 'query'), boundary(getComments));
+router.get('/:id', boundary(getCommentById));
+
 router.use(auth);
 
-router.get('/', validate(getCommentsSchema, 'query'), boundary(getComments));
 router.post('/', validate(createSchema), boundary(createComment));
-router.get('/:id', boundary(getCommentById));
 router.put('/:id', checkUserCommentRights, validate(updateSchema), boundary(updateComment));
 router.delete('/:id', checkUserCommentRights, boundary(deleteComment));
 
