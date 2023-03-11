@@ -13,6 +13,8 @@ import { Box } from '@chakra-ui/react';
 import styles from './app.styles';
 import EventRoutes from './routes/Events';
 import NotFound from './pages/NotFound/NotFound';
+import SuccessfulPayment from './pages/Payment/Success';
+import CancelledPayment from './pages/Payment/Cancel';
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
             <Route>
               <Route path="companies/*" element={<CompaniesRoutes />} />
             </Route>
+            <Route path="/payment/success" element={<SuccessfulPayment />}></Route>
+            <Route path="/payment/cancel" element={<CancelledPayment />}></Route>
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </Box>
