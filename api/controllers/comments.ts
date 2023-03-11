@@ -3,6 +3,7 @@ import prisma from '../lib/prisma';
 import ClientError from '../types/error';
 import { User, Prisma } from '@prisma/client';
 import { getPageOptions, getSortOptions } from '../utils/query-options';
+import wait from '../utils/wait';
 
 const event = prisma.event;
 const comment = prisma.comment;
@@ -71,6 +72,8 @@ const getComments = async (req: Request, res: Response) => {
       ...getSortOptions(req.query, 'id'),
     }),
   ]);
+
+  await wait(2000);
 
   res.header('X-Total-Count', `${count}`).json(comments);
 };

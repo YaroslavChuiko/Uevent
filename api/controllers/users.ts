@@ -4,6 +4,7 @@ import UserService from '../services/user';
 import ClientError from '../types/error';
 import { getPageOptions, getSortOptions } from '../utils/query-options';
 import Avatar from '../services/avatar';
+import wait from '../utils/wait';
 
 const user = prisma.user;
 
@@ -42,6 +43,8 @@ const getUser = async (req: Request, res: Response) => {
     throw new ClientError('This user does not exist', 404);
   }
   const { password, ...toSend } = found;
+
+  await wait(2000);
 
   res.json(toSend);
 };
