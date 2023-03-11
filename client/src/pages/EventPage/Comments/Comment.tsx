@@ -12,7 +12,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { FiEdit, FiMoreHorizontal, FiTrash2 } from 'react-icons/fi';
 import { AVATAR_PATH } from '~/consts/avatar';
 import { useAppSelector } from '~/hooks/use-app-selector';
@@ -21,6 +21,7 @@ import { useDeleteCommentMutation } from '~/store/api/comment-slice';
 import { useGetUserQuery } from '~/store/api/user-slice';
 import { Comment } from '~/types/comment';
 import CommentSkeleton from './CommentSkeleton';
+import EditCommentForm from './EditCommentForm';
 
 type Props = {
   comment: Comment;
@@ -29,6 +30,7 @@ type Props = {
 const Comment = ({ comment }: Props) => {
   const { data: author, isFetching, isSuccess } = useGetUserQuery(comment.userId);
   const { user } = useAppSelector((state) => state.profile);
+  const [isEdit, setIsEdit] = useState(false);
 
   const [deleteComment] = useDeleteCommentMutation();
 
@@ -44,7 +46,9 @@ const Comment = ({ comment }: Props) => {
       <Menu>
         <MenuButton as={IconButton} aria-label="Options" icon={<FiMoreHorizontal />} variant="ghost" h="30px" />
         <MenuList>
-          <MenuItem icon={<FiEdit />}>Edit</MenuItem>
+          <MenuItem icon={<FiEdit />} onClick={() => setIsEdit(true)}>
+            Edit
+          </MenuItem>
           <MenuItem color="red" icon={<FiTrash2 />} onClick={() => deleteHandler(comment.id)}>
             Delete
           </MenuItem>
@@ -79,6 +83,8 @@ const Comment = ({ comment }: Props) => {
         <Text ml="60px" fontSize="14px">
           {comment.content}
         </Text>
+
+        {isEdit && <EditCommentForm commentId={comment.id} commentContent={comment.content} setIsEdit={setIsEdit} />}
       </CardBody>
     </Card>
   );
