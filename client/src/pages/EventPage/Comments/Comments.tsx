@@ -51,7 +51,7 @@ const Comments = ({ eventId }: Props) => {
         )}
       </Box>
       <Flex w="100%" alignItems="center" justifyContent="center" py="30px">
-        {data?.comments.length ? (
+        {isSuccess && data.totalCount > itemsPerPage && data?.comments.length ? (
           <Pagination
             numberOfPages={Math.ceil((data?.totalCount as number) / itemsPerPage)}
             curPage={curPage}
