@@ -21,7 +21,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setToken(data));
-          await dispatch(profileSlice.endpoints.getProfile.initiate(null));
+          await dispatch(profileSlice.endpoints.getProfile.initiate());
+          dispatch(apiSlice.util.invalidateTags(['EventSubscribers']));
         } catch (error) {}
       },
       invalidatesTags: ['UserProfile'],
@@ -35,6 +36,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
           dispatch(logout());
+          dispatch(apiSlice.util.invalidateTags(['EventSubscribers']));
         } catch (error) {}
       },
     }),

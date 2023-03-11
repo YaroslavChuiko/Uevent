@@ -4,7 +4,6 @@ import DrawerWrapper from '~/components/Drawer/DrawerWrapper';
 import Loader from '~/components/Loader/Loader';
 import { AVATAR_PATH } from '~/consts/avatar';
 import { useAppSelector } from '~/hooks/use-app-selector';
-import useCustomToast from '~/hooks/use-custom-toast';
 import { useGetUsersQuery } from '~/store/api/user-slice';
 import NothingFound from '../NothingFound';
 import { Event } from '~/types/event';
@@ -19,23 +18,21 @@ const EventVisitors = ({ event }: PropsType) => {
   const { data, isLoading, error } = useGetUsersQuery({ eventId: event.id });
   const { user } = useAppSelector((state) => state.profile);
 
-  // const { toast } = useCustomToast();
-  // if (error) {
-  //   toast((error as any).data.message || (error as any).message, 'error');
-  // }
-
-  const isEventUser = data?.users.find((u) => u.id === Number(user.id));
-  console.log(isEventUser);
-
   return (
     <>
-      <Button colorScheme="blue" variant="outline" onClick={onOpen} isDisabled={!event.isPublic || !isEventUser}>
+      <Button
+        colorScheme="blue"
+        variant="outline"
+        isLoading={isLoading}
+        onClick={onOpen}
+        isDisabled={!error && !data?.users}
+      >
         View visitors
       </Button>
       <DrawerWrapper isOpen={isOpen} onClose={onClose} title="Visitors of the event">
         {isLoading ? (
           <Loader isFullScreen={false} />
-        ) : data?.users.length ? (
+        ) : data?.users?.length ? (
           <VStack spacing="4" py="4">
             {data?.users.map((u, i) => (
               <Card key={i} p="2" w="100%" cursor="pointer" variant={u.id === Number(user.id) ? 'filled' : 'outline'}>

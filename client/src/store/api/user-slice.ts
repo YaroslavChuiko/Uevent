@@ -17,14 +17,15 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       },
       providesTags: (_result, _err, arg) => {
         const { eventId, companyId } = arg;
+        const type =
+          (eventId && ('EventSubscribers' as const)) ||
+          (companyId && ('CompanySubscribers' as const)) ||
+          ('User' as const);
         const tag = {
           id: eventId || companyId,
-          type:
-            (eventId && ('EventSubscribers' as const)) ||
-            (companyId && ('CompanySubscribers' as const)) ||
-            ('User' as const),
+          type,
         };
-        return [tag];
+        return [type, tag];
       },
     }),
   }),
