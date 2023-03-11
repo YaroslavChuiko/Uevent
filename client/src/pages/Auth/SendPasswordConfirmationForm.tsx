@@ -36,7 +36,7 @@ const SendPasswordConfirmationForm = () => {
           <Input id="email" placeholder="email" {...register('email')} />
           <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
         </FormControl>
-        <Button type="submit" sx={styles.button} isLoading={isLoading} loadingText="Submitting" spinnerPlacement="end">
+        <Button type="submit" colorScheme="blue" sx={styles.button} isLoading={isLoading} loadingText="Submitting">
           Request password reset
         </Button>
       </VStack>

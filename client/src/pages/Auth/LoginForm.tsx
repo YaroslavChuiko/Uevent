@@ -40,7 +40,7 @@ const LoginForm = () => {
           <Input id="password" placeholder="password" type="password" {...register('password')} />
           <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
-        <Button type="submit" sx={styles.button} isLoading={isLoading} loadingText="Submitting">
+        <Button type="submit" colorScheme="blue" sx={styles.button} isLoading={isLoading} loadingText="Submitting">
           Log in
         </Button>
       </VStack>

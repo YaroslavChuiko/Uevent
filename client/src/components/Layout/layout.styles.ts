@@ -11,7 +11,7 @@ const styles: TStyle = {
       base: '10px',
       sm: '20px',
       md: '40px',
-      xl: '80px 100px',
+      xl: '60px 100px',
     },
   },
 };

@@ -19,6 +19,8 @@ import type { IUpdate } from '~/validation/companies';
 import type { Company } from '~/types/company';
 import CompanyFormAvatar from './CompanyFormAvatar';
 import PlacesSearch from '~/components/PlacesSearch/PlacesSearch';
+import styles from '../company-form.styles';
+import layoutStyles from '~/components/Layout/layout.styles';
 
 type IProps = {
   company: Company;
@@ -49,47 +51,49 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
   };
 
   return (
-    <Card variant="outline">
-      <CardHeader>
-        <Flex flexDir="row">
-          <Flex flexDir="column" flexGrow="0">
-            <CompanyFormAvatar company={company} />
+    <Flex justify="center" align="flex-start" sx={layoutStyles.page}>
+      <Card sx={styles.card} variant="outline">
+        <CardHeader>
+          <Flex flexDir="row">
+            <Flex flexDir="column" flexGrow="0">
+              <CompanyFormAvatar company={company} />
+            </Flex>
+            <Flex justify="flex-end" flexGrow="1">
+              <Button onClick={() => setEdit(false)} variant="outline">
+                Go Back
+              </Button>
+            </Flex>
           </Flex>
-          <Flex justify="flex-end" flexGrow="1">
-            <Button onClick={() => setEdit(false)} variant="outline">
-              Go Back
-            </Button>
-          </Flex>
-        </Flex>
-      </CardHeader>
+        </CardHeader>
 
-      <CardBody>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack spacing="4">
-            <FormControl isInvalid={!!errors.name}>
-              <FormLabel htmlFor="name">Name</FormLabel>
-              <Input id="name" placeholder="name" {...register('name')} />
-              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={!!errors.email}>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <Input id="email" placeholder="email" {...register('email')} />
-              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-            </FormControl>
-            <PlacesSearch
-              lat={defaultValues.latitude}
-              lng={defaultValues.longitude}
-              register={register}
-              setValue={setValue}
-              errors={errors}
-            />
-            <Button type="submit" w="200px" colorScheme="blue" isLoading={isLoading}>
-              Submit
-            </Button>
-          </VStack>
-        </form>
-      </CardBody>
-    </Card>
+        <CardBody>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <VStack spacing="4">
+              <FormControl isInvalid={!!errors.name}>
+                <FormLabel htmlFor="name">Name</FormLabel>
+                <Input id="name" placeholder="name" {...register('name')} />
+                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.email}>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <Input id="email" placeholder="email" {...register('email')} />
+                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+              </FormControl>
+              <PlacesSearch
+                lat={defaultValues.latitude}
+                lng={defaultValues.longitude}
+                register={register}
+                setValue={setValue}
+                errors={errors}
+              />
+              <Button type="submit" w="200px" colorScheme="blue" isLoading={isLoading}>
+                Submit
+              </Button>
+            </VStack>
+          </form>
+        </CardBody>
+      </Card>
+    </Flex>
   );
 };
 

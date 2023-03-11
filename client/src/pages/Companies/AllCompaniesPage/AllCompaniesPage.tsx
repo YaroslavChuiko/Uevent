@@ -14,7 +14,13 @@ import Pagination from '~/components/Pagination/Pagination';
 import IError from '~/types/error';
 import type { Company } from '~/types/company';
 
-const AllCompaniesPage = () => {
+type IProps = {
+  heading: string;
+  isYourCompanies?: boolean;
+  isSubscriptions?: boolean;
+};
+
+const AllCompaniesPage = ({ heading, isYourCompanies = false, isSubscriptions = false }: IProps) => {
   const { user: curUser } = useAppSelector((state) => state.profile);
   const [search, setSearch] = useState('');
   const [curPage, setCurPage] = useState(1);
@@ -28,6 +34,8 @@ const AllCompaniesPage = () => {
     _start: (curPage - 1) * itemsPerPage,
     _end: curPage * itemsPerPage,
     q: search ? search : undefined,
+    creatorId: isYourCompanies ? Number(curUser.id) : undefined,
+    subscriberId: isSubscriptions ? Number(curUser.id) : undefined,
   });
 
   if (comError) {
@@ -37,7 +45,7 @@ const AllCompaniesPage = () => {
   return (
     <Container>
       <Flex justifyContent="space-between" alignItems="center" marginBottom="20px">
-        <Heading color="hover">Companies</Heading>
+        <Heading color="hover">{heading}</Heading>
         {curUser.id && (
           <Button as={RouterLink} to="/companies/create" leftIcon={<AddIcon />}>
             Create company
