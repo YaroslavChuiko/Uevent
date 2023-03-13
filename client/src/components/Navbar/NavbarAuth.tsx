@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Button,
   ButtonGroup,
   HStack,
@@ -26,35 +27,37 @@ const NavbarAuth = () => {
 
   if (user.id) {
     return (
-      <Menu>
-        <HStack spacing={2}>
-          <Text color="secondary" fontWeight="semibold">
-            {user.login}
-          </Text>
-          <MenuButton as={Button} rounded="full" variant="link" cursor="pointer">
-            <Avatar bgColor="tertiary" size="sm" name={user.fullName} src={AVATAR_PATH(user.picturePath)} />
-          </MenuButton>
-        </HStack>
-        <MenuList>
-          <MenuGroup title="Events">
-            <MenuItem color="secondary" px={4} py={2} onClick={() => navigate('/profile/events')}>
-              My events
-            </MenuItem>
-            <MenuItem color="secondary" px={4} py={2} onClick={() => navigate('/profile/tickets')}>
-              My tickets
-            </MenuItem>
-          </MenuGroup>
-          <MenuDivider />
-          <MenuGroup title="Account">
-            <MenuItem px={4} py={2} onClick={() => navigate('/profile')}>
-              Settings
-            </MenuItem>
-            <MenuItem px={4} py={2} color="red" onClick={() => logoutHandler()}>
-              Log out
-            </MenuItem>
-          </MenuGroup>
-        </MenuList>
-      </Menu>
+      <Box>
+        <Menu>
+          <HStack spacing={2}>
+            <Text color="secondary" fontWeight="semibold">
+              {user.login}
+            </Text>
+            <MenuButton as={Button} rounded="full" variant="link" cursor="pointer">
+              <Avatar bgColor="tertiary" size="sm" name={user.fullName} src={AVATAR_PATH(user.picturePath)} />
+            </MenuButton>
+          </HStack>
+          <MenuList>
+            <MenuGroup title="Events">
+              <MenuItem color="secondary" px={4} py={2} onClick={() => navigate('/profile/events')}>
+                My events
+              </MenuItem>
+              <MenuItem color="secondary" px={4} py={2} onClick={() => navigate('/profile/tickets')}>
+                My tickets
+              </MenuItem>
+            </MenuGroup>
+            <MenuDivider />
+            <MenuGroup title="Account">
+              <MenuItem px={4} py={2} onClick={() => navigate('/profile')}>
+                Settings
+              </MenuItem>
+              <MenuItem px={4} py={2} color="red" onClick={() => logoutHandler()}>
+                Log out
+              </MenuItem>
+            </MenuGroup>
+          </MenuList>
+        </Menu>
+      </Box>
     );
   }
 
