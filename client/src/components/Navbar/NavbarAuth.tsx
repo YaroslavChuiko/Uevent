@@ -39,9 +39,6 @@ const NavbarAuth = () => {
           </HStack>
           <MenuList>
             <MenuGroup title="Events">
-              <MenuItem color="secondary" px={4} py={2} onClick={() => navigate('/profile/events')}>
-                My events
-              </MenuItem>
               <MenuItem color="secondary" px={4} py={2} onClick={() => navigate('/profile/tickets')}>
                 My tickets
               </MenuItem>
