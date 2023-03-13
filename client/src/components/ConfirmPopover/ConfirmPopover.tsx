@@ -1,4 +1,13 @@
-import { PopoverBody, Button, Flex, Popover, PopoverContent, PopoverHeader, PopoverTrigger } from '@chakra-ui/react';
+import {
+  PopoverBody,
+  Button,
+  Flex,
+  Popover,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Box,
+} from '@chakra-ui/react';
 
 type PopoverType = {
   header: string;
@@ -15,22 +24,24 @@ const ConfirmPopover = ({ header, trigger, isOpen, onClose, onConfirm }: Popover
   };
 
   return (
-    <Popover returnFocusOnClose={false} placement="bottom" isOpen={isOpen} onClose={onClose}>
-      <PopoverTrigger>{trigger}</PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader fontWeight="semibold">{header}</PopoverHeader>
-        <PopoverBody>
-          <Flex sx={{ width: '100%', justifyContent: 'space-around' }}>
-            <Button onClick={onClose} colorScheme="red" variant="outline">
-              Cancel
-            </Button>
-            <Button onClick={confirm} colorScheme="green">
-              Confirm
-            </Button>
-          </Flex>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+    <Box>
+      <Popover returnFocusOnClose={false} placement="bottom" isOpen={isOpen} onClose={onClose}>
+        <PopoverTrigger>{trigger}</PopoverTrigger>
+        <PopoverContent>
+          <PopoverHeader fontWeight="semibold">{header}</PopoverHeader>
+          <PopoverBody>
+            <Flex sx={{ width: '100%', justifyContent: 'space-around' }}>
+              <Button onClick={onClose} colorScheme="red" variant="outline">
+                Cancel
+              </Button>
+              <Button onClick={confirm} colorScheme="green">
+                Confirm
+              </Button>
+            </Flex>
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+    </Box>
   );
 };
 

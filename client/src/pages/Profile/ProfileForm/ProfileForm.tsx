@@ -1,8 +1,5 @@
 import {
   Button,
-  Card,
-  CardBody,
-  CardHeader,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -16,18 +13,19 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { FiAtSign, FiUser, FiUserCheck } from 'react-icons/fi';
+import DrawerWrapper from '~/components/Drawer/DrawerWrapper';
 import { useAppSelector } from '~/hooks/use-app-selector';
 import useRequestHandler from '~/hooks/use-request-handler';
 import { useUpdateProfileMutation } from '~/store/api/profile-slice';
 import { IUpdate, updateSchema } from '~/validation/profile';
-import styles from '../profile-card.styles';
 import ProfileFormAvatar from './ProfileFormAvatar';
 
 type PropsType = {
-  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
+  onClose: () => void;
 };
 
-const ProfileForm = ({ setEdit }: PropsType) => {
+const ProfileForm = ({ isOpen, onClose }: PropsType) => {
   const { user } = useAppSelector((state) => state.profile);
 
   const [update, { isLoading }] = useUpdateProfileMutation();
@@ -47,27 +45,13 @@ const ProfileForm = ({ setEdit }: PropsType) => {
     defaultValues,
   });
 
-  const onSubmit = async (data: IUpdate) => {
-    await updateHandler(data);
-  };
-
   return (
-    <Card sx={styles.card} variant="outline">
-      <CardHeader>
-        <Flex flexDir="row">
-          <Flex flexDir="column" flexGrow="0">
-            <ProfileFormAvatar />
-          </Flex>
-          <Flex justify="flex-end" flexGrow="1">
-            <Button onClick={() => setEdit(false)} variant="outline">
-              Go Back
-            </Button>
-          </Flex>
+    <DrawerWrapper title="Update your profile" isOpen={isOpen} onClose={onClose}>
+      <VStack spacing="4">
+        <Flex flexDir="column" flexGrow="0">
+          <ProfileFormAvatar />
         </Flex>
-      </CardHeader>
-
-      <CardBody>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(updateHandler)}>
           <VStack spacing="4">
             <FormControl isInvalid={!!errors.login}>
               <FormLabel htmlFor="login">Login</FormLabel>
@@ -98,8 +82,8 @@ const ProfileForm = ({ setEdit }: PropsType) => {
             </Button>
           </VStack>
         </form>
-      </CardBody>
-    </Card>
+      </VStack>
+    </DrawerWrapper>
   );
 };
 

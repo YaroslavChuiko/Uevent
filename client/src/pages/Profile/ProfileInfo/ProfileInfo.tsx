@@ -23,11 +23,9 @@ import { profileLinks as links } from '../const';
 import styles from '../profile-card.styles';
 import DangerZone from './DangerZone';
 
-type PropsType = {
-  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-};
+type PropsType = { onOpen: () => void };
 
-const ProfileInfo = ({ setEdit }: PropsType) => {
+const ProfileInfo = ({ onOpen }: PropsType) => {
   const { user } = useAppSelector((state) => state.profile);
 
   return (
@@ -42,7 +40,7 @@ const ProfileInfo = ({ setEdit }: PropsType) => {
             </Heading>
           </Flex>
           <Flex>
-            <Button onClick={() => setEdit(true)} leftIcon={<Icon as={FiEdit} />}>
+            <Button onClick={onOpen} leftIcon={<Icon as={FiEdit} />}>
               Edit
             </Button>
           </Flex>

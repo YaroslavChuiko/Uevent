@@ -36,7 +36,6 @@ const EventInfo = ({ event, companyName }: PropType) => {
   const tags = [e.format.name, e.theme.name];
 
   const { isOpen: isFormOpen, onOpen: onFormOpen, onClose: onFormClose } = useDisclosure();
-  const { isOpen: isVistorsOpen, onOpen: onVistorsOpen, onClose: onVistorsClose } = useDisclosure();
 
   return (
     <Box>
