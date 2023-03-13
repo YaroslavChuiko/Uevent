@@ -9,7 +9,7 @@ import {
   updatePoster,
 } from '../controllers/events';
 import { createSession } from '../controllers/payment';
-import auth from '../middleware/auth';
+import auth, { optionalAuth } from '../middleware/auth';
 import { checkUserCompanyRights, checkUserEventRights } from '../middleware/check-rights';
 import boundary from '../utils/error-boundary';
 import fileUpload from '../utils/file-upload';
@@ -22,7 +22,7 @@ import {
 
 const router = express.Router();
 
-router.get('/', boundary(getManyEvents));
+router.get('/', optionalAuth, boundary(getManyEvents));
 router.get('/:id', boundary(getOneEventById));
 
 router.use(auth);

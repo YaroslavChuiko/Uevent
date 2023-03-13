@@ -48,6 +48,11 @@ paths:
           schema:
             type: integer
           description: The id of the events' theme
+        - name: userId
+          in: query
+          schema:
+            type: integer
+          description: The id of the events' visitor
         - name: q
           in: query
           schema:

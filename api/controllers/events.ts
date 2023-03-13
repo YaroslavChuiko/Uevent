@@ -9,6 +9,7 @@ import { scheduleEventReminder } from '../jobs/event-reminder';
 import subtractHours from '../utils/subtract-hours';
 import { HOURS_BEFORE_EVENT } from '../consts/default';
 import wait from '../utils/wait';
+import ClientError from '../types/error';
 
 const event = prisma.event;
 
@@ -42,6 +43,10 @@ const getOneEventById = async (req: Request, res: Response) => {
 };
 
 const getManyEvents = async (req: Request, res: Response) => {
+  if (req.query.userId && req.user?.id !== Number(req.query.userId)) {
+    throw new ClientError('You cannot view these events', 403);
+  }
+
   const where = EventService.getEventsWhereOptions(req.query);
   const sort = EventService.getEventsSortOptions(req.query, 'id');
   const pagination = getPageOptions(req.query);
