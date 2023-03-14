@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import EmailConfirmation from './pages/Auth/EmailConfirmation';
@@ -19,29 +19,27 @@ import CancelledPayment from './pages/Payment/Cancel';
 function App() {
   return (
     <Box sx={styles.main}>
-      <Router>
-        <Navbar />
-        <Box sx={styles.router}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/confirm-email" element={<EmailConfirmation />} />
-            <Route path="/confirm-password-reset" element={<SendPasswordConfirmation />} />
-            <Route path="/password-reset" element={<PasswordReset />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="profile/*" element={<ProfileRoutes />} />
-            </Route>
-            <Route path="events/*" element={<EventRoutes />} />
-            <Route>
-              <Route path="companies/*" element={<CompaniesRoutes />} />
-            </Route>
-            <Route path="/payment/success" element={<SuccessfulPayment />}></Route>
-            <Route path="/payment/cancel" element={<CancelledPayment />}></Route>
-            <Route path="/*" element={<NotFound />} />
-          </Routes>
-        </Box>
-      </Router>
+      <Navbar />
+      <Box sx={styles.router}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/confirm-email" element={<EmailConfirmation />} />
+          <Route path="/confirm-password-reset" element={<SendPasswordConfirmation />} />
+          <Route path="/password-reset" element={<PasswordReset />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="profile/*" element={<ProfileRoutes />} />
+          </Route>
+          <Route path="events/*" element={<EventRoutes />} />
+          <Route>
+            <Route path="companies/*" element={<CompaniesRoutes />} />
+          </Route>
+          <Route path="/payment/success" element={<SuccessfulPayment />}></Route>
+          <Route path="/payment/cancel" element={<CancelledPayment />}></Route>
+          <Route path="/*" element={<NotFound />} />
+        </Routes>
+      </Box>
     </Box>
   );
 }
