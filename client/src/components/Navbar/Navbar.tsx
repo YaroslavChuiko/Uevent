@@ -25,8 +25,8 @@ const Navbar = () => {
                   icon={<Icon boxSize={6} as={isOpen ? FiX : FiMenu} />}
                 ></MenuButton>
                 <MenuList>
-                  {links.map((l) => (
-                    <MenuItem color="secondary" px={4} py={2} onClick={() => navigate(l.href)}>
+                  {links.map((l, i) => (
+                    <MenuItem key={i} color="secondary" px={4} py={2} onClick={() => navigate(l.href)}>
                       {l.label}
                     </MenuItem>
                   ))}
