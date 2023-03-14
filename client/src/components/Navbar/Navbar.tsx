@@ -1,7 +1,6 @@
-import { Box, Flex, Heading, HStack, Icon, IconButton, Stack, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Heading, HStack, Icon, IconButton, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { FiMenu, FiX } from 'react-icons/fi';
-import { Link as ReactRouterLink, NavLink } from 'react-router-dom';
-import { NAVBAR_COLOR } from '~/consts/components';
+import { Link as ReactRouterLink, NavLink, useNavigate } from 'react-router-dom';
 import styles from './navbar.styles';
 import NavbarAuth from './NavbarAuth';
 
@@ -11,19 +10,31 @@ const links = [
 ];
 
 const Navbar = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
   return (
     <Box sx={styles.navbar}>
       <Flex sx={styles.container} h="100%" align="center" justify="space-between">
-        <IconButton
-          size="md"
-          bgColor={NAVBAR_COLOR}
-          icon={<Icon boxSize={6} as={isOpen ? FiX : FiMenu} />}
-          aria-label="Open Menu"
-          display={{ md: 'none' }}
-          onClick={isOpen ? onClose : onOpen}
-        />
+        <Box sx={{ display: { md: 'none' } }}>
+          <Menu>
+            {({ isOpen }) => (
+              <>
+                <MenuButton
+                  isActive={isOpen}
+                  as={IconButton}
+                  icon={<Icon boxSize={6} as={isOpen ? FiX : FiMenu} />}
+                ></MenuButton>
+                <MenuList>
+                  {links.map((l) => (
+                    <MenuItem color="secondary" px={4} py={2} onClick={() => navigate(l.href)}>
+                      {l.label}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </>
+            )}
+          </Menu>
+        </Box>
         <Box>
           <ReactRouterLink to="/">
             <Heading size="lg" color="secondary">
@@ -42,18 +53,6 @@ const Navbar = () => {
           <NavbarAuth />
         </HStack>
       </Flex>
-
-      {isOpen ? (
-        <Box bgColor={NAVBAR_COLOR} px={4} py={4} display={{ md: 'none' }}>
-          <Stack spacing={4}>
-            {links.map((l) => (
-              <NavLink to={l.href} key={l.label}>
-                {l.label}
-              </NavLink>
-            ))}
-          </Stack>
-        </Box>
-      ) : null}
     </Box>
   );
 };
