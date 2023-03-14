@@ -54,7 +54,7 @@ const EventService = {
     });
 
     const isAllowed = e !== null;
-    isAllowed && logger.warn("You are not allowed to view the event's visitors");
+    !isAllowed && logger.warn("You are not allowed to view the event's visitors");
 
     return isAllowed;
   },
