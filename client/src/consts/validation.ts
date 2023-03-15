@@ -7,3 +7,5 @@ export const COMPANY_NAME_LENGTH = { min: 4, max: 100 };
 export const LATITUDE = { min: -90, max: 90 };
 export const LONGITUDE = { min: -180, max: 180 };
 export const COMMENT_CONTENT_LENGTH = { min: 4, max: 60000 };
+export const EVENT_NAME_LENGTH = { min: 5, max: 100 };
+export const EVENT_DESCRIPTION_LENGTH = { min: 4, max: 60000 };

@@ -1,5 +1,5 @@
 import { SubscriptionResponse, Event, EventsParam, EventsResponse } from '~/types/event';
-import { ISubscribe } from '~/validation/event';
+import type { ISubscribe, ICreate, IUpdate } from '~/validation/event';
 import { apiSlice } from './api-slice';
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
@@ -21,22 +21,22 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       query: (id) => `/events/${id}`,
       providesTags: (_result, _error, arg) => [{ type: 'Event' as const, id: arg }],
     }),
-    // createEvent: builder.mutation({
-    //   query: ({ author_id, title, content, post_categories, status }) => ({
-    //     url: `/events`,
-    //     method: 'POST',
-    //     body: { author_id, title, content, post_categories, status },
-    //   }),
-    //   invalidatesTags: ['Event'],
-    // }),
-    // updateEvent: builder.mutation({
-    //   query: ({ id, author_id, title, content, post_categories, status }) => ({
-    //     url: `/events/${id}`,
-    //     method: 'PUT',
-    //     body: { author_id, title, content, post_categories, status },
-    //   }),
-    //   invalidatesTags: (_result, _error, arg) => [{ type: 'Event', id: arg.id }],
-    // }),
+    createEvent: builder.mutation<Event, ICreate>({
+      query: (body) => ({
+        url: '/events',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Event'],
+    }),
+    updateEvent: builder.mutation<Event, IUpdate & Pick<Event, 'id'>>({
+      query: ({ id, ...body }) => ({
+        url: `/events/${id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Event', id: arg.id }],
+    }),
     deleteEvent: builder.mutation<Event, number>({
       query: (id) => ({
         url: `/event/${id}`,
@@ -59,5 +59,11 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetEventQuery, useGetEventsQuery, useDeleteEventMutation, useCheckoutForEventMutation } =
-  extendedApiSlice;
+export const {
+  useGetEventQuery,
+  useGetEventsQuery,
+  useCreateEventMutation,
+  useUpdateEventMutation,
+  useDeleteEventMutation,
+  useCheckoutForEventMutation,
+} = extendedApiSlice;

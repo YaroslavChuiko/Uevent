@@ -1,9 +1,17 @@
 import Joi from 'joi';
-import { LATITUDE, LONGITUDE, EVENT_NAME_LENGTH } from '../consts/validation';
+import {
+  LATITUDE,
+  LONGITUDE,
+  EVENT_NAME_LENGTH,
+  EVENT_DESCRIPTION_LENGTH,
+} from '../consts/validation';
 
 const createSchema = Joi.object().keys({
   name: Joi.string().required().min(EVENT_NAME_LENGTH.min).max(EVENT_NAME_LENGTH.max),
-  description: Joi.string().required(),
+  description: Joi.string()
+    .required()
+    .min(EVENT_DESCRIPTION_LENGTH.min)
+    .max(EVENT_DESCRIPTION_LENGTH.max),
   price: Joi.number().min(0).required(), // if price == 0 ticket is free
   ticketsAvailable: Joi.number().positive().required(), // can it be unlimited?
   isNotificationsOn: Joi.boolean().required(),
@@ -19,7 +27,10 @@ const createSchema = Joi.object().keys({
 
 const updateSchema = Joi.object().keys({
   name: Joi.string().required().min(EVENT_NAME_LENGTH.min).max(EVENT_NAME_LENGTH.max),
-  description: Joi.string().required(),
+  description: Joi.string()
+    .required()
+    .min(EVENT_DESCRIPTION_LENGTH.min)
+    .max(EVENT_DESCRIPTION_LENGTH.max),
   price: Joi.number().min(0).required(),
   ticketsAvailable: Joi.number().min(0).required(),
   isNotificationsOn: Joi.boolean().required(),

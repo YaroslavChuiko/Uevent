@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Avatar,
   Box,
@@ -15,7 +16,7 @@ import {
   Link,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import { EditIcon, DeleteIcon, AddIcon } from '@chakra-ui/icons';
 import { FiMapPin } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from '~/store/api/user-slice';
@@ -108,6 +109,9 @@ const CompanyInfo = ({ company, setEdit }: IProps) => {
       <VStack spacing={4} marginTop="20px">
         {Number(curUser.id) === company.userId && (
           <HStack spacing={4} alignSelf="flex-end">
+            <Button as={RouterLink} to="/events/create" leftIcon={<AddIcon />}>
+              Create event
+            </Button>
             <Button onClick={() => setEdit(true)} leftIcon={<EditIcon />}>
               Edit
             </Button>
