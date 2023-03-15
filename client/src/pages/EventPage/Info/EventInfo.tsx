@@ -23,6 +23,8 @@ import { GET_DISPLAY_EVENT } from '~/consts/event';
 import { useAppSelector } from '~/hooks/use-app-selector';
 import EventSubscribe from './EventSubscribe';
 import EventVisitors from './EventVisitors';
+import { useState, useEffect } from 'react';
+import Geocode from '~/consts/geocode';
 
 type PropType = {
   event: Event;
@@ -36,6 +38,20 @@ const EventInfo = ({ event, companyName }: PropType) => {
   const tags = [e.format.name, e.theme.name];
 
   const { isOpen: isFormOpen, onOpen: onFormOpen, onClose: onFormClose } = useDisclosure();
+
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    Geocode.fromLatLng(event.latitude.toString(), event.longitude.toString()).then(
+      (response) => {
+        const address = response.results[0].formatted_address;
+        setAddress(address);
+      },
+      (error) => {
+        setAddress('');
+      },
+    );
+  }, []);
 
   return (
     <Box>
@@ -79,7 +95,7 @@ const EventInfo = ({ event, companyName }: PropType) => {
       </Flex>
       <Flex pt="8" flexDir="column" sx={styles.mainInfo}>
         <Flex sx={styles.dateNLocation}>
-          <Card p={{ base: '4', sm: '6' }} variant="outline">
+          <Card p={{ base: '4', sm: '6' }} variant="outline" minW="270px">
             <HStack spacing="6">
               <Icon color="tertiary" w="8" h="8" as={FiCalendar} />
               <VStack align="flex-start">
@@ -93,13 +109,13 @@ const EventInfo = ({ event, companyName }: PropType) => {
               <Icon color="tertiary" w="8" h="8" as={FiMapPin} />
               <VStack align="flex-start">
                 <Heading fontSize="2xl">Location</Heading>
-                <Text>Check the map</Text>
+                <Text>{address ? address : 'Check the map'}</Text>
               </VStack>
             </HStack>
           </Card>
         </Flex>
         <Flex pt="8" justify="center">
-          <GoogleMap text={e.name} lat={e.latitude} lng={e.longitude} />
+          <GoogleMap text={`${e.name}, ${address}`} lat={e.latitude} lng={e.longitude} />
         </Flex>
       </Flex>
     </Box>
