@@ -8,15 +8,20 @@ import { persistor, store } from './store/store';
 import './styles/index.css';
 import theme from './styles/theme';
 import '@fontsource/noto-sans';
+import ScrollToTop from './components/ScrollToTop';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  // <React.StrictMode>
+  // <StrictMode>
   <Provider store={store}>
     <PersistGate loading={<Loader />} persistor={persistor}>
       <ChakraProvider theme={theme}>
-        <App />
+        <BrowserRouter>
+          <ScrollToTop />
+          <App />
+        </BrowserRouter>
       </ChakraProvider>
     </PersistGate>
   </Provider>,
-  // </React.StrictMode>,
+  // </StrictMode>,
 );

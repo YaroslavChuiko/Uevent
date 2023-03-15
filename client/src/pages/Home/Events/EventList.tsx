@@ -9,12 +9,13 @@ import { EventsParam } from '~/types/event';
 import NothingFound from './NothingFound';
 
 type Props = {
-  formatId: number | undefined;
-  themeId: number | undefined;
+  formatId?: number;
+  themeId?: number;
+  userId?: number;
   dateRange: DateRange | null;
 };
 
-const EventList = ({ formatId, themeId, dateRange }: Props) => {
+const EventList = ({ formatId, themeId, userId, dateRange }: Props) => {
   const [curPage, setCurPage] = useState(1);
   const itemsPerPage = 8;
 
@@ -27,6 +28,7 @@ const EventList = ({ formatId, themeId, dateRange }: Props) => {
   };
   formatId ? (params.formatId = formatId) : null;
   themeId ? (params.themeId = themeId) : null;
+  userId ? (params.userId = userId) : null;
   if (dateRange?.from && dateRange?.to) {
     params.dateFrom = dateRange.from.toISOString();
     params.dateTo = dateRange.to.toISOString();
@@ -49,7 +51,7 @@ const EventList = ({ formatId, themeId, dateRange }: Props) => {
         ) : data?.events.length ? (
           data?.events.map((event) => (
             <SlideFade key={event.id} offsetY="30px" in={true}>
-              <EventCard event={event} h="100%" />
+              <EventCard isTicket={!!userId} event={event} h="100%" />
             </SlideFade>
           ))
         ) : (

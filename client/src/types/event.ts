@@ -41,6 +41,7 @@ export type EventsParam = {
   companyId?: number;
   formatId?: number;
   themeId?: number;
+  userId?: number;
   dateFrom?: string;
   dateTo?: string;
   q?: string;

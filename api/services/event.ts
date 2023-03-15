@@ -13,6 +13,7 @@ type FilterAttributes = {
   companyId?: string | string[];
   formatId?: string | string[];
   themeId?: string | string[];
+  userId?: string;
   upcoming?: boolean;
   dateFrom?: string;
   dateTo?: string;
@@ -53,7 +54,7 @@ const EventService = {
     });
 
     const isAllowed = e !== null;
-    isAllowed && logger.warn("You are not allowed to view the event's visitors");
+    !isAllowed && logger.warn("You are not allowed to view the event's visitors");
 
     return isAllowed;
   },
@@ -111,7 +112,7 @@ const EventService = {
 
   getEventsWhereOptions(queryParams: FilterAttributes) {
     const where: Prisma.EventWhereInput = {};
-    const { id, companyId, themeId, formatId, q, upcoming, dateFrom, dateTo } = queryParams;
+    const { userId, id, companyId, themeId, formatId, q, upcoming, dateFrom, dateTo } = queryParams;
 
     if (id) {
       where.id = { in: convertQueryParamToNumArr(id) };
@@ -124,6 +125,11 @@ const EventService = {
     }
     if (themeId) {
       where.themeId = Number(themeId);
+    }
+    if (userId) {
+      where.visitors = {
+        some: { userId: Number(userId) },
+      };
     }
     if (q) {
       where.name = { contains: q };

@@ -6,6 +6,7 @@ import styles from './event-card.styles';
 
 type Props = {
   event: Event;
+  isTicket?: boolean;
 } & CardProps;
 
 const DateFormatOptions = {
@@ -21,7 +22,7 @@ const PriceFormatOptions = {
   currency: 'USD',
 } as const;
 
-const EventCard = ({ event, ...cardProps }: Props) => {
+const EventCard = ({ event, isTicket = false, ...cardProps }: Props) => {
   const { data: company } = useGetCompanyQuery(event.companyId);
   const date = new Intl.DateTimeFormat('en-US', DateFormatOptions).format(new Date(event.date));
   const price = event.price ? new Intl.NumberFormat('en-US', PriceFormatOptions).format(event.price) : 'free';
@@ -55,10 +56,12 @@ const EventCard = ({ event, ...cardProps }: Props) => {
 
           <Text sx={styles.date}>{date}</Text>
 
-          <Box sx={styles.price}>
-            <Text>Tickets left: {event.ticketsAvailable}</Text>
-            <Text>{price}</Text>
-          </Box>
+          {!isTicket && (
+            <Box sx={styles.price}>
+              <Text>Tickets left: {event.ticketsAvailable}</Text>
+              <Text>{price}</Text>
+            </Box>
+          )}
 
           <Box sx={styles.company} noOfLines={1}>
             By{' '}
