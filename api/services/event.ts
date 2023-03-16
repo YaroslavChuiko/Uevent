@@ -134,6 +134,11 @@ const EventService = {
     if (q) {
       where.name = { contains: q };
     }
+    if ((dateFrom && dateTo) || upcoming) {
+      where.publishDate = {
+        lte: new Date().toISOString(),
+      };
+    }
     if (dateFrom && dateTo) {
       where.date = {
         gte: new Date(dateFrom).toISOString(),
