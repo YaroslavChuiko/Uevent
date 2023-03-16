@@ -17,7 +17,7 @@ const createSchema = Joi.object().keys({
   isNotificationsOn: Joi.boolean().required(),
   isPublic: Joi.boolean().required(),
   date: Joi.date().iso().min('now').required(),
-  publishDate: Joi.date().iso().min('now').less(Joi.ref('date')).required(),
+  publishDate: Joi.date().iso().less(Joi.ref('date')).required(),
   latitude: Joi.number().required().min(LATITUDE.min).max(LATITUDE.max),
   longitude: Joi.number().required().min(LONGITUDE.min).max(LONGITUDE.max),
   companyId: Joi.number().positive().required(),
