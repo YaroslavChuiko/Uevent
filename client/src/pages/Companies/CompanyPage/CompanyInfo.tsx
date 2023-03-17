@@ -35,6 +35,7 @@ import type { User } from '~/types/user';
 import { AVATAR_PATH } from '~/consts/avatar';
 import Geocode from '~/consts/geocode';
 import styles from './company.styles';
+import CompanyEvents from './CompanyEvents';
 
 type IProps = {
   company: Company;
@@ -133,6 +134,7 @@ const CompanyInfo = ({ company, setEdit }: IProps) => {
 
         <GoogleMap text={`${company.name}, ${address}`} lat={company.latitude} lng={company.longitude} />
       </VStack>
+      <CompanyEvents />
     </Container>
   );
 };

@@ -38,7 +38,7 @@ const EventPage = () => {
       <CompanyInfo company={company as Company}></CompanyInfo>
       <Comments eventId={event.id} />
       <SimilarEventsCarousel eventId={event.id} eventFormatId={event.formatId} eventThemeId={event.themeId} />
-      <CompanyEventsCarousel eventId={event.id} companyId={event.companyId} />
+      <CompanyEventsCarousel heading="Other company's events" eventId={event.id} companyId={event.companyId} />
     </Container>
   );
 };

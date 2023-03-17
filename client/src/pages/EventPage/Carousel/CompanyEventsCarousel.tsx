@@ -6,11 +6,12 @@ import Carousel from './Carousel';
 import CarouselNothingFound from './CarouselNothingFound';
 
 type Props = {
-  eventId: number;
+  heading: string;
+  eventId: number | null;
   companyId: number;
 };
 
-const CompanyEventsCarousel = ({ eventId, companyId }: Props) => {
+const CompanyEventsCarousel = ({ heading, eventId, companyId }: Props) => {
   const params: EventsParam = {
     _sort: 'date',
     _order: 'ASC' as const,
@@ -25,13 +26,13 @@ const CompanyEventsCarousel = ({ eventId, companyId }: Props) => {
   let events: Event[] | null = null;
 
   if (isSuccess) {
-    events = data.events.filter((e) => e.id !== eventId);
+    events = eventId ? data.events.filter((e) => e.id !== eventId) : data.events;
   }
 
   return (
-    <Box py="40px" sx={styles.mainInfo}>
+    <Box py="40px" sx={{ ...styles.mainInfo, mx: !eventId ? 'auto' : 0 }}>
       <Heading as="h3" fontSize="24px">
-        Other company's events
+        {heading}
       </Heading>
       {!events?.length && !isFetching ? <CarouselNothingFound /> : <Carousel isFetching={isFetching} events={events} />}
     </Box>
