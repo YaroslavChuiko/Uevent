@@ -23,6 +23,7 @@
     "@stripe/stripe-js": "^1.48.0",
     "date-fns": "^2.29.3",
     "framer-motion": "^9.1.2",
+    "kute.js": "^2.2.4",
     "react": "^18.2.0",
     "react-day-picker": "^8.6.0",
     "react-dom": "^18.2.0",
@@ -53,6 +54,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.4",
     "typescript": "^4.9.3",
-    "vite": "^4.1.0"
+    "vite": "^4.1.0",
+    "vite-plugin-svgr": "^2.4.0"
   }
 }
