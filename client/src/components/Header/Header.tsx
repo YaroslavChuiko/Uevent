@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, HStack, Icon, IconButton, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { Link as ReactRouterLink, NavLink, useNavigate } from 'react-router-dom';
-import styles from './navbar.styles';
+import styles from './header.styles';
 import NavbarAuth from './NavbarAuth';
 
 const links = [
@@ -9,7 +9,7 @@ const links = [
   { href: '/companies', label: 'Browse Companies' },
 ];
 
-const Navbar = () => {
+const Header = () => {
   const navigate = useNavigate();
 
   return (
@@ -57,4 +57,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Header;
