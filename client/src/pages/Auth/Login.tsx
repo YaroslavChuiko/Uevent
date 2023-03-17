@@ -1,12 +1,13 @@
-import { Heading, Link, Text, Flex, Box, Card, CardHeader, CardBody } from '@chakra-ui/react';
+import { Box, Card, CardBody, CardHeader, Heading, Link, Text } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import LoginForm from './LoginForm';
 import styles from './auth.styles';
-import layoutStyles from '~/components/Layout/layout.styles';
+import LoginForm from './LoginForm';
+import Logo from './Logo';
 
 const Login = () => {
   return (
-    <Flex justify="center" align="flex-start" sx={layoutStyles.page}>
+    <>
+      <Logo />
       <Card sx={styles.card}>
         <CardHeader>
           <Heading sx={styles.heading}>Log in to your account</Heading>
@@ -29,7 +30,7 @@ const Login = () => {
           </Box>
         </CardBody>
       </Card>
-    </Flex>
+    </>
   );
 };
 

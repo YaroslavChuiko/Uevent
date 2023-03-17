@@ -11,17 +11,18 @@ type TStyle = {
 
 const styles: TStyle = {
   card: {
-    width: { base: '90%', md: '80%', xl: '50%' },
-    margin: '0 auto',
-    variant: 'outline',
+    width: '100%',
+    p: { base: '10px 10px', md: '20px 30px' },
+    maxW: '500px',
+    boxShadow: 'rgba(0, 0, 0, 0.1) 0px 10px 50px;',
   },
   heading: {
     textAlign: 'center',
     color: 'hover',
+    fontSize: { base: '25px', sm: '30px' },
   },
   button: {
-    w: '200px',
-    spinnerPlacement: 'end',
+    w: '250px',
   },
   footer: {
     marginTop: '25px',

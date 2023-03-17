@@ -29,7 +29,7 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit(loginHandler)}>
-      <VStack spacing="4">
+      <VStack spacing="5">
         <FormControl isInvalid={!!errors.login}>
           <FormLabel htmlFor="login">Login</FormLabel>
           <Input id="login" placeholder="login" {...register('login')} />
@@ -40,7 +40,14 @@ const LoginForm = () => {
           <Input id="password" placeholder="password" type="password" {...register('password')} />
           <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
-        <Button type="submit" colorScheme="blue" sx={styles.button} isLoading={isLoading} loadingText="Submitting">
+        <Button
+          type="submit"
+          colorScheme="blue"
+          sx={styles.button}
+          isLoading={isLoading}
+          spinnerPlacement="end"
+          loadingText="Submitting"
+        >
           Log in
         </Button>
       </VStack>

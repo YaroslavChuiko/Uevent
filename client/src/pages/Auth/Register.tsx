@@ -1,12 +1,13 @@
-import { Heading, Link, Text, Flex, Box, Card, CardHeader, CardBody } from '@chakra-ui/react';
+import { Box, Card, CardBody, CardHeader, Heading, Link, Text } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import RegisterForm from './RegisterForm';
 import styles from './auth.styles';
-import layoutStyles from '~/components/Layout/layout.styles';
+import Logo from './Logo';
+import RegisterForm from './RegisterForm';
 
 const Register = () => {
   return (
-    <Flex justify="center" align="flex-start" sx={layoutStyles.page}>
+    <>
+      <Logo />
       <Card sx={styles.card}>
         <CardHeader>
           <Heading sx={styles.heading}>Create an account</Heading>
@@ -23,7 +24,7 @@ const Register = () => {
           </Box>
         </CardBody>
       </Card>
-    </Flex>
+    </>
   );
 };
 
