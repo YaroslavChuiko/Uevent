@@ -74,11 +74,13 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
 
   return (
     <Box>
-      <Flex sx={styles.poster}>
-        <Box sx={styles.blurBg(e.picturePath)}></Box>
-        <Image sx={styles.image} src={e.picturePath} boxSize="full" objectFit="contain" alt="Event image" />
-      </Flex>
-      <Flex pt="8" justify="space-between" sx={styles.info}>
+      {!!e.picturePath && (
+        <Flex sx={styles.poster}>
+          <Box sx={styles.blurBg(e.picturePath)}></Box>
+          <Image sx={styles.image} src={e.picturePath} boxSize="full" objectFit="contain" alt="Event image" />
+        </Flex>
+      )}
+      <Flex pt={e.picturePath ? '8' : undefined} justify="space-between" sx={styles.info}>
         <VStack spacing={4} align="flex-start" sx={styles.mainInfo}>
           <Text fontSize="lg">{e.shortDate}</Text>
           <Heading fontSize={{ base: '3xl', md: '5xl' }}>{eventTitle.toUpperCase()}</Heading>
