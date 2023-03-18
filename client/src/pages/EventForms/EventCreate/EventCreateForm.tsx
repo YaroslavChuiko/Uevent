@@ -35,6 +35,7 @@ const EventCreateForm = () => {
   const { toast } = useCustomToast();
 
   const [isFree, setIsFree] = useState<boolean>(false);
+  const [isPublishNow, setIsPublishNow] = useState<boolean>(true);
   const [company, setCompany] = useState<SelectOptionData | null>(null);
   const [format, setFormat] = useState<SelectOptionData | null>(null);
   const [theme, setTheme] = useState<SelectOptionData | null>(null);
@@ -44,8 +45,12 @@ const EventCreateForm = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm<ICreate>({
     resolver: zodResolver(createSchema),
+    defaultValues: {
+      publishDate: new Date(),
+    },
   });
 
   const onSubmit = async (data: ICreate) => {
@@ -61,6 +66,13 @@ const EventCreateForm = () => {
   const onFreeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsFree(e.target.checked);
     setValue('price', 0, { shouldValidate: true });
+  };
+
+  const onPublishNowChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsPublishNow(e.target.checked);
+    reset({
+      publishDate: new Date(),
+    });
   };
 
   useEffect(() => {
@@ -142,33 +154,48 @@ const EventCreateForm = () => {
               </FormControl>
               <FormControl isInvalid={!!errors.date} isRequired>
                 <FormLabel htmlFor="date">Date</FormLabel>
-                <Input id="date" type="datetime-local" {...register('date')} />
+                <Input
+                  id="date"
+                  type="datetime-local"
+                  {...register('date', {
+                    valueAsDate: true,
+                  })}
+                />
                 <FormErrorMessage>{errors.date?.message}</FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={!!errors.publishDate} isRequired>
-                <FormLabel htmlFor="publishDate">Publish date</FormLabel>
-                <Input id="publishDate" type="datetime-local" {...register('publishDate')} />
-                <FormErrorMessage>{errors.publishDate?.message}</FormErrorMessage>
+              <FormControl>
+                <FormLabel>Publish now</FormLabel>
+                <Switch onChange={onPublishNowChange} defaultChecked />
               </FormControl>
+              {!isPublishNow && (
+                <FormControl isInvalid={!!errors.publishDate} isRequired>
+                  <FormLabel htmlFor="publishDate">Publish date</FormLabel>
+                  <Input
+                    id="publishDate"
+                    type="datetime-local"
+                    {...register('publishDate', {
+                      valueAsDate: true,
+                    })}
+                  />
+                  <FormErrorMessage>{errors.publishDate?.message}</FormErrorMessage>
+                </FormControl>
+              )}
               <PlacesSearch register={register} setValue={setValue} errors={errors} />
               <FormControl isInvalid={!!errors.companyId} isRequired>
                 <FormLabel htmlFor="companyId">Company</FormLabel>
                 <AsyncSelectCompany company={company} setCompany={setCompany} />
                 <FormErrorMessage>Input company name please</FormErrorMessage>
               </FormControl>
-              <Input hidden id="companyId" {...register('companyId', { valueAsNumber: true })} />
               <FormControl isInvalid={!!errors.formatId} isRequired>
                 <FormLabel htmlFor="formatId">Format</FormLabel>
                 <AsyncSelectFormat format={format} setFormat={setFormat} />
                 <FormErrorMessage>Input format please</FormErrorMessage>
               </FormControl>
-              <Input hidden id="formatId" {...register('formatId', { valueAsNumber: true })} />
               <FormControl isInvalid={!!errors.themeId} isRequired>
                 <FormLabel htmlFor="themeId">Theme</FormLabel>
                 <AsyncSelectTheme theme={theme} setTheme={setTheme} />
                 <FormErrorMessage>Input theme please</FormErrorMessage>
               </FormControl>
-              <Input hidden id="themeId" {...register('themeId', { valueAsNumber: true })} />
               <Button type="submit" w="200px" colorScheme="blue" isLoading={isLoading}>
                 Create
               </Button>
