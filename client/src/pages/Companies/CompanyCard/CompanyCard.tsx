@@ -4,6 +4,7 @@ import CompanyCardSkeleton from './CompanyCardSkeleton';
 import type { Company } from '~/types/company';
 import { AVATAR_PATH } from '~/consts/avatar';
 import styles from './company-card.styles';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 const CompanyCard = ({ company }: { company: Company }) => {
   const { data: user, isLoading: userIsLoading, error: userError } = useGetUserQuery(company.userId);
@@ -23,7 +24,9 @@ const CompanyCard = ({ company }: { company: Company }) => {
         <CardBody sx={styles.cardBody}>
           <Stack sx={styles.stack}>
             <Heading sx={styles.heading}>
-              <LinkOverlay href={`/companies/${company.id}`}>{company.name}</LinkOverlay>
+              <LinkOverlay as={ReactRouterLink} to={`/companies/${company.id}`}>
+                {company.name}
+              </LinkOverlay>
             </Heading>
             <Text sx={styles.text}>{company.email}</Text>
             <Box sx={styles.founder}>
