@@ -1,14 +1,15 @@
 import { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { Avatar, InputGroup } from '@chakra-ui/react';
+import { Avatar, InputGroup, Image, Flex } from '@chakra-ui/react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 type PropsType = {
   register: UseFormRegisterReturn;
   avatar: string;
   name: string;
+  isPoster?: boolean;
 };
 
-const FileUpload = ({ register, avatar, name }: PropsType) => {
+const FileUpload = ({ register, avatar, name, isPoster = false }: PropsType) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { ref, onChange, ...rest } = register;
   const [preview, setPreview] = useState('');
@@ -45,7 +46,25 @@ const FileUpload = ({ register, avatar, name }: PropsType) => {
           inputRef.current = e;
         }}
       />
-      <Avatar size="2xl" name={name} src={preview || avatar} bgColor="secondary" cursor="pointer" />
+      {isPoster ? (
+        <Flex
+          maxWidth={{ base: 'none', md: 'sm' }}
+          h="155px"
+          overflow="hidden"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Image
+            src={preview || avatar}
+            fallbackSrc="https://via.placeholder.com/668x400?text=Poster"
+            alt={name}
+            cursor="pointer"
+            objectFit="cover"
+          />
+        </Flex>
+      ) : (
+        <Avatar size="2xl" name={name} src={preview || avatar} bgColor="secondary" cursor="pointer" />
+      )}
     </InputGroup>
   );
 };

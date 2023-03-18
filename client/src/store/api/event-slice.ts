@@ -39,11 +39,26 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     deleteEvent: builder.mutation<Event, number>({
       query: (id) => ({
-        url: `/event/${id}`,
+        url: `/events/${id}`,
         method: 'DELETE',
         body: {},
       }),
       invalidatesTags: ['Event'],
+    }),
+    updateEventPoster: builder.mutation<Event, { form: FormData } & Pick<Event, 'id'>>({
+      query: ({ id, form }) => ({
+        url: `/events/${id}/poster`,
+        method: 'PUT',
+        body: form,
+      }),
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Event', id: arg.id }],
+    }),
+    deleteEventPoster: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/events/${id}/poster`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Event', id: arg }],
     }),
     checkoutForEvent: builder.mutation<SubscriptionResponse, ISubscribe & { id: number }>({
       query: ({ isVisible, promoCode, id }) => ({
@@ -65,5 +80,7 @@ export const {
   useCreateEventMutation,
   useUpdateEventMutation,
   useDeleteEventMutation,
+  useUpdateEventPosterMutation,
+  useDeleteEventPosterMutation,
   useCheckoutForEventMutation,
 } = extendedApiSlice;

@@ -5,12 +5,13 @@ type HookType = {
   handleSubmit: UseFormHandleSubmit<FormValues>;
   requestHandler: (data: FormData) => Promise<any>;
   reset: UseFormReset<any>;
+  fieldName?: string;
 };
 
-const useFileSubmit = ({ handleSubmit, requestHandler, reset }: HookType) => {
+const useFileSubmit = ({ handleSubmit, requestHandler, reset, fieldName = 'avatar' }: HookType) => {
   const onSubmit = handleSubmit(async ({ files }) => {
     const form = new FormData();
-    form.append('avatar', files[0]);
+    form.append(fieldName, files[0]);
     await requestHandler(form);
     reset();
   });

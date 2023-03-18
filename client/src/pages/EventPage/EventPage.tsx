@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Container from '~/components/Container';
 import Loader from '~/components/Loader/Loader';
@@ -12,11 +12,13 @@ import SimilarEventsCarousel from './Carousel/SimilarEventsCarousel';
 import Comments from './Comments/Comments';
 import CompanyInfo from './Info/CompanyInfo';
 import EventInfo from './Info/EventInfo';
+import EventUpdateForm from '~/pages/EventForms/EventUpdate/EventUpdateForm';
 
 const EventPage = () => {
   const { id } = useParams();
   const { data: event, isLoading: isLoadingEvent, error } = useGetEventQuery(Number(id));
   const [getCompany, { data: company, isLoading: isLoadingCompany }] = useLazyGetCompanyQuery();
+  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     if (event && event.id) {
@@ -33,13 +35,19 @@ const EventPage = () => {
   }
 
   return (
-    <Container pb="16">
-      <EventInfo event={event} companyName={(company as Company).name}></EventInfo>
-      <CompanyInfo company={company as Company}></CompanyInfo>
-      <Comments eventId={event.id} />
-      <SimilarEventsCarousel eventId={event.id} eventFormatId={event.formatId} eventThemeId={event.themeId} />
-      <CompanyEventsCarousel heading="Other company's events" eventId={event.id} companyId={event.companyId} />
-    </Container>
+    <>
+      {isEdit ? (
+        <EventUpdateForm event={event} setEdit={setIsEdit} />
+      ) : (
+        <Container pb="16">
+          <EventInfo event={event} company={company as Company} setEdit={setIsEdit}></EventInfo>
+          <CompanyInfo company={company as Company}></CompanyInfo>
+          <Comments eventId={event.id} />
+          <SimilarEventsCarousel eventId={event.id} eventFormatId={event.formatId} eventThemeId={event.themeId} />
+          <CompanyEventsCarousel heading="Other company's events" eventId={event.id} companyId={event.companyId} />
+        </Container>
+      )}
+    </>
   );
 };
 

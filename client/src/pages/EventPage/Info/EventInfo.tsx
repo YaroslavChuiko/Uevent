@@ -25,19 +25,38 @@ import EventSubscribe from './EventSubscribe';
 import EventVisitors from './EventVisitors';
 import { useState, useEffect } from 'react';
 import Geocode from '~/consts/geocode';
+import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import type { Company } from '~/types/company';
+import ConfirmPopover from '~/components/ConfirmPopover/ConfirmPopover';
+import { useDeleteEventMutation } from '~/store/api/event-slice';
+import useRequestHandler from '~/hooks/use-request-handler';
+import { useNavigate } from 'react-router-dom';
 
 type PropType = {
   event: Event;
-  companyName: string;
+  company: Company;
+  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const EventInfo = ({ event, companyName }: PropType) => {
+const EventInfo = ({ event, company, setEdit }: PropType) => {
   const { user } = useAppSelector((state) => state.profile);
-  const eventTitle = `${event.name} by ${companyName}`;
+  const eventTitle = `${event.name} by ${company.name}`;
   const e = GET_DISPLAY_EVENT(event);
   const tags = [e.format.name, e.theme.name];
 
   const { isOpen: isFormOpen, onOpen: onFormOpen, onClose: onFormClose } = useDisclosure();
+
+  const navigate = useNavigate();
+  const [deleteEvent, { isLoading: isDeleteLoading }] = useDeleteEventMutation();
+  const { onOpen: onOpenDelete, onClose: onCloseDelete, isOpen: isOpenDelete } = useDisclosure();
+
+  const { handler: deleteHandler } = useRequestHandler<number>({
+    f: deleteEvent,
+    successMsg: "You've successfully deleted the event",
+    successF: () => {
+      navigate('/');
+    },
+  });
 
   const [address, setAddress] = useState('');
 
@@ -91,6 +110,32 @@ const EventInfo = ({ event, companyName }: PropType) => {
               <EventSubscribe isOpen={isFormOpen} onClose={onFormClose} event={event} />
             </Flex>
           </Card>
+
+          {Number(user.id) === company.userId && (
+            <HStack spacing={4} alignSelf="flex-end">
+              <Button onClick={() => setEdit(true)} leftIcon={<EditIcon />}>
+                Edit
+              </Button>
+              <ConfirmPopover
+                header="Are you sure you want to delete the event?"
+                trigger={
+                  <Button
+                    onClick={onOpenDelete}
+                    leftIcon={<DeleteIcon />}
+                    colorScheme="red"
+                    isLoading={isDeleteLoading}
+                  >
+                    Delete
+                  </Button>
+                }
+                onConfirm={() => {
+                  deleteHandler(event.id);
+                }}
+                isOpen={isOpenDelete}
+                onClose={onCloseDelete}
+              />
+            </HStack>
+          )}
         </VStack>
       </Flex>
       <Flex pt="8" flexDir="column" sx={styles.mainInfo}>
