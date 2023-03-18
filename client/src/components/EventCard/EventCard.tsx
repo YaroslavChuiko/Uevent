@@ -3,6 +3,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 import { useGetCompanyQuery } from '~/store/api/company-slice';
 import { Event } from '~/types/event';
 import styles from './event-card.styles';
+import { AVATAR_PATH } from '~/consts/avatar';
 
 type Props = {
   event: Event;
@@ -34,7 +35,7 @@ const EventCard = ({ event, isTicket = false, ...cardProps }: Props) => {
         <Flex w="100%" h="155px" overflow="hidden" alignItems="center" justifyContent="center">
           <Image
             sx={styles.img}
-            src={`${import.meta.env.VITE_API_URL}/${event.picturePath}`}
+            src={AVATAR_PATH(event.picturePath)}
             fallbackSrc="https://via.placeholder.com/668x400?text=Poster"
             alt={event.name}
           />
@@ -66,12 +67,7 @@ const EventCard = ({ event, isTicket = false, ...cardProps }: Props) => {
           <Box sx={styles.company} noOfLines={1}>
             By{' '}
             <ReactRouterLink to={`/companies/${company?.id}`}>
-              <Avatar
-                size="xs"
-                ml="3px"
-                name={company?.name}
-                src={`${import.meta.env.VITE_API_URL}/${company?.picturePath}`}
-              />{' '}
+              <Avatar size="xs" ml="3px" name={company?.name} src={AVATAR_PATH(company?.picturePath)} />{' '}
               <Text as="span" fontWeight="medium">
                 {company?.name}
               </Text>
