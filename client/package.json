@@ -21,9 +21,9 @@
     "@react-google-maps/api": "^2.18.1",
     "@reduxjs/toolkit": "^1.9.3",
     "@stripe/stripe-js": "^1.48.0",
+    "animejs": "^3.2.1",
     "date-fns": "^2.29.3",
     "framer-motion": "^9.1.2",
-    "kute.js": "^2.2.4",
     "react": "^18.2.0",
     "react-day-picker": "^8.6.0",
     "react-dom": "^18.2.0",
@@ -38,6 +38,7 @@
     "zod": "^3.20.6"
   },
   "devDependencies": {
+    "@types/animejs": "^3.1.7",
     "@types/google-map-react": "^2.1.7",
     "@types/node": "^18.14.0",
     "@types/react": "^18.0.27",
