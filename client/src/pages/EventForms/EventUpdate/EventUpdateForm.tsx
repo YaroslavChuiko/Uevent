@@ -173,7 +173,7 @@ const EventUpdateForm = ({ event, setEdit }: IProps) => {
                 <FormErrorMessage>{errors.isNotificationsOn?.message}</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!errors.isPublic}>
-                <FormLabel htmlFor="isPublic">Can everybode see the list of event visitors?</FormLabel>
+                <FormLabel htmlFor="isPublic">Can everybody see the list of event visitors?</FormLabel>
                 <Switch id="isPublic" {...register('isPublic')} />
                 <FormErrorMessage>{errors.isPublic?.message}</FormErrorMessage>
               </FormControl>
