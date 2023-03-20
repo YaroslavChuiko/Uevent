@@ -26,3 +26,5 @@ export const GET_DISPLAY_EVENT = (e: Event) => {
     tickets,
   };
 };
+
+export const FALLBACK_POSTER = '/assets/event-poster.png';

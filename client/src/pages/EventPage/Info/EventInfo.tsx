@@ -19,7 +19,7 @@ import { FiCalendar, FiMapPin, FiUsers } from 'react-icons/fi';
 import styles from '../event.styles';
 import { Event } from '~/types/event';
 import GoogleMap from '~/components/GoogleMap/GoogleMap';
-import { GET_DISPLAY_EVENT } from '~/consts/event';
+import { FALLBACK_POSTER, GET_DISPLAY_EVENT } from '~/consts/event';
 import { useAppSelector } from '~/hooks/use-app-selector';
 import EventSubscribe from './EventSubscribe';
 import EventVisitors from './EventVisitors';
@@ -74,13 +74,18 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
 
   return (
     <Box>
-      {!!e.picturePath && (
-        <Flex sx={styles.poster}>
-          <Box sx={styles.blurBg(e.picturePath)}></Box>
-          <Image sx={styles.image} src={e.picturePath} boxSize="full" objectFit="contain" alt="Event image" />
-        </Flex>
-      )}
-      <Flex pt={e.picturePath ? '8' : undefined} justify="space-between" sx={styles.info}>
+      <Flex sx={styles.poster}>
+        <Box sx={styles.blurBg(e.picturePath)}></Box>
+        <Image
+          sx={styles.image}
+          src={e.picturePath}
+          fallbackSrc={e.picturePath && e.id ? undefined : FALLBACK_POSTER}
+          boxSize="full"
+          objectFit="contain"
+          alt="Event image"
+        />
+      </Flex>
+      <Flex pt="8" justify="space-between" sx={styles.info}>
         <VStack spacing={4} align="flex-start" sx={styles.mainInfo}>
           <Text fontSize="lg">{e.shortDate}</Text>
           <Heading fontSize={{ base: '3xl', md: '5xl' }}>{eventTitle.toUpperCase()}</Heading>
