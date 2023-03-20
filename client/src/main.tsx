@@ -7,7 +7,8 @@ import Loader from './components/Loader/Loader';
 import { persistor, store } from './store/store';
 import './styles/index.css';
 import theme from './styles/theme';
-import '@fontsource/noto-sans';
+import '@fontsource/poppins';
+import '@fontsource/pacifico';
 import ScrollToTop from './components/ScrollToTop';
 import { BrowserRouter } from 'react-router-dom';
 
