@@ -31,6 +31,7 @@ import ConfirmPopover from '~/components/ConfirmPopover/ConfirmPopover';
 import { useDeleteEventMutation } from '~/store/api/event-slice';
 import useRequestHandler from '~/hooks/use-request-handler';
 import { useNavigate } from 'react-router-dom';
+import EventPromoCodes from './EventPromoCodes/EventPromoCodes';
 
 type PropType = {
   event: Event;
@@ -120,6 +121,7 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
 
           {Number(user.id) === company.userId && (
             <HStack spacing={4} alignSelf="flex-end">
+              <EventPromoCodes event={event} />
               <Button onClick={() => setEdit(true)} leftIcon={<EditIcon />}>
                 Edit
               </Button>
