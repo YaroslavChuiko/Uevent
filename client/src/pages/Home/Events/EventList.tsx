@@ -11,13 +11,14 @@ import NothingFound from './NothingFound';
 type Props = {
   formatId?: number;
   themeId?: number;
+  q?: string;
   userId?: number;
   companyId?: number;
   itemsPerPage?: number;
   dateRange: DateRange | null;
 };
 
-const EventList = ({ formatId, themeId, userId, companyId, dateRange, itemsPerPage = 8 }: Props) => {
+const EventList = ({ formatId, themeId, userId, companyId, q, dateRange, itemsPerPage = 8 }: Props) => {
   const [curPage, setCurPage] = useState(1);
 
   const params: EventsParam = {
@@ -31,6 +32,7 @@ const EventList = ({ formatId, themeId, userId, companyId, dateRange, itemsPerPa
   themeId ? (params.themeId = themeId) : null;
   userId ? (params.userId = userId) : null;
   companyId ? (params.companyId = companyId) : null;
+  q ? (params.q = q) : null;
   if (dateRange?.from && dateRange?.to) {
     params.dateFrom = dateRange.from.toISOString();
     params.dateTo = dateRange.to.toISOString();

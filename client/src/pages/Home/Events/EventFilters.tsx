@@ -1,4 +1,4 @@
-import { Box, InputGroup, InputLeftAddon, Stack } from '@chakra-ui/react';
+import { InputGroup, InputLeftAddon, Stack } from '@chakra-ui/react';
 import { DateRange } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import AsyncSelectFormat from '~/components/Select/AsyncSelectFormat';
