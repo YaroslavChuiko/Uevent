@@ -24,7 +24,8 @@ const Pagination = ({ numberOfPages, curPage, setCurPage }: IProps) => {
               key={index}
               size="26px"
               marginLeft="7px"
-              cursor="default"
+              cursor="pointer"
+              transition="background-color, color, 0.2s linear"
               _hover={{
                 bg: 'hover',
                 color: 'text',
