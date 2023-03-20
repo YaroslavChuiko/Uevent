@@ -30,11 +30,13 @@ const NavbarAuth = () => {
       <Box>
         <Menu>
           <HStack spacing={2}>
-            <Text color="secondary" fontWeight="semibold">
-              {user.login}
-            </Text>
-            <MenuButton as={Button} rounded="full" variant="link" cursor="pointer">
-              <Avatar bgColor="tertiary" size="sm" name={user.fullName} src={AVATAR_PATH(user.picturePath)} />
+            <MenuButton as={Button} variant="unstyled" cursor="pointer">
+              <HStack>
+                <Text color="gray.600" fontWeight="semibold">
+                  {user.login}
+                </Text>
+                <Avatar bgColor="tertiary" size="sm" name={user.fullName} src={AVATAR_PATH(user.picturePath)} />
+              </HStack>
             </MenuButton>
           </HStack>
           <MenuList>

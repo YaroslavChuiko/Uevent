@@ -8,7 +8,7 @@ const PageLayout = () => {
   return (
     <Box sx={styles.main}>
       <Header />
-      <Box sx={styles.router}>
+      <Box>
         <Outlet />
       </Box>
       <Footer />

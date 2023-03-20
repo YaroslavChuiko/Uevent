@@ -1,5 +1,4 @@
 import { SystemStyleObject } from '@chakra-ui/react';
-import { NAVBAR_HEIGHT } from '~/consts/components';
 
 type StyleType = { [key: string]: SystemStyleObject };
 const styles: StyleType = {
@@ -8,9 +7,7 @@ const styles: StyleType = {
     minHeight: '100vh',
     paddingBottom: '100px',
     overflow: 'hidden',
-  },
-  router: {
-    pt: `${NAVBAR_HEIGHT}rem`,
+    pt: '110px',
   },
 };
 

@@ -1,5 +1,5 @@
 import { SystemStyleObject } from '@chakra-ui/react';
-import { NAVBAR_COLOR, NAVBAR_HEIGHT } from '~/consts/components';
+import { NAVBAR_COLOR } from '~/consts/components';
 import container from '../Container/container.styles';
 
 type StylesType = {
@@ -8,16 +8,15 @@ type StylesType = {
 
 const styles: StylesType = {
   navbar: {
-    position: 'absolute',
-    minH: `${NAVBAR_HEIGHT - 1.5}rem`,
+    position: 'fixed',
+    h: '70px',
     top: 0,
     right: 0,
     left: 0,
     bgColor: NAVBAR_COLOR,
-    zIndex: 100,
+    zIndex: 999999,
     py: '10px',
-    borderBottom: '1px solid',
-    borderColor: 'gray.200',
+    transition: 'box-shadow 0.3s linear',
   },
   container: container.container,
 };
