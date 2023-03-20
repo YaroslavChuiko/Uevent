@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
-import CompanyEventsCarousel from '~/pages/EventPage/Carousel/CompanyEventsCarousel';
+import EventList from '~/pages/Home/Events/EventList';
 
 const CompanyEvents = () => {
   const { id: companyId } = useParams();
 
-  return <CompanyEventsCarousel heading="This company's events" eventId={null} companyId={Number(companyId)} />;
+  return <EventList dateRange={null} companyId={Number(companyId)} itemsPerPage={3} />;
 };
 
 export default CompanyEvents;

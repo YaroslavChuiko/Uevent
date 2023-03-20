@@ -12,12 +12,13 @@ type Props = {
   formatId?: number;
   themeId?: number;
   userId?: number;
+  companyId?: number;
+  itemsPerPage?: number;
   dateRange: DateRange | null;
 };
 
-const EventList = ({ formatId, themeId, userId, dateRange }: Props) => {
+const EventList = ({ formatId, themeId, userId, companyId, dateRange, itemsPerPage = 8 }: Props) => {
   const [curPage, setCurPage] = useState(1);
-  const itemsPerPage = 8;
 
   const params: EventsParam = {
     _sort: 'date',
@@ -29,6 +30,7 @@ const EventList = ({ formatId, themeId, userId, dateRange }: Props) => {
   formatId ? (params.formatId = formatId) : null;
   themeId ? (params.themeId = themeId) : null;
   userId ? (params.userId = userId) : null;
+  companyId ? (params.companyId = companyId) : null;
   if (dateRange?.from && dateRange?.to) {
     params.dateFrom = dateRange.from.toISOString();
     params.dateTo = dateRange.to.toISOString();
@@ -41,12 +43,11 @@ const EventList = ({ formatId, themeId, userId, dateRange }: Props) => {
       <SimpleGrid minChildWidth="300px" spacing={{ base: '20px', md: '30px' }} py="40px">
         {isFetching ? (
           <>
-            <EventCardSkeleton />
-            <EventCardSkeleton />
-            <EventCardSkeleton />
-            <EventCardSkeleton />
-            <EventCardSkeleton />
-            <EventCardSkeleton />
+            {Array(itemsPerPage)
+              .fill('')
+              .map((_, i) => (
+                <EventCardSkeleton key={i} />
+              ))}
           </>
         ) : data?.events.length ? (
           data?.events.map((event) => (
