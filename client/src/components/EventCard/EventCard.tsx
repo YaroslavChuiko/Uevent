@@ -43,7 +43,7 @@ const EventCard = ({ event, isTicket = false, ...cardProps }: Props) => {
       </ReactRouterLink>
 
       <CardBody>
-        <Stack mt="1" spacing="2">
+        <Stack spacing="2">
           <ReactRouterLink to={eventUrl}>
             <Heading as="h3" noOfLines={2} fontSize="18px">
               {event.name}

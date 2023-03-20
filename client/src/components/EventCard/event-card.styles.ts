@@ -14,10 +14,10 @@ const styles: TStyle = {
     maxWidth: { base: 'none', md: 'sm' },
     minWidth: '300px',
     overflow: 'hidden',
-    boxShadow: 'lg',
+    boxShadow: 'md',
     transition: 'box-shadow 0.2s ease-out',
     _hover: {
-      boxShadow: '2xl',
+      boxShadow: 'xl',
     },
   },
   date: {
