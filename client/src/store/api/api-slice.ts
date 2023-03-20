@@ -14,6 +14,7 @@ export const apiSlice = createApi({
     'Comment',
     'CompanySubscribers',
     'EventSubscribers',
+    'PromoCode',
   ],
   endpoints: (_builder) => ({}),
 });
