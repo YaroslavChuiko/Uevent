@@ -17,7 +17,7 @@ const CompanyEvents = () => {
         </Heading>
         <EventSearch setSearch={setSearch} />
       </VStack>
-      <EventList q={search} dateRange={null} companyId={Number(companyId)} itemsPerPage={3} />;
+      <EventList q={search} dateRange={null} companyId={Number(companyId)} itemsPerPage={3} />
     </Container>
   );
 };
