@@ -7,10 +7,10 @@ import NotFound from '~/pages/NotFound/NotFound';
 
 const CompaniesRoutes = () => (
   <Routes>
-    <Route index element={<CompaniesMainPage />} />;
-    <Route path="/:id" element={<CompanyPage />} />;
+    <Route index element={<CompaniesMainPage />} />
+    <Route path="/:id" element={<CompanyPage />} />
     <Route element={<ProtectedRoute />}>
-      <Route path="/create" element={<CompanyCreateForm />} />;
+      <Route path="/create" element={<CompanyCreateForm />} />
     </Route>
     <Route path="/*" element={<NotFound />} />
   </Routes>

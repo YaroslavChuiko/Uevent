@@ -8,9 +8,9 @@ import Tickets from '~/pages/Tickets/Tickets';
 const ProfileRoutes = () => (
   <Routes>
     <Route index element={<ProfilePage />}></Route>
-    <Route path="/companies" element={<ProfileCompanies />} />;
-    <Route path="/subscriptions" element={<Subscriptions />} />;
-    <Route path="/tickets" element={<Tickets />} />;
+    <Route path="/companies" element={<ProfileCompanies />} />
+    <Route path="/subscriptions" element={<Subscriptions />} />
+    <Route path="/tickets" element={<Tickets />} />
     <Route path="/*" element={<NotFound />} />
   </Routes>
 );
