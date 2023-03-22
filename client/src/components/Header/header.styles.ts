@@ -14,7 +14,7 @@ const styles: StylesType = {
     right: 0,
     left: 0,
     bgColor: NAVBAR_COLOR,
-    zIndex: 999999,
+    zIndex: 100,
     py: '10px',
     transition: 'box-shadow 0.3s linear',
   },
