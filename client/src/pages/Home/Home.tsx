@@ -1,7 +1,13 @@
 import Events from './Events/Events';
+import HomePromo from './HomePromo';
 
 const Home = () => {
-  return <Events />;
+  return (
+    <>
+      <HomePromo />
+      <Events />;
+    </>
+  );
 };
 
 export default Home;
