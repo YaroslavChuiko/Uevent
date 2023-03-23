@@ -7,7 +7,7 @@ const Tickets = () => {
 
   return (
     <Container>
-      <EventList dateRange={null} userId={Number(user.id)} />;
+      <EventList dateRange={null} userId={Number(user.id)} />
     </Container>
   );
 };

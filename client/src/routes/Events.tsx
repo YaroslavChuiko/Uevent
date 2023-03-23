@@ -9,7 +9,7 @@ const EventRoutes = () => (
     <Route index element={<Navigate to="/" />} />
     <Route path="/:id" element={<EventPage />}></Route>
     <Route element={<ProtectedRoute />}>
-      <Route path="/create" element={<EventCreateForm />} />;
+      <Route path="/create" element={<EventCreateForm />} />
     </Route>
     <Route path="/*" element={<NotFound />} />
   </Routes>
