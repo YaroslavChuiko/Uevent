@@ -31,7 +31,7 @@ const scheduleCompanySubscribersNotification = (tickDate: Date, eventId: number)
 
       if (compareDates(publishDate, now) !== 1 || !compareDates(tickDate, publishDate)) {
         // if publishDate in the past or tickDate === publishDate
-        notifyCompanySubscribers(companyName, eventName, subscribers);
+        notifyCompanySubscribers(companyName, eventName, eventId, subscribers);
       }
     },
     null,
@@ -42,12 +42,14 @@ const scheduleCompanySubscribersNotification = (tickDate: Date, eventId: number)
 const notifyCompanySubscribers = async (
   companyName: string,
   eventName: string,
+  eventId: number,
   subscribers: User[],
 ) => {
   subscribers.forEach((subscriber) => {
     Email.sendMail(subscriber.email, templates.EVENT_PUBLISHED, {
       eventName,
       companyName,
+      eventId,
     });
   });
 };
