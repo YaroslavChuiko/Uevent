@@ -1,6 +1,7 @@
 import { useLazyGetThemesQuery } from '~/store/api/theme-slice';
 import { SelectOptionData } from '~/types/select-option-data';
 import CustomAsyncSelect from '../CustomAsyncSelect';
+import { useState, useEffect } from 'react';
 
 type Props = {
   theme: SelectOptionData | null;
@@ -10,16 +11,28 @@ type Props = {
 const AsyncSelectTheme = ({ theme, setTheme }: Props) => {
   const [getThemes] = useLazyGetThemesQuery();
 
-  const loadOptions = async (inputValue: string, callback: (options: SelectOptionData[]) => void) => {
+  const [defaultOptions, setDefaultOptions] = useState<SelectOptionData[]>([]);
+
+  useEffect(() => {
+    getOptions().then((data) => {
+      setDefaultOptions(data);
+    });
+  }, []);
+
+  const getOptions = async (inputValue?: string) => {
     const params = {
       _sort: 'name',
       _order: 'ASC' as const,
       _start: 0,
       _end: 10,
-      q: inputValue,
+      q: inputValue ? inputValue : undefined,
     };
     const { themes } = await getThemes(params).unwrap();
-    const formatOptions = themes.map((item) => ({ id: item.id, label: item.name, value: item.name }));
+    return themes.map((item) => ({ id: item.id, label: item.name, value: item.name }));
+  };
+
+  const loadOptions = async (inputValue: string, callback: (options: SelectOptionData[]) => void) => {
+    const formatOptions = await getOptions(inputValue);
     callback(formatOptions);
   };
 
@@ -31,6 +44,7 @@ const AsyncSelectTheme = ({ theme, setTheme }: Props) => {
       placeholder="e.g. (business politics sport)"
       onChange={setTheme}
       loadOptions={loadOptions}
+      defaultOptions={defaultOptions}
     />
   );
 };
