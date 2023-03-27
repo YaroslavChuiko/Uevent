@@ -28,7 +28,7 @@ import Geocode from '~/consts/geocode';
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import type { Company } from '~/types/company';
 import ConfirmPopover from '~/components/ConfirmPopover/ConfirmPopover';
-import { useDeleteEventMutation } from '~/store/api/event-slice';
+import { useDeleteEventMutation, useGetEventsQuery } from '~/store/api/event-slice';
 import useRequestHandler from '~/hooks/use-request-handler';
 import { useNavigate } from 'react-router-dom';
 import EventPromoCodes from './EventPromoCodes/EventPromoCodes';
@@ -58,6 +58,13 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
       navigate('/');
     },
   });
+
+  const { data, isLoading: isVisitorLoading } = useGetEventsQuery({
+    id: event.id,
+    userId: Number(user.id),
+  });
+
+  const isVisitor = data?.events?.length !== 0;
 
   const [address, setAddress] = useState('');
 
@@ -112,7 +119,14 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
               <Text fontSize="3xl" fontWeight="semibold" textAlign="center">
                 {e.price}
               </Text>
-              <Button onClick={onFormOpen} isDisabled={!e.tickets || !user.id} size="lg" colorScheme="blue" mt="4">
+              <Button
+                isLoading={isVisitorLoading}
+                onClick={onFormOpen}
+                isDisabled={!e.tickets || isVisitor}
+                size="lg"
+                colorScheme="blue"
+                mt="4"
+              >
                 Get a ticket
               </Button>
               <EventSubscribe isOpen={isFormOpen} onClose={onFormClose} event={event} />
