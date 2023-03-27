@@ -16,6 +16,7 @@ type PropsType = {
 };
 
 const EventSubscribe = ({ event: { id, price }, isOpen, onClose }: PropsType) => {
+  price = Number(price);
   const [subscribe, { isLoading }] = useCheckoutForEventMutation();
 
   const { register, handleSubmit } = useForm<ISubscribe>({
@@ -51,7 +52,7 @@ const EventSubscribe = ({ event: { id, price }, isOpen, onClose }: PropsType) =>
               <Switch id="is-visible" {...register('isVisible')} />
             </VStack>
           </FormControl>
-          {price && (
+          {!!price && (
             <FormControl display="flex" alignItems="center">
               <VStack spacing={4} align="flex-start">
                 <FormLabel htmlFor="promo-code" mb="0">

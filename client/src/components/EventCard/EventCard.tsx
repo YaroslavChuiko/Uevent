@@ -26,7 +26,7 @@ const PriceFormatOptions = {
 const EventCard = ({ event, isTicket = false, ...cardProps }: Props) => {
   const { data: company } = useGetCompanyQuery(event.companyId);
   const date = new Intl.DateTimeFormat('en-US', DateFormatOptions).format(new Date(event.date));
-  const price = event.price ? new Intl.NumberFormat('en-US', PriceFormatOptions).format(event.price) : 'free';
+  const price = Number(event.price) ? new Intl.NumberFormat('en-US', PriceFormatOptions).format(event.price) : 'free';
   const eventUrl = `/events/${event.id}`;
 
   return (
