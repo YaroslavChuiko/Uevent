@@ -26,8 +26,8 @@ const EventPromoCode = ({ promoCode }: PropsType) => {
         <PromoCodeUpdateForm promoCode={promoCode} setIsEdit={setIsEdit} />
       ) : (
         <HStack spacing="4">
-          <Text fontSize="md" w="25px">
-            {promoCode.discount}
+          <Text fontSize="md" w="40px">
+            {promoCode.discount}%
           </Text>
           <Text fontSize="md" overflowWrap="break-word" wordBreak="break-all" w="100%">
             {promoCode.promoCode}

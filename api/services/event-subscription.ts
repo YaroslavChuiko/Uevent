@@ -48,11 +48,13 @@ const EventSubscription = {
     const mailToCreator = Email.sendMail(creator.email, templates.NEW_EVENT_VISITOR, {
       eventName: event.name,
       visitorName: visitor.fullName,
+      eventId: event.id,
     });
 
     const mailToVisitor = Email.sendMail(visitor.email, templates.EVENT_SUBSCRIPTION, {
       eventName: event.name,
       eventDate: new Date(event.date).toDateString(),
+      eventId: event.id,
     });
 
     await Promise.all([mailToCreator, mailToVisitor]);

@@ -4,19 +4,12 @@ import { useGetCompanyQuery } from '~/store/api/company-slice';
 import { Event } from '~/types/event';
 import styles from './event-card.styles';
 import { AVATAR_PATH } from '~/consts/avatar';
+import { DateFormatOptions } from '~/consts/event';
 
 type Props = {
   event: Event;
   isTicket?: boolean;
 } & CardProps;
-
-const DateFormatOptions = {
-  weekday: 'short',
-  month: 'short',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: '2-digit',
-} as const;
 
 const PriceFormatOptions = {
   style: 'currency',
@@ -26,7 +19,7 @@ const PriceFormatOptions = {
 const EventCard = ({ event, isTicket = false, ...cardProps }: Props) => {
   const { data: company } = useGetCompanyQuery(event.companyId);
   const date = new Intl.DateTimeFormat('en-US', DateFormatOptions).format(new Date(event.date));
-  const price = event.price ? new Intl.NumberFormat('en-US', PriceFormatOptions).format(event.price) : 'free';
+  const price = Number(event.price) ? new Intl.NumberFormat('en-US', PriceFormatOptions).format(event.price) : 'free';
   const eventUrl = `/events/${event.id}`;
 
   return (

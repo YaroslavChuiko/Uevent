@@ -24,7 +24,7 @@ const scheduleEventReminder = (tickDate: Date, eventId: number) => {
       const visitors = event.visitors.map((visitor) => visitor.user);
 
       if (!compareDates(tickDate, subtractHours(eventDate, HOURS_BEFORE_EVENT))) {
-        sendReminders(eventName, eventDate.toString(), visitors);
+        sendReminders(eventName, eventDate.toString(), eventId, visitors);
       }
     },
     null,
@@ -32,12 +32,18 @@ const scheduleEventReminder = (tickDate: Date, eventId: number) => {
   );
 };
 
-const sendReminders = async (eventName: string, eventDate: string, visitors: User[]) => {
+const sendReminders = async (
+  eventName: string,
+  eventDate: string,
+  eventId: number,
+  visitors: User[],
+) => {
   visitors.forEach((visitor) => {
     Email.sendMail(visitor.email, templates.EVENT_REMINDER, {
       eventName,
       eventDate,
       hoursBeforeEvent: HOURS_BEFORE_EVENT,
+      eventId,
     });
   });
 };
