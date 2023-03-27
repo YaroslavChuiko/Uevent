@@ -154,7 +154,7 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
               <Icon color="tertiary" w="8" h="8" as={FiCalendar} />
               <VStack align="flex-start">
                 <Heading fontSize="2xl">Date and time</Heading>
-                <Text>{e.date.toDateString()}</Text>
+                <Text>{e.date}</Text>
               </VStack>
             </HStack>
           </Card>
