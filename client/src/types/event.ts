@@ -32,10 +32,10 @@ export type EventsResponse = {
 };
 
 export type EventsParam = {
-  _start: number;
-  _end: number;
-  _sort: string;
-  _order: Order;
+  _start?: number;
+  _end?: number;
+  _sort?: string;
+  _order?: Order;
   id?: number;
   upcoming?: boolean;
   companyId?: number;
