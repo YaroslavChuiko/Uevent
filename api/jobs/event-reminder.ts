@@ -23,7 +23,9 @@ const scheduleEventReminder = (tickDate: Date, eventId: number) => {
       const { date: eventDate, name: eventName } = event;
       const visitors = event.visitors.map((visitor) => visitor.user);
 
-      if (!compareDates(tickDate, subtractHours(eventDate, HOURS_BEFORE_EVENT))) {
+      const sendRemindersDate = subtractHours(eventDate, HOURS_BEFORE_EVENT);
+
+      if (!compareDates(tickDate, sendRemindersDate)) {
         sendReminders(eventName, eventDate.toString(), eventId, visitors);
       }
     },

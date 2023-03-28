@@ -29,8 +29,10 @@ const scheduleCompanySubscribersNotification = (tickDate: Date, eventId: number)
       const companyName = event.company.name;
       const subscribers = event.company.subscribers.map((subscriber) => subscriber.user);
 
-      if (compareDates(publishDate, now) !== 1 || !compareDates(tickDate, publishDate)) {
-        // if publishDate in the past or tickDate === publishDate
+      const isPublishDateInPast = compareDates(publishDate, now) !== 1;
+      const isTickDateEqualPublishDate = !compareDates(tickDate, publishDate);
+
+      if (isPublishDateInPast || isTickDateEqualPublishDate) {
         notifyCompanySubscribers(companyName, eventName, eventId, subscribers);
       }
     },
