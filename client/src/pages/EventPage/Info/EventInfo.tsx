@@ -135,7 +135,7 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
 
           {Number(user.id) === company.userId && (
             <HStack spacing={4} alignSelf="flex-end">
-              <EventPromoCodes event={event} />
+              {!!Number(event.price) && <EventPromoCodes event={event} />}
               <Button onClick={() => setEdit(true)} leftIcon={<EditIcon />}>
                 Edit
               </Button>
