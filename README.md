@@ -1,6 +1,6 @@
 <head>
     <div align="center">
-        <h1 align="center">Ucode-Uevent</h2>
+        <h1 align="center">Uevent</h1>
     </div>
 </head>
 
@@ -12,15 +12,16 @@
   <img alt="JSON Web Tokens" src="https://img.shields.io/badge/-JWT-000000.svg?style=for-the-badge&logo=JSONWebTokens&logoColor=white" />
   <img alt=".ENV" src="https://img.shields.io/badge/-.ENV-ECD53F.svg?style=for-the-badge&logo=.ENV&logoColor=black" />
   <img alt="Nodemon" src="https://img.shields.io/badge/-Nodemon-76D04B.svg?style=for-the-badge&logo=nodemon&logoColor=white" />
-  <br> 
+  <img alt="Swagger" src="https://img.shields.io/badge/-Swagger-85EA2D.svg?style=for-the-badge&logo=Swagger&logoColor=black" />
   <img alt="TypeScript" src="https://img.shields.io/badge/-TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white" />
   <img alt="Vite" src="https://img.shields.io/badge/-Vite-646CFF.svg?style=for-the-badge&logo=Vite&logoColor=white" />
   <img alt="react" src="https://img.shields.io/badge/-React-61DAFB.svg?style=for-the-badge&logo=react&logoColor=black" />
   <img alt="redux" src="https://img.shields.io/badge/-Redux-764ABC.svg?style=for-the-badge&logo=redux&logoColor=white" />
-  <img alt="reactrouter" src="https://img.shields.io/badge/-React%20Router-CA4245.svg?style=for-the-badge&logo=react-router&logoColor=white" />
+  <img alt="react router" src="https://img.shields.io/badge/-React%20Router-CA4245.svg?style=for-the-badge&logo=react-router&logoColor=white" />
   <img alt="Chakra UI" src="https://img.shields.io/badge/-Chakra%20UI-319795.svg?style=for-the-badge&logo=ChakraUI&logoColor=white" />
-  <img alt="Prettier" src="https://img.shields.io/badge/-Prettier-F7B93E.svg?style=for-the-badge&logo=Prettier&logoColor=black" />
-  <img alt="ESLint" src="https://img.shields.io/badge/-ESLint-4B32C3.svg?style=for-the-badge&logo=ESLint&logoColor=white" />
+  <img alt="react admin" src="https://img.shields.io/badge/-React%20admin-1a237e.svg?style=for-the-badge&logo=react&logoColor=white" />
+  <img alt="Stripe" src="https://img.shields.io/badge/-Stripe-008CDD.svg?style=for-the-badge&logo=Stripe&logoColor=white" />
+  <img alt="Google Maps" src="https://img.shields.io/badge/-Google%20Maps-4285F4.svg?style=for-the-badge&logo=Google-Maps&logoColor=white" />
 </div>
 
 <div align="center">
