@@ -104,8 +104,11 @@ const getCompanyById = async (req: Request, res: Response) => {
   const companyId = Number(req.params.id);
 
   const found = await CompanyService.findOneOrThrow(companyId);
+  const isAccountCompleted = !found.stripeId
+    ? null
+    : await CompanyService.isAccountValid(found.stripeId);
 
-  res.json(found);
+  res.json({ ...found, isAccountCompleted });
 };
 
 const createCompany = async (req: Request, res: Response) => {

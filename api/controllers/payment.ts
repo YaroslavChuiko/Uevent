@@ -67,6 +67,7 @@ const getAccountLink = async (req: Request, res: Response) => {
   const companyId = Number(req.params.id);
 
   const stripeId = await CompanyService.isStripeConnected(companyId);
+  await CompanyService.checkAccountOrThrow(stripeId);
 
   const loginLink = await stripe.accounts.createLoginLink(stripeId);
   res.json({ url: loginLink.url });
@@ -93,6 +94,7 @@ const createSession = async (req: Request, res: Response) => {
   }
 
   const stripeId = await CompanyService.isStripeConnected(event.companyId);
+  await CompanyService.checkAccountOrThrow(stripeId);
 
   const discount = await getDiscount(eventId, req.body.promoCode);
 
@@ -128,6 +130,17 @@ const stripeWebhook = async (req: Request, res: Response) => {
     const meta = event.data.object as IEventMeta;
     await EventSubscription.handleWith(meta);
     logger.info('Your payment was successful');
+  }
+
+  if (event.type === 'account.updated') {
+    if (!event.account) {
+      return res.sendStatus(500);
+    }
+    const account = await stripe.accounts.retrieve(event.account);
+    if (!account.details_submitted) {
+      logger.error('Not all account information has been completed yet.');
+      return res.sendStatus(500);
+    }
   }
 
   res.sendStatus(200);

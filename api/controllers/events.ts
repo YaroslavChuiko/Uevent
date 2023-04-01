@@ -19,7 +19,8 @@ const createEvent = async (req: Request, res: Response) => {
   const { publishDate, date } = data;
 
   if (data.price !== 0) {
-    await CompanyService.isStripeConnected(Number(data.companyId));
+    const stripeId = await CompanyService.isStripeConnected(Number(data.companyId));
+    await CompanyService.checkAccountOrThrow(stripeId);
   }
 
   await Promise.all([
