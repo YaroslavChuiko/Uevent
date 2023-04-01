@@ -4,6 +4,8 @@ import ClientError from '../types/error';
 import { User, Prisma } from '@prisma/client';
 import { getPageOptions, getSortOptions } from '../utils/query-options';
 import Avatar from '../services/avatar';
+import CompanyService from '../services/company';
+import stripe from '../lib/stripe';
 
 const company = prisma.company;
 
@@ -101,14 +103,7 @@ const getCompanies = async (req: Request, res: Response) => {
 const getCompanyById = async (req: Request, res: Response) => {
   const companyId = Number(req.params.id);
 
-  const found = await company.findFirst({
-    where: {
-      id: companyId,
-    },
-  });
-  if (!found) {
-    throw new ClientError('The company is not found.', 404);
-  }
+  const found = await CompanyService.findOneOrThrow(companyId);
 
   res.json(found);
 };
@@ -141,14 +136,7 @@ const updateCompany = async (req: Request, res: Response) => {
     await checkFor('email', data.email, companyId);
   }
 
-  const updatedCompany = await company.update({
-    where: {
-      id: companyId,
-    },
-    data: {
-      ...data,
-    },
-  });
+  const updatedCompany = await CompanyService.update(companyId, data);
 
   res.status(201).json(updatedCompany);
 };
@@ -156,7 +144,12 @@ const updateCompany = async (req: Request, res: Response) => {
 const deleteCompany = async (req: Request, res: Response) => {
   const companyId = Number(req.params.id);
 
+  const found = await CompanyService.findOneOrThrow(companyId);
   await Avatar.removeFromCompanyById(companyId);
+
+  if (found.stripeId) {
+    await stripe.accounts.del(found.stripeId);
+  }
 
   await company.delete({
     where: { id: companyId },

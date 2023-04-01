@@ -8,6 +8,7 @@ import {
   updateAvatar,
   updateCompany,
 } from '../controllers/companies';
+import { createAccount, getAccountLink } from '../controllers/payment';
 import auth from '../middleware/auth';
 import { checkUserCompanyRights } from '../middleware/check-rights';
 import boundary from '../utils/error-boundary';
@@ -32,5 +33,8 @@ router.put(
   boundary(updateAvatar),
 );
 router.delete('/:id/avatar', checkUserCompanyRights, boundary(deleteAvatar));
+
+router.post('/:id/stripe-account', boundary(createAccount));
+router.get('/:id/stripe-account', boundary(getAccountLink));
 
 export default router;

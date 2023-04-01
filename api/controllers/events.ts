@@ -10,12 +10,17 @@ import subtractHours from '../utils/subtract-hours';
 import { HOURS_BEFORE_EVENT } from '../consts/default';
 import wait from '../utils/wait';
 import ClientError from '../types/error';
+import CompanyService from '../services/company';
 
 const event = prisma.event;
 
 const createEvent = async (req: Request, res: Response) => {
   const data = req.body;
   const { publishDate, date } = data;
+
+  if (data.price !== 0) {
+    await CompanyService.isStripeConnected(Number(data.companyId));
+  }
 
   await Promise.all([
     EventService.checkUniqueEventName(data.name),

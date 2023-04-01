@@ -56,6 +56,7 @@ model Company {
   latitude    Decimal @db.Decimal(7, 5)
   longitude   Decimal @db.Decimal(8, 5)
   userId      Int     @map("user_id")
+  stripeId    String? @map("stripe_id")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

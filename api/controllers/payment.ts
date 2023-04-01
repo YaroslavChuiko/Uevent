@@ -6,6 +6,7 @@ import { STRIPE_PAYMENT_OPTIONS } from '../consts/payment';
 import EventSubscription, { IEventMeta } from '../services/event-subscription';
 import logger from '../lib/logger';
 import prisma from '../lib/prisma';
+import CompanyService from '../services/company';
 
 const promoCode = prisma.promoCode;
 
@@ -36,6 +37,41 @@ const stripeLineItem = (event: Event, discount: number): StripeLineItem => ({
   quantity: 1,
 });
 
+const createAccount = async (req: Request, res: Response) => {
+  const companyId = Number(req.params.id);
+
+  const company = await CompanyService.findOneOrThrow(companyId);
+
+  if (!company.stripeId) {
+    const account = await stripe.accounts.create({
+      type: 'express',
+      default_currency: 'usd',
+    });
+    const updated = await CompanyService.update(companyId, {
+      stripeId: account.id,
+    });
+    company.stripeId = updated.stripeId as string;
+  }
+
+  const accountLink = await stripe.accountLinks.create({
+    account: company.stripeId,
+    refresh_url: process.env.CLIENT_URL,
+    return_url: process.env.CLIENT_URL,
+    type: 'account_onboarding',
+  });
+
+  res.json({ url: accountLink.url });
+};
+
+const getAccountLink = async (req: Request, res: Response) => {
+  const companyId = Number(req.params.id);
+
+  const stripeId = await CompanyService.isStripeConnected(companyId);
+
+  const loginLink = await stripe.accounts.createLoginLink(stripeId);
+  res.json({ url: loginLink.url });
+};
+
 const createSession = async (req: Request, res: Response) => {
   const eventId = Number(req.params.id);
   const user = req.user as User;
@@ -56,6 +92,8 @@ const createSession = async (req: Request, res: Response) => {
     return res.json({ sessionId: -1 });
   }
 
+  const stripeId = await CompanyService.isStripeConnected(event.companyId);
+
   const discount = await getDiscount(eventId, req.body.promoCode);
 
   const params: Stripe.Checkout.SessionCreateParams = {
@@ -64,6 +102,9 @@ const createSession = async (req: Request, res: Response) => {
     customer_email: user.email,
     payment_intent_data: {
       metadata: { eventId, userId: user.id, isVisible },
+      transfer_data: {
+        destination: stripeId,
+      },
     },
   };
 
@@ -92,4 +133,4 @@ const stripeWebhook = async (req: Request, res: Response) => {
   res.sendStatus(200);
 };
 
-export { createSession, stripeWebhook };
+export { createAccount, getAccountLink, createSession, stripeWebhook };
