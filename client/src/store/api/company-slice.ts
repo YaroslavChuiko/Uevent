@@ -35,6 +35,12 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
       }),
     }),
+    getStripeAccount: builder.query<StripeLink, { id: number }>({
+      query: ({ id }) => ({
+        url: `/companies/${id}/stripe-account`,
+        method: 'GET',
+      }),
+    }),
     updateCompany: builder.mutation<Company, IUpdate & Pick<Company, 'id'>>({
       query: ({ id, ...body }) => ({
         url: `/companies/${id}`,
@@ -89,6 +95,7 @@ export const {
   useLazyGetCompanyQuery,
   useCreateCompanyMutation,
   useCreateStripeAccountMutation,
+  useLazyGetStripeAccountQuery,
   useUpdateCompanyMutation,
   useDeleteCompanyMutation,
   useUpdateCompanyAvatarMutation,

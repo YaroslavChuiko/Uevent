@@ -9,6 +9,7 @@ export type Company = {
   longitude: number;
   userId: number;
   stripeId: string | null;
+  isAccountCompleted: boolean | null;
 };
 
 export type StripeLink = {

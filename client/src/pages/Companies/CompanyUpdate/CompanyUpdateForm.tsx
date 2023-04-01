@@ -23,6 +23,7 @@ import PlacesSearch from '~/components/PlacesSearch/PlacesSearch';
 import styles from '../company-form.styles';
 import layoutStyles from '~/components/Layout/layout.styles';
 import useCustomToast from '~/hooks/use-custom-toast';
+import CustomAlert from '~/components/Alert/CustomAlert';
 
 type IProps = {
   company: Company;
@@ -32,7 +33,7 @@ type IProps = {
 const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
   const [update, { isLoading: isUpdateLoading }] = useUpdateCompanyMutation();
   const [createAccount, { isLoading: isAccountLoading }] = useCreateStripeAccountMutation();
-  const { picturePath, id, stripeId, ...defaultValues } = company;
+  const { picturePath, id, stripeId, isAccountCompleted, ...defaultValues } = company;
   const { toast } = useCustomToast();
 
   const {
@@ -50,7 +51,7 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
     successMsg: "You've successfully updated the company",
   });
 
-  const createAccountHandler = async ({ id }: { id: number }) => {
+  const createAccountHandler = async () => {
     try {
       const result = await createAccount({ id }).unwrap();
       window.open(result.url, '_blank');
@@ -73,9 +74,9 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
             </Flex>
             <Wrap justify={{ md: 'flex-end' }} flexGrow="1" spacing={4}>
               <Button
-                onClick={() => createAccountHandler({ id })}
+                onClick={createAccountHandler}
                 isLoading={isAccountLoading}
-                isDisabled={!!stripeId}
+                isDisabled={!!stripeId && !!isAccountCompleted}
                 colorScheme="purple"
               >
                 Connect Stripe
@@ -112,6 +113,13 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
               </Button>
             </VStack>
           </form>
+          {company.isAccountCompleted == false && (
+            <CustomAlert
+              sx={{ mt: 4 }}
+              status="warning"
+              description="Paid events aren't possible. Complete your Stripe account via the link above."
+            />
+          )}
         </CardBody>
       </Card>
     </Flex>
