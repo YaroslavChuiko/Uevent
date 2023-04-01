@@ -27,7 +27,7 @@ const CompanyService = {
   async checkAccountOrThrow(stripeId: string) {
     const account = await stripe.accounts.retrieve(stripeId);
     if (!account.details_submitted) {
-      throw new ClientError('The company has not completed their account.', 400);
+      throw new ClientError('The company has not completed their account.', 403);
     }
   },
 

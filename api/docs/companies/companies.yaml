@@ -272,3 +272,55 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#definitions/error'
+  /companies/{id}/stripe-account:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+        description: The id of the record to query
+    post:
+      tags:
+        - Companies
+      security:
+        - bearerAuth: []
+      description: Create and connect a company's Stripe account
+      responses:
+        200:
+          description: The company's account has been created and connected
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+        404:
+          description: The company was not found by id
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
+    get:
+      tags:
+        - Companies
+      security:
+        - bearerAuth: []
+      description: Get a login link to the company's Stripe account
+      responses:
+        200:
+          description: The generated login link is returned
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+        403:
+          description: The stripe account does not exist / is not connected / is not completed
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#definitions/error'
