@@ -8,6 +8,11 @@ export type Company = {
   latitude: number;
   longitude: number;
   userId: number;
+  stripeId: string | null;
+};
+
+export type StripeLink = {
+  url: string;
 };
 
 export type CompaniesResponse = {

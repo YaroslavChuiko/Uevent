@@ -9,11 +9,12 @@ import {
   FormLabel,
   Input,
   VStack,
+  Wrap,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import useRequestHandler from '~/hooks/use-request-handler';
-import { useUpdateCompanyMutation } from '~/store/api/company-slice';
+import { useCreateStripeAccountMutation, useUpdateCompanyMutation } from '~/store/api/company-slice';
 import { updateSchema } from '~/validation/companies';
 import type { IUpdate } from '~/validation/companies';
 import type { Company } from '~/types/company';
@@ -21,6 +22,7 @@ import CompanyFormAvatar from './CompanyFormAvatar';
 import PlacesSearch from '~/components/PlacesSearch/PlacesSearch';
 import styles from '../company-form.styles';
 import layoutStyles from '~/components/Layout/layout.styles';
+import useCustomToast from '~/hooks/use-custom-toast';
 
 type IProps = {
   company: Company;
@@ -28,8 +30,10 @@ type IProps = {
 };
 
 const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
-  const [update, { isLoading }] = useUpdateCompanyMutation();
-  const { picturePath, id, ...defaultValues } = company;
+  const [update, { isLoading: isUpdateLoading }] = useUpdateCompanyMutation();
+  const [createAccount, { isLoading: isAccountLoading }] = useCreateStripeAccountMutation();
+  const { picturePath, id, stripeId, ...defaultValues } = company;
+  const { toast } = useCustomToast();
 
   const {
     register,
@@ -46,6 +50,15 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
     successMsg: "You've successfully updated the company",
   });
 
+  const createAccountHandler = async ({ id }: { id: number }) => {
+    try {
+      const result = await createAccount({ id }).unwrap();
+      window.open(result.url, '_blank');
+    } catch (err: any) {
+      toast(err.message || err.data.message, 'error');
+    }
+  };
+
   const onSubmit = async (data: IUpdate) => {
     await updateHandler({ ...data, id });
   };
@@ -54,16 +67,24 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
     <Flex justify="center" align="flex-start" sx={layoutStyles.page}>
       <Card sx={styles.card} variant="outline">
         <CardHeader>
-          <Flex flexDir="row">
+          <Wrap flexDir="row" spacing={4}>
             <Flex flexDir="column" flexGrow="0">
               <CompanyFormAvatar company={company} />
             </Flex>
-            <Flex justify="flex-end" flexGrow="1">
+            <Wrap justify={{ md: 'flex-end' }} flexGrow="1" spacing={4}>
+              <Button
+                onClick={() => createAccountHandler({ id })}
+                isLoading={isAccountLoading}
+                isDisabled={!!stripeId}
+                colorScheme="purple"
+              >
+                Connect Stripe
+              </Button>
               <Button onClick={() => setEdit(false)} variant="outline">
                 Go Back
               </Button>
-            </Flex>
-          </Flex>
+            </Wrap>
+          </Wrap>
         </CardHeader>
 
         <CardBody>
@@ -86,7 +107,7 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
                 setValue={setValue}
                 errors={errors}
               />
-              <Button type="submit" w="200px" colorScheme="blue" isLoading={isLoading}>
+              <Button type="submit" w="200px" colorScheme="blue" isLoading={isUpdateLoading}>
                 Submit
               </Button>
             </VStack>

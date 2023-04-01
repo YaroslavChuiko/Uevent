@@ -1,4 +1,4 @@
-import { CompaniesParam, CompaniesResponse, Company, SubscriptionResponse } from '~/types/company';
+import { CompaniesParam, CompaniesResponse, Company, StripeLink, SubscriptionResponse } from '~/types/company';
 import { apiSlice } from './api-slice';
 import type { ICreate, IUpdate } from '~/validation/companies';
 
@@ -28,6 +28,12 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         body,
       }),
       invalidatesTags: ['Company'],
+    }),
+    createStripeAccount: builder.mutation<StripeLink, { id: number }>({
+      query: ({ id }) => ({
+        url: `/companies/${id}/stripe-account`,
+        method: 'POST',
+      }),
     }),
     updateCompany: builder.mutation<Company, IUpdate & Pick<Company, 'id'>>({
       query: ({ id, ...body }) => ({
@@ -82,6 +88,7 @@ export const {
   useGetCompanyQuery,
   useLazyGetCompanyQuery,
   useCreateCompanyMutation,
+  useCreateStripeAccountMutation,
   useUpdateCompanyMutation,
   useDeleteCompanyMutation,
   useUpdateCompanyAvatarMutation,
