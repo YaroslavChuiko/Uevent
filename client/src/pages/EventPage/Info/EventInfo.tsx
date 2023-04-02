@@ -111,7 +111,7 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
   return (
     <Box>
       <Flex sx={styles.poster}>
-        <Box sx={styles.blurBg(e.picturePath)}></Box>
+        <Box sx={styles.blurBg(e.picturePath || FALLBACK_POSTER)}></Box>
         <Image
           sx={styles.image}
           src={e.picturePath}
