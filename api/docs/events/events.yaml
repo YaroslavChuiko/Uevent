@@ -53,6 +53,26 @@ paths:
           schema:
             type: integer
           description: The id of the events' visitor
+        - name: upcoming
+          in: query
+          schema:
+            type: boolean
+          description: Are events upcoming or not (the parameter is compared with publishDate)
+        - name: notPublished
+          in: query
+          schema:
+            type: boolean
+          description: Are events not published or not (the parameter is compared with publishDate)
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+          description: The earliest date (the parameter is compared with date)
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+          description: The latest date (the parameter is compared with date)
         - name: q
           in: query
           schema:

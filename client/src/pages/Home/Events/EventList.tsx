@@ -16,9 +16,19 @@ type Props = {
   companyId?: number;
   itemsPerPage?: number;
   dateRange: DateRange | null;
+  notPublished?: boolean;
 };
 
-const EventList = ({ formatId, themeId, userId, companyId, q, dateRange, itemsPerPage = 8 }: Props) => {
+const EventList = ({
+  formatId,
+  themeId,
+  userId,
+  companyId,
+  q,
+  dateRange,
+  itemsPerPage = 8,
+  notPublished = false,
+}: Props) => {
   const [curPage, setCurPage] = useState(1);
 
   const params: EventsParam = {
@@ -27,6 +37,7 @@ const EventList = ({ formatId, themeId, userId, companyId, q, dateRange, itemsPe
     _start: (curPage - 1) * itemsPerPage,
     _end: curPage * itemsPerPage,
     upcoming: true,
+    notPublished: notPublished ? notPublished : undefined,
   };
   formatId ? (params.formatId = formatId) : null;
   themeId ? (params.themeId = themeId) : null;

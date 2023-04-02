@@ -181,7 +181,6 @@ const EventUpdateForm = ({ event, setEdit }: IProps) => {
                 <FormLabel htmlFor="date">Date</FormLabel>
                 <Input id="date" type="datetime-local" value={date} onChange={onDateChange} />
                 <FormErrorMessage>{errors.date?.message}</FormErrorMessage>
-                <FormErrorMessage>sss</FormErrorMessage>
               </FormControl>
               <FormControl>
                 <FormLabel>Publish now</FormLabel>

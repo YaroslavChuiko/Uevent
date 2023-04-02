@@ -163,7 +163,7 @@ const CompanyInfo = ({ company, setEdit }: IProps) => {
 
         <GoogleMap text={`${company.name}, ${address}`} lat={company.latitude} lng={company.longitude} />
       </VStack>
-      <CompanyEvents />
+      <CompanyEvents isCurUserOwner={Number(curUser.id) === company.userId} />
     </Container>
   );
 };

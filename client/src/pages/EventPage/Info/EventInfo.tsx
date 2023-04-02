@@ -59,12 +59,27 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
     },
   });
 
-  const { data, isLoading: isVisitorLoading } = useGetEventsQuery({
+  const {
+    data,
+    isFetching: isVisitorFetching,
+    refetch,
+  } = useGetEventsQuery({
     id: event.id,
     userId: Number(user.id),
   });
 
-  const isVisitor = data?.events?.length !== 0;
+  useEffect(() => {
+    refetch();
+  }, [event.ticketsAvailable]);
+
+  const [isVisitor, setIsVisitor] = useState<boolean>();
+
+  useEffect(() => {
+    setIsVisitor(data?.events?.length !== 0);
+  }, [isVisitorFetching, event]);
+
+  const isEnded = Number(new Date()) - Number(new Date(event.date)) > 0;
+  const isPublished = Number(new Date()) - Number(new Date(event.publishDate)) > 0;
 
   const [address, setAddress] = useState('');
 
@@ -79,6 +94,19 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
       },
     );
   }, []);
+
+  const getTicketButtonText = () => {
+    if (isVisitor) {
+      return 'You already have a ticket';
+    }
+    if (isEnded) {
+      return 'Sales Ended';
+    }
+    if (!isPublished) {
+      return 'Sales have not started';
+    }
+    return 'Get a ticket';
+  };
 
   return (
     <Box>
@@ -120,14 +148,14 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
                 {e.price}
               </Text>
               <Button
-                isLoading={isVisitorLoading}
+                isLoading={isVisitorFetching}
                 onClick={onFormOpen}
-                isDisabled={!e.tickets || isVisitor}
+                isDisabled={!e.tickets || isVisitor || isEnded || !isPublished}
                 size="lg"
                 colorScheme="blue"
                 mt="4"
               >
-                Get a ticket
+                {getTicketButtonText()}
               </Button>
               <EventSubscribe isOpen={isFormOpen} onClose={onFormClose} event={event} />
             </Flex>

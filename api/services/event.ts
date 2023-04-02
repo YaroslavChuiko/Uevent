@@ -15,6 +15,7 @@ type FilterAttributes = {
   themeId?: string | string[];
   userId?: string;
   upcoming?: boolean;
+  notPublished?: boolean;
   dateFrom?: string;
   dateTo?: string;
   q?: string;
@@ -112,7 +113,18 @@ const EventService = {
 
   getEventsWhereOptions(queryParams: FilterAttributes) {
     const where: Prisma.EventWhereInput = {};
-    const { userId, id, companyId, themeId, formatId, q, upcoming, dateFrom, dateTo } = queryParams;
+    const {
+      userId,
+      id,
+      companyId,
+      themeId,
+      formatId,
+      q,
+      upcoming,
+      dateFrom,
+      dateTo,
+      notPublished,
+    } = queryParams;
 
     if (id) {
       where.id = { in: convertQueryParamToNumArr(id) };
@@ -146,6 +158,11 @@ const EventService = {
       };
     } else if (upcoming) {
       where.date = { gte: new Date().toISOString() };
+    }
+    if (notPublished) {
+      where.publishDate = {
+        gte: new Date().toISOString(),
+      };
     }
 
     return where;
