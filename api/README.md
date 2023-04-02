@@ -51,6 +51,19 @@ You can now access the API, using the host and port, provided in the `.env` file
 
 Stripe payments will now be confirmed via the `/webhook` endpoint.
 
+### Test Stripe Connect
+
+You can create & connect Stripe accounts via our platform in order to receive payments for paid events.
+
+- Make sure you have all the [prerequisites](https://stripe.com/docs/connect/collect-then-transfer-guide) completed.
+- Create a company using the client side.
+- Navigate to the edit menu of the company and click the _Connect Stripe_ button.
+- Follow the further given instructions.
+
+You can now view your Stripe account by clicking the _Stripe Account_ button on the company page.
+
+_Note_: If you don't complete & submit the form, the paid events won't be possible.
+
 ## View the Swagger API Documentation
 
 - Make sure the server is running.

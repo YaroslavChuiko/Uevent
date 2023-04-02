@@ -114,7 +114,9 @@ paths:
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: '#definitions/company'
+                allOf:
+                  - $ref: '#definitions/company'
+                  - $ref: '#definitions/account_completed'
         404:
           description: The company was not found by id
           content:

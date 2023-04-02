@@ -18,6 +18,8 @@ definitions:
           type: number
         userId:
           type: integer
+        stripeId:
+          type: string
   company:
     type: object
     properties:
@@ -35,7 +37,9 @@ definitions:
         type: number
       userId:
         type: integer
-  company_create: 
+      stripeId:
+        type: string
+  company_create:
     type: object
     properties:
       name:
@@ -50,7 +54,7 @@ definitions:
       longitude:
         type: number
         required: true
-  company_update: 
+  company_update:
     type: object
     properties:
       name:
@@ -66,3 +70,8 @@ definitions:
     properties:
       companyId:
         type: integer
+  account_completed:
+    type: object
+    properties:
+      isAccountCompleted:
+        type: boolean

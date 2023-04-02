@@ -23,7 +23,6 @@ import PlacesSearch from '~/components/PlacesSearch/PlacesSearch';
 import styles from '../company-form.styles';
 import layoutStyles from '~/components/Layout/layout.styles';
 import useCustomToast from '~/hooks/use-custom-toast';
-import CustomAlert from '~/components/Alert/CustomAlert';
 
 type IProps = {
   company: Company;
@@ -113,13 +112,6 @@ const CompanyUpdateForm = ({ company, setEdit }: IProps) => {
               </Button>
             </VStack>
           </form>
-          {company.isAccountCompleted == false && (
-            <CustomAlert
-              sx={{ mt: 4 }}
-              status="warning"
-              description="Paid events aren't possible. Complete your Stripe account via the link above."
-            />
-          )}
         </CardBody>
       </Card>
     </Flex>
