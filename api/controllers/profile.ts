@@ -2,11 +2,13 @@ import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
 import Avatar from '../services/avatar';
+import CompanyService from '../services/company';
 import UserService from '../services/user';
 import ClientError from '../types/error';
 import fileUpload from '../utils/file-upload';
 
 const user = prisma.user;
+const company = prisma.company;
 
 const getProfile = async (req: Request, res: Response) => {
   const { password, isConfirmed, ...rest } = req.user as User;
@@ -27,6 +29,9 @@ const deleteProfile = async (req: Request, res: Response) => {
   const { id } = req.user as User;
 
   await Avatar.removeFromUserById(id);
+
+  const companies = await company.findMany({ where: { userId: id } });
+  await Promise.all(companies.map((c) => CompanyService.predelete(c.id)));
 
   await user.delete({ where: { id } });
 

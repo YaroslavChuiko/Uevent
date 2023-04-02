@@ -5,8 +5,10 @@ import ClientError from '../types/error';
 import { getPageOptions, getSortOptions } from '../utils/query-options';
 import Avatar from '../services/avatar';
 import wait from '../utils/wait';
+import CompanyService from '../services/company';
 
 const user = prisma.user;
+const company = prisma.company;
 
 const createUser = async (req: Request, res: Response) => {
   const data = req.body;
@@ -71,6 +73,9 @@ const deleteUser = async (req: Request, res: Response) => {
   await UserService.findOrThrow(id);
 
   await Avatar.removeFromUserById(id);
+
+  const companies = await company.findMany({ where: { userId: id } });
+  await Promise.all(companies.map((c) => CompanyService.predelete(c.id)));
 
   await user.delete({ where: { id } });
 

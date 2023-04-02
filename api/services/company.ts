@@ -1,7 +1,8 @@
-import { Company } from '@prisma/client';
+import logger from '../lib/logger';
 import prisma from '../lib/prisma';
 import stripe from '../lib/stripe';
 import ClientError from '../types/error';
+import Avatar from './avatar';
 
 const company = prisma.company;
 
@@ -22,6 +23,16 @@ const CompanyService = {
       data,
     });
     return updated;
+  },
+
+  async predelete(id: number) {
+    const found = await this.findOneOrThrow(id);
+    await Avatar.removeFromCompanyById(id);
+
+    if (found.stripeId && process.env.NODE_ENV === 'development') {
+      await stripe.accounts.del(found.stripeId);
+      logger.warn(`A stripe account with the ${found.stripeId} id was removed.`);
+    }
   },
 
   async checkAccountOrThrow(stripeId: string) {

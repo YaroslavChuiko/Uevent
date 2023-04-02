@@ -147,12 +147,7 @@ const updateCompany = async (req: Request, res: Response) => {
 const deleteCompany = async (req: Request, res: Response) => {
   const companyId = Number(req.params.id);
 
-  const found = await CompanyService.findOneOrThrow(companyId);
-  await Avatar.removeFromCompanyById(companyId);
-
-  if (found.stripeId) {
-    await stripe.accounts.del(found.stripeId);
-  }
+  await CompanyService.predelete(companyId);
 
   await company.delete({
     where: { id: companyId },
