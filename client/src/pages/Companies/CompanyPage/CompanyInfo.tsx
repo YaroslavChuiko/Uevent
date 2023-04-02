@@ -106,15 +106,14 @@ const CompanyInfo = ({ company, setEdit }: IProps) => {
             </Heading>
             <SubscribersInfo company={company} />
 
-            <Card sx={styles.location}>
+            <Box sx={styles.location}>
               <HStack spacing="6" align="center" h="100%">
-                <Icon color="tertiary" w="8" h="8" as={FiMapPin} />
+                <Icon color="tertiary" w="6" h="6" as={FiMapPin} />
                 <VStack align="flex-start">
-                  <Heading fontSize="2xl">Location</Heading>
                   <Text>{address ? address : 'Check the map'}</Text>
                 </VStack>
               </HStack>
-            </Card>
+            </Box>
 
             <EmailAndFounder company={company} user={user} />
             {company.isAccountCompleted == false && (

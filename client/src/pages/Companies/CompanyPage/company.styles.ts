@@ -17,16 +17,11 @@ const styles: TStyle = {
     bgColor: 'blue.200',
     filter: 'blur(30px) brightness(.8)',
     zIndex: 0,
+    inset: 0,
   }),
   poster: {
     bgColor: 'blue.100',
     width: '100%',
-    minHeight: {
-      base: '270px',
-      sm: '370px',
-      md: '470px',
-      lg: '550px',
-    },
     px: {
       base: '2rem',
       md: '5rem',
@@ -45,22 +40,11 @@ const styles: TStyle = {
   intro: {
     zIndex: 5,
     minWidth: '60%',
-    minHeight: {
-      base: '200px',
-      sm: '300px',
-      md: '400px',
-      lg: '480px',
-    },
     padding: '30px',
     alignItems: 'center',
   },
   location: {
-    variant: 'outline',
-    p: {
-      base: '4',
-    },
-    ml: { sm: '4' },
-    mt: { base: '4', sm: '0' },
+    p: { base: '4' },
   },
 };
 
