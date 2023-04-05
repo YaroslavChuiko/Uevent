@@ -59,24 +59,12 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
     },
   });
 
-  const {
-    data,
-    isFetching: isVisitorFetching,
-    refetch,
-  } = useGetEventsQuery({
+  const { data, isFetching: isVisitorFetching } = useGetEventsQuery({
     id: event.id,
     userId: Number(user.id),
   });
 
-  useEffect(() => {
-    refetch();
-  }, [event.ticketsAvailable]);
-
-  const [isVisitor, setIsVisitor] = useState<boolean>();
-
-  useEffect(() => {
-    setIsVisitor(data?.events?.length !== 0);
-  }, [isVisitorFetching, event]);
+  const isVisitor = data?.events?.length !== 0;
 
   const isEnded = Number(new Date()) - Number(new Date(event.date)) > 0;
   const isPublished = Number(new Date()) - Number(new Date(event.publishDate)) > 0;
@@ -89,7 +77,7 @@ const EventInfo = ({ event, company, setEdit }: PropType) => {
         const address = response.results[0].formatted_address;
         setAddress(address);
       },
-      (error) => {
+      (_error) => {
         setAddress('');
       },
     );

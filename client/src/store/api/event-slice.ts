@@ -67,6 +67,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         body: { isVisible, promoCode },
       }),
       invalidatesTags: (_result, _error, arg) => [
+        'Event',
         { type: 'Event' as const, id: arg.id },
         { type: 'EventSubscribers' as const, id: arg.id },
       ],
