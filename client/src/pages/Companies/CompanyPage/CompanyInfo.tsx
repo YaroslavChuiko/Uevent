@@ -21,7 +21,7 @@ import { EditIcon, DeleteIcon, AddIcon } from '@chakra-ui/icons';
 import { FiMapPin } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from '~/store/api/user-slice';
-import { useDeleteCompanyMutation, useLazyGetStripeAccountQuery } from '~/store/api/company-slice';
+import { useDeleteCompanyMutation } from '~/store/api/company-slice';
 import { useAppSelector } from '~/hooks/use-app-selector';
 import useRequestHandler from '~/hooks/use-request-handler';
 import PageAlert from '~/components/PageAlert/PageAlert';
@@ -37,8 +37,8 @@ import { AVATAR_PATH } from '~/consts/avatar';
 import Geocode from '~/consts/geocode';
 import styles from './company.styles';
 import CompanyEvents from './CompanyEvents';
-import useCustomToast from '~/hooks/use-custom-toast';
 import CustomAlert from '~/components/Alert/CustomAlert';
+import StripeButtons from './StripeButtons';
 
 type IProps = {
   company: Company;
@@ -51,17 +51,6 @@ const CompanyInfo = ({ company, setEdit }: IProps) => {
   const [deleteCompany, { isLoading: isDeleteLoading }] = useDeleteCompanyMutation();
   const { onOpen: onOpenDelete, onClose: onCloseDelete, isOpen: isOpenDelete } = useDisclosure();
   const navigate = useNavigate();
-  const { toast } = useCustomToast();
-
-  const [getAccount, { isLoading: isAccountLoading }] = useLazyGetStripeAccountQuery();
-  const getAccountHandler = async () => {
-    try {
-      const result = await getAccount({ id: company.id }).unwrap();
-      window.open(result.url, '_blank');
-    } catch (err: any) {
-      toast(err.message || err.data.message, 'error');
-    }
-  };
 
   const [address, setAddress] = useState('');
 
@@ -119,7 +108,7 @@ const CompanyInfo = ({ company, setEdit }: IProps) => {
             {company.isAccountCompleted == false && (
               <CustomAlert
                 status="warning"
-                description="Paid events aren't possible. Complete your Stripe account using the edit menu."
+                description="Paid events aren't possible. Complete your Stripe account using the button below."
               />
             )}
           </VStack>
@@ -135,15 +124,7 @@ const CompanyInfo = ({ company, setEdit }: IProps) => {
             <Button onClick={() => setEdit(true)} leftIcon={<EditIcon />}>
               Edit
             </Button>
-            <Button
-              onClick={getAccountHandler}
-              isLoading={isAccountLoading}
-              isDisabled={!company.stripeId || !company.isAccountCompleted}
-              variant="outline"
-              colorScheme="purple"
-            >
-              Stripe Account
-            </Button>
+            <StripeButtons company={company} />
             <ConfirmPopover
               header="Are you sure you want to delete the company? Its events will be deleted too."
               trigger={
