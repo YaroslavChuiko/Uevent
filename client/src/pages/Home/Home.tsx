@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <>
       <HomePromo />
-      <Events />;
+      <Events />
     </>
   );
 };
