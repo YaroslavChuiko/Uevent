@@ -4,6 +4,7 @@ import { HOURS_BEFORE_EVENT } from '../consts/default';
 import templates from '../consts/email';
 import prisma from '../lib/prisma';
 import { Email } from '../services';
+import { getEventDate } from '../services/event';
 import { compareDates } from '../utils/compare-dates';
 import subtractHours from '../utils/subtract-hours';
 
@@ -26,7 +27,7 @@ const scheduleEventReminder = (tickDate: Date, eventId: number) => {
       const sendRemindersDate = subtractHours(eventDate, HOURS_BEFORE_EVENT);
 
       if (!compareDates(tickDate, sendRemindersDate)) {
-        sendReminders(eventName, eventDate.toString(), eventId, visitors);
+        sendReminders(eventName, getEventDate(eventDate), eventId, visitors);
       }
     },
     null,

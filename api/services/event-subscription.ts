@@ -4,7 +4,7 @@ import { TICKETS_UNLIMITED } from '../consts/payment';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
 import Email from './email';
-import EventService from './event';
+import EventService, { getEventDate } from './event';
 import UserService from './user';
 
 const events = prisma.event;
@@ -53,7 +53,7 @@ const EventSubscription = {
 
     const mailToVisitor = Email.sendMail(visitor.email, templates.EVENT_SUBSCRIPTION, {
       eventName: event.name,
-      eventDate: new Date(event.date).toDateString(),
+      eventDate: getEventDate(event.date),
       eventId: event.id,
     });
 

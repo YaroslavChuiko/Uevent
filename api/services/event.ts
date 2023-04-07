@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+import { DateFormatOptions } from '../consts/default';
 import logger from '../lib/logger';
 import prisma from '../lib/prisma';
 import ClientError from '../types/error';
@@ -23,6 +24,11 @@ type FilterAttributes = {
 
 const convertQueryParamToNumArr = (param: string | string[]): number[] => {
   return Array.isArray(param) ? param.map((item) => Number(item)) : [Number(param)];
+};
+
+export const getEventDate = (initialDate: Date) => {
+  const date = new Date(initialDate);
+  return new Intl.DateTimeFormat('en-US', DateFormatOptions).format(date);
 };
 
 const EventService = {
