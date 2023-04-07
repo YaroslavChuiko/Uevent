@@ -9,4 +9,12 @@ export const COOKIE_OPTIONS = {
   domain: 'localhost',
 };
 
+export const DateFormatOptions = {
+  weekday: 'short',
+  month: 'short',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: '2-digit',
+} as const;
+
 export const DIR_UPLOADS_NAME = 'uploads';
