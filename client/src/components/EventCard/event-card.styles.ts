@@ -4,6 +4,7 @@ type TStyle = {
   card: SystemStyleObject;
   date: SystemStyleObject;
   price: SystemStyleObject;
+  address: SystemStyleObject;
   company: SystemStyleObject;
   img: SystemStyleObject;
   tag: SystemStyleObject;
@@ -25,6 +26,10 @@ const styles: TStyle = {
     fontWeight: 'semibold',
   },
   price: {
+    color: 'gray.600',
+    fontSize: '14px',
+  },
+  address: {
     color: 'gray.600',
     fontSize: '14px',
   },

@@ -5,6 +5,9 @@ import { Event } from '~/types/event';
 import styles from './event-card.styles';
 import { AVATAR_PATH } from '~/consts/avatar';
 import { DateFormatOptions } from '~/consts/event';
+import { useState, useEffect } from 'react';
+import Geocode from '~/consts/geocode';
+import getFormatAddress from './format-address';
 
 type Props = {
   event: Event;
@@ -21,6 +24,20 @@ const EventCard = ({ event, isTicket = false, ...cardProps }: Props) => {
   const date = new Intl.DateTimeFormat('en-US', DateFormatOptions).format(new Date(event.date));
   const price = Number(event.price) ? new Intl.NumberFormat('en-US', PriceFormatOptions).format(event.price) : 'free';
   const eventUrl = `/events/${event.id}`;
+
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    Geocode.fromLatLng(event.latitude.toString(), event.longitude.toString()).then(
+      (response) => {
+        const address = getFormatAddress(response.results[0].address_components);
+        setAddress(address);
+      },
+      (_error) => {
+        setAddress('');
+      },
+    );
+  }, []);
 
   return (
     <Card sx={styles.card} variant="outline" {...cardProps}>
@@ -49,6 +66,8 @@ const EventCard = ({ event, isTicket = false, ...cardProps }: Props) => {
           </Wrap>
 
           <Text sx={styles.date}>{date}</Text>
+
+          {address && <Text sx={styles.address}>{address}</Text>}
 
           {!isTicket && (
             <Box sx={styles.price}>
