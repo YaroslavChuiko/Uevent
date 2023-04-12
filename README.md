@@ -26,6 +26,9 @@
 
 <div align="center">
   <h3>An event-booking application.</h3>
+  
+  <h3>Demo</h3>
+  <p><a href="https://youtu.be/nUErIMJcQec" target="_blank">Demo video</a></p>
 </div>
 
 <br/>
