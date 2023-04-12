@@ -37,3 +37,31 @@
 [Client](client/README.md)
 
 [Admin panel](admin/README.md)
+
+<br/>
+
+## Entity-relationship diagram
+
+![Entity-relationship diagram](https://user-images.githubusercontent.com/32570823/231519268-dd62702f-b62f-4f72-ac1e-0f76770859a5.png)
+
+## Client Use-case diagram
+
+![use_case](https://user-images.githubusercontent.com/32570823/231520536-d8f04be2-98d5-4665-9697-db651fb9cefd.jpg)
+
+## Admin panel Use-case diagram
+
+![use_case](https://user-images.githubusercontent.com/32570823/231520809-5d36f20c-04de-4498-9560-3af8b66d2162.jpg)
+
+<br/>
+
+## Snapshots
+### Login
+![2022-12-08](https://user-images.githubusercontent.com/32570823/231525820-cdcc36de-b9ce-4dc1-8cd2-190bef360596.gif)
+
+### Home page
+
+#### gif
+![2022-12-08 (3)](https://user-images.githubusercontent.com/32570823/231530998-00b12d79-b4f0-4c98-acf7-cdef2c4ef25a.gif)
+
+#### png
+![2022-12-08 (3)](https://user-images.githubusercontent.com/32570823/231531670-d67a9769-25fe-4c3a-9167-d1638a7a1850.png)
